@@ -1,0 +1,65 @@
+{
+  "pageTitle": "Tour Packages",
+  "servicesTitle": "Services",
+  "priceFrom": "from",
+  "tours": {
+    "luccaBike": {
+      "title": "Lucca Bike Tour",
+      "group": "Up to 10 people"
+    },
+    "wineTasting": {
+      "title": "Wine tasting in Tuscany",
+      "group": "18+ only"
+    },
+    "cinqueTerre": {
+      "title": "Cinque Terre Tour",
+      "group": "12 people"
+    },
+    "siena": {
+      "title": "Siena and Surroundings",
+      "group": "15 people"
+    },
+    "luccaHills": {
+      "title": "Tour of the Lucca Hills",
+      "group": "10 people"
+    },
+    "gardaland": {
+      "title": "Gardaland, Verona",
+      "group": "Family"
+    },
+    "pisaLucca": {
+      "title": "Pisa & Lucca",
+      "group": "12 people"
+    },
+    "florence": {
+      "title": "Florence",
+      "group": "Tour guided"
+    }
+  },
+  "services": {
+    "bike": {
+      "title": "Bike and rickshaw rental",
+      "desc": "Rent any quality bicycle or rickshaw from us in minutes."
+    },
+    "guided": {
+      "title": "Guided tours of Lucca",
+      "desc": "City tours accompanied by professional guides."
+    },
+    "hills": {
+      "title": "Trips in the Tuscan Hills",
+      "desc": "Enjoy a breathtaking experience in the hills."
+    },
+    "coach": {
+      "title": "Coach Trip Packages",
+      "desc": "Group coach trips including multiple destinations."
+    },
+    "luxury": {
+      "title": "Transportation With Luxury Cars",
+      "desc": "Luxury vehicles for private trips and events."
+    },
+    "wine": {
+      "title": "Wine Tours by Bus With Guide",
+      "desc": "Taste regional wines with certified guides."
+    }
+  }
+}

@@ -1,0 +1,56 @@
+/* 1. Define light mode (default) colors */
+:root {
+  --color-background: #f8f9fa;
+  --color-nav-background: #f8f9fa;
+  --color-card-background: #ffffff;
+  --color-text: #0b3d5e;
+  --color-text-light: #555;
+  --color-primary-accent: #0a2d4f;
+  --color-primary-accent-hover: #1265b7;
+  --color-primary-text: #ffffff;
+  --color-border: #ddd;
+  --color-hover-light: #f0f0f0;
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 2. Define dark mode colors */
+:root[data-theme="dark"],
+html[data-theme="dark"] {
+  --color-background: #121212;
+  --color-nav-background: #1a1a1a;
+  --color-card-background: #1e1e1e;
+  --color-text: #f0f0f0;
+  --color-text-light: #aaa;
+  --color-primary-accent: #2673c1;
+  --color-primary-accent-hover: #0c447c;
+  --color-primary-text: #ffffff;
+  --color-border: #333;
+  --color-hover-light: #2a2a2a;
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+
+  /* Apply the base colors from our variables */
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+
+  /* Add the smooth transition */
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.5;
+}
+
+main {
+  width: 100%;
+}
