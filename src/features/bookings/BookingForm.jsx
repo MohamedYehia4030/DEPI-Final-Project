@@ -1,11 +1,9 @@
-import './BookingForm.css';
+import React from 'react'
 
-const BookingForm = () => {
+function BookingForm() {
   return (
-    <section className="booking-form">
-      {/* TODO: Implement BookingForm */}
-    </section>
-  );
-};
+    <div></div>
+  )
+}
 
-export default BookingForm;
+export default BookingForm

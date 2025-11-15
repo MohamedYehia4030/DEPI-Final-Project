@@ -1,11 +1,9 @@
-import './BookingSummary.css';
+import React from 'react'
 
-const BookingSummary = () => {
+function BookingSummary() {
   return (
-    <section className="booking-summary">
-      {/* TODO: Implement BookingSummary */}
-    </section>
-  );
-};
+    <div>BookingSummary</div>
+  )
+}
 
-export default BookingSummary;
+export default BookingSummary

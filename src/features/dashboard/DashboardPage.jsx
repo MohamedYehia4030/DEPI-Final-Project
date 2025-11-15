@@ -1,11 +1,9 @@
-import './DashboardPage.css';
+import React from 'react'
 
-const DashboardPage = () => {
+function DashboardPage() {
   return (
-    <div className="dashboard-page">
-      {/* DashboardPage content */}
-    </div>
-  );
-};
+    <div>DashboardPage</div>
+  )
+}
 
-export default DashboardPage;
+export default DashboardPage

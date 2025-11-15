@@ -1,11 +1,9 @@
-import './UserProfile.css';
+import React from 'react'
 
-const UserProfile = () => {
+function UserProfile() {
   return (
-    <div className="user-profile">
-      {/* UserProfile content */}
-    </div>
-  );
-};
+    <div>UserProfile</div>
+  )
+}
 
-export default UserProfile;
+export default UserProfile

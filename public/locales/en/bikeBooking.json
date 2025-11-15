@@ -1,0 +1,10 @@
+{
+  "title": "Book Our Best Bikes",
+  "form": {
+    "name": "Name and Surname",
+    "email": "Email Address",
+    "phone": "Telephone Number",
+    "service": "Service Type",
+    "button": "Book Now"
+  }
+}

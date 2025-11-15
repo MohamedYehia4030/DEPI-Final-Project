@@ -1,4 +1,4 @@
-import './PackageDetails.css';
+
 
 const PackageDetails = () => {
   return (

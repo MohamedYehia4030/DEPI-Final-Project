@@ -1,11 +1,9 @@
-import './ContactPage.css';
+import React from 'react'
 
-const ContactPage = () => {
+function ContactPage() {
   return (
-    <main className="contact-page">
-      {/* TODO: Implement ContactPage */}
-    </main>
-  );
-};
+    <div></div>
+  )
+}
 
-export default ContactPage;
+export default ContactPage

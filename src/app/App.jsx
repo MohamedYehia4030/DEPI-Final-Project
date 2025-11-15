@@ -1,14 +1,19 @@
-import AppRoutes from './routes.jsx';
-import '../styles/globals.css';
+import React from 'react';
+import Navbar from '../features/shared/components/Navbar/Navbar';
+import Footer from '../features/shared/components/Footer/Footer';
+import AppRoutes from './routes';
+import AuthModal from '../features/auth/AuthModal';
 import './App.css';
-import Navbar from '../features/shared/components/Navbar.jsx';
 
 function App() {
   return (
-    <div className="app">
+    <>
       <Navbar />
-      <AppRoutes />
-    </div>
+      <main>
+        <AppRoutes />
+      </main>
+      <Footer />
+    </>
   );
 }
 

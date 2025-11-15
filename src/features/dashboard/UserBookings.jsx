@@ -1,11 +1,9 @@
-import './UserBookings.css';
+import React from 'react'
 
-const UserBookings = () => {
+function UserBookings() {
   return (
-    <div className="user-bookings">
-      {/* UserBookings content */}
-    </div>
-  );
-};
+    <div>UserBookings</div>
+  )
+}
 
-export default UserBookings;
+export default UserBookings

@@ -1,11 +1,7 @@
-import './DashboardMenu.css';
+import React from 'react'
 
-const DashboardMenu = () => {
+export default function DashboardMenu() {
   return (
-    <div className="dashboard-menu">
-      {/* DashboardMenu content */}
-    </div>
-  );
-};
-
-export default DashboardMenu;
+    <div>DashboardMenu</div>
+  )
+}

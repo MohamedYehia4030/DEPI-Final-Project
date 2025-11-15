@@ -1,14 +1,30 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import React, { Suspense } from 'react';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-
-import App from './app/App.jsx';
+import App from './app/App';
+import Loader from './features/shared/components//Loader/Loader';
+import './features/shared/utils/translation/i18n';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/globals.css';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>
+// Set theme before React renders to avoid flash of wrong theme
+const initializeTheme = () => {
+  const getOSTheme = () => {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+  const localTheme = localStorage.getItem('app-theme');
+  const initialTheme = localTheme || getOSTheme();
+  document.documentElement.setAttribute('data-theme', initialTheme);
+};
+
+initializeTheme();
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <Suspense fallback={<Loader />}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Suspense>
+  </React.StrictMode>
 );

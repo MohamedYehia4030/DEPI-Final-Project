@@ -1,13 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const useFetch = (initialValue = null) => {
-  const [state, setState] = useState(initialValue);
+const useFetch = (url) => {
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // TODO: implement useFetch
-  }, [initialValue]);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const json = await response.json();
+        setData(json);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  return { state, setState };
+    fetchData();
+  }, [url]); // Re-run when the URL changes
+
+  return { data, isLoading, error };
 };
 
 export default useFetch;
