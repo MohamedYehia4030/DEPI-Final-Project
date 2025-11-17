@@ -1,8 +1,7 @@
 import React from 'react';
-import Navbar from '../features/shared/components/Navbar/Navbar';
-import Footer from '../features/shared/components/Footer/Footer';
+import Navbar from '../layout/Navbar/Navbar';
+import Footer from '../layout/Footer/Footer';
 import AppRoutes from './routes';
-import AuthModal from '../features/auth/AuthModal';
 import './App.css';
 
 function App() {

@@ -34,31 +34,30 @@ Voyago is a travel booking platform with packages, bookings, user authentication
 - `src/app/store.js` (Zustand store for auth state)
 
 ### Your Workflow:
-1. **Week 1: Authentication Forms**
+1. **Week 1: Authentication Forms & Logic**
    - Design and implement login form with validation
    - Create register form with email/password validation
    - Build forgot password flow
    - Style forms to match theme (light/dark mode support)
    - Add RTL support for Arabic
-
-2. **Week 2: Authentication Logic**
    - Implement `useAuth` hook with login, register, logout functions
    - Connect to `authAPI.js` for backend calls
    - Add error handling and loading states
    - Store auth tokens in localStorage
-   - Create protected route wrapper
 
-3. **Week 3: Dashboard Structure**
+2. **Week 2: Dashboard & Protected Routes**
+   - Create protected route wrapper
    - Build dashboard layout with menu navigation
    - Create user profile page (view/edit)
    - Implement user bookings list component
    - Connect to `dashboardAPI.js`
 
-4. **Week 4: Integration & Polish**
+3. **Week 3: Integration & Polish**
    - Integrate auth with Navbar (show user menu when logged in)
    - Add auth state to global store
    - Test all auth flows
    - Ensure theme and RTL work correctly
+   - Final bug fixes and refinements
 
 ### Key Requirements:
 - All forms must support theme switching
@@ -91,29 +90,27 @@ Voyago is a travel booking platform with packages, bookings, user authentication
 - `src/features/shared/components/BikeBookingForm/BikeBookingForm.jsx` (if needed)
 
 ### Your Workflow:
-1. **Week 1: Booking Form**
+1. **Week 1: Booking Form & Summary**
    - Design booking form with traveler details
    - Add date pickers, guest count, special requests
    - Implement form validation
    - Style to match theme system
    - Add RTL support
+   - Build booking summary component (shows package details, dates, price)
 
-2. **Week 2: Payment Integration**
+2. **Week 2: Payment & Confirmation**
    - Build payment form with card details
    - Add payment method selection (card, PayPal, etc.)
    - Implement payment validation
    - Create secure payment flow
    - Add loading states
-
-3. **Week 3: Booking Summary & Confirmation**
-   - Build booking summary component (shows package details, dates, price)
    - Create booking confirmation page
    - Add booking ID display
    - Implement email confirmation UI
-   - Connect to `bookingsAPI.js`
 
-4. **Week 4: State Management & Integration**
+3. **Week 3: Integration & State Management**
    - Implement `useBookings` hook
+   - Connect to `bookingsAPI.js`
    - Connect booking flow to package selection
    - Add booking to user's booking list
    - Test complete booking flow
@@ -152,33 +149,29 @@ Voyago is a travel booking platform with packages, bookings, user authentication
 - `src/features/packages/data.js` (replace with API data)
 
 ### Your Workflow:
-1. **Week 1: Package Details Page**
+1. **Week 1: Package Details & Gallery**
    - Design package details layout
    - Show package description, itinerary, inclusions
    - Add price breakdown section
-   - Implement image gallery with lightbox
-   - Style with theme support and RTL
-
-2. **Week 2: Package Gallery**
-   - Build image gallery component
-   - Add image carousel/slider
+   - Build image gallery component with carousel/slider
    - Implement lightbox for full-size images
+   - Style with theme support and RTL
    - Add image lazy loading
-   - Make it responsive
 
-3. **Week 3: Package Booking Form**
+2. **Week 2: Booking Form & API Setup**
    - Create inline booking form for package details page
    - Add date selection, guest count
    - Show real-time price calculation
-   - Connect to booking flow (Person 2)
    - Add validation
-
-4. **Week 4: API Integration**
    - Implement `usePackages` hook
    - Connect to `packagesAPI.js`
+
+3. **Week 3: Integration & Polish**
    - Replace mock data with real API calls
    - Add loading states and error handling
+   - Connect to booking flow (Person 2)
    - Implement package filtering/search
+   - Final refinements
 
 ### Key Requirements:
 - Beautiful package details page
@@ -217,30 +210,28 @@ Voyago is a travel booking platform with packages, bookings, user authentication
 - `src/features/home/HomePage.jsx` (coordinate with others)
 
 ### Your Workflow:
-1. **Week 1: Search Page**
+1. **Week 1: Search Page & Results**
    - Design search page layout
    - Build search form with filters (destination, date, price range)
    - Implement search input with debouncing
    - Add filter sidebar
-   - Style with theme support
-
-2. **Week 2: Search Results**
    - Create search results grid/list view
    - Build `SearchResultCard` component
    - Add sorting options (price, rating, date)
-   - Implement pagination
-   - Connect to `searchAPI.js`
+   - Style with theme support
 
-3. **Week 3: Home Page Components**
+2. **Week 2: Home Page Components**
    - Complete hero section with search form
    - Build popular destinations carousel
    - Create explore categories section
    - Add travel tips section
    - Build offers CTA section
 
-4. **Week 4: Integration & Polish**
+3. **Week 3: Integration & API**
    - Connect home page search to search page
    - Implement `useSearch` hook
+   - Connect to `searchAPI.js`
+   - Implement pagination
    - Add loading states
    - Ensure RTL support
    - Test search functionality
@@ -291,33 +282,31 @@ Voyago is a travel booking platform with packages, bookings, user authentication
 - `src/features/pages/TermsOfService/TermsOfServicePage.jsx` & `.module.css`
 
 ### Your Workflow:
-1. **Week 1: About Page**
+1. **Week 1: About & Contact Pages**
    - Complete hero section
    - Build stats section (numbers, achievements)
    - Create features section
    - Add company story/content
-   - Style with theme support
-
-2. **Week 2: Contact Page**
    - Design contact page layout
    - Build contact form with validation
    - Add contact information display (address, phone, email)
-   - Implement form submission
-   - Add map integration (optional)
+   - Style with theme support
 
-3. **Week 3: Reviews System**
+2. **Week 2: Reviews System**
    - Build review card component
    - Create review form (rating, comment)
    - Implement review display (stars, date, user)
    - Connect to `reviewsAPI.js`
    - Enhance testimonials component
+   - Implement form submission for contact
 
-4. **Week 4: Static Pages & Polish**
+3. **Week 3: Static Pages & Polish**
    - Complete FAQ page with accordion
    - Add privacy policy content
    - Add terms of service content
    - Ensure all pages have theme support
    - Test RTL layout
+   - Final refinements
 
 ### Key Requirements:
 - Beautiful, informative content pages
@@ -373,32 +362,30 @@ Voyago is a travel booking platform with packages, bookings, user authentication
 - Ensure all new components have translations
 
 ### Your Workflow:
-1. **Week 1: API Infrastructure**
+1. **Week 1: API Infrastructure & State Management**
    - Set up axios instance with base URL
    - Create API utility functions
    - Implement error handling middleware
    - Add request/response interceptors
    - Set up authentication token handling
-
-2. **Week 2: State Management & Utilities**
    - Set up Zustand store structure
    - Create global state slices (auth, cart, UI)
+
+2. **Week 2: Utilities & Error Handling**
    - Enhance utility functions (formatPrice, formatDate)
    - Create validation utilities
    - Build custom hooks (useFetch, useDebounce)
-
-3. **Week 3: Error Handling & Loading**
    - Create error boundary component
    - Enhance error page
    - Build global loading component
    - Add toast notifications system
-   - Implement error logging
 
-4. **Week 4: Testing & Optimization**
+3. **Week 3: Integration & Polish**
    - Test all API integrations
    - Fix cross-team integration issues
    - Optimize performance (lazy loading, code splitting)
    - Complete missing translations
+   - Implement error logging
    - Final polish and bug fixes
 
 ### Key Requirements:
@@ -466,11 +453,17 @@ Voyago is a travel booking platform with packages, bookings, user authentication
 
 ---
 
+## Timeline: 3.5 Weeks
+
+The project timeline is **3.5 weeks** (17.5 working days). Each person has 3 main work phases, with the final half week dedicated to integration and final polish.
+
 ## Weekly Sync Points
 
 - **Monday Morning**: Share what you'll work on this week
 - **Wednesday**: Quick check-in, share blockers
 - **Friday Afternoon**: Demo what you completed, discuss integration needs
+- **End of Week 3**: Final integration check
+- **Week 3.5**: Final bug fixes, testing, and deployment prep
 
 ---
 

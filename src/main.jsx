@@ -2,8 +2,8 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './app/App';
-import Loader from './features/shared/components//Loader/Loader';
-import './features/shared/utils/translation/i18n';
+import Loader from './components/Loader/Loader';
+import './lib/i18n/i18n';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/globals.css';
 
