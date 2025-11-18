@@ -3,28 +3,31 @@ import styles from "./Navbar.module.css";
 import logoImage from "../../assets/icons/logo.png";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggler from "../../components/ThemeToggler/ThemeToggler";
-import { useTranslation } from 'react-i18next';
-import useMediaQuery from '../../hooks/useMediaQuery'; 
+import { useTranslation } from "react-i18next";
+import useMediaQuery from "../../hooks/useMediaQuery";
+import useAppStore from "../../app/store";
+import Button from "../../components/Button/Button";
 
 const dropdownVariants = {
   hidden: { opacity: 0, y: -10, scale: 0.95 },
   visible: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: -10, scale: 0.95 }
+  exit: { opacity: 0, y: -10, scale: 0.95 },
 };
 
 const Navbar = () => {
-  const { t, i18n } = useTranslation('navbar');
+  const { t, i18n } = useTranslation("navbar");
+  const { openAuthModal } = useAppStore();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState(
-    localStorage.getItem('preferredLang') || 'Eng'
+    localStorage.getItem("preferredLang") || "Eng"
   );
 
   const langRef = useRef(null);
-  const isMobile = useMediaQuery('(max-width: 991px)');
+  const isMobile = useMediaQuery("(max-width: 991px)");
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -36,10 +39,10 @@ const Navbar = () => {
 
   const handleLangSelect = (langCode, langLabel) => {
     i18n.changeLanguage(langCode);
-    localStorage.setItem('preferredLang', langLabel);
+    localStorage.setItem("preferredLang", langLabel);
     setSelectedLang(langLabel);
     setIsLangOpen(false);
-    closeMenu(); 
+    closeMenu();
   };
 
   // Close language dropdown when clicking outside
@@ -62,31 +65,102 @@ const Navbar = () => {
     <>
       <ul className={styles.navLinks}>
         <li>
-          <NavLink to="/" className={({ isActive }) => clsx(styles.navLink, isActive && styles.active)} onClick={closeMenu}>
-            {({ isActive }) => (<> {t('home')} {isActive && (<motion.div className={styles.underline} layoutId="magic-underline" />)} </>)}
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              clsx(styles.navLink, isActive && styles.active)
+            }
+            onClick={closeMenu}
+          >
+            {({ isActive }) => (
+              <>
+                {" "}
+                {t("home")}{" "}
+                {isActive && (
+                  <motion.div
+                    className={styles.underline}
+                    layoutId="magic-underline"
+                  />
+                )}{" "}
+              </>
+            )}
           </NavLink>
         </li>
         <li>
-          <NavLink to="/about" className={({ isActive }) => clsx(styles.navLink, isActive && styles.active)} onClick={closeMenu}>
-            {({ isActive }) => (<> {t('about')} {isActive && (<motion.div className={styles.underline} layoutId="magic-underline" />)} </>)}
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              clsx(styles.navLink, isActive && styles.active)
+            }
+            onClick={closeMenu}
+          >
+            {({ isActive }) => (
+              <>
+                {" "}
+                {t("about")}{" "}
+                {isActive && (
+                  <motion.div
+                    className={styles.underline}
+                    layoutId="magic-underline"
+                  />
+                )}{" "}
+              </>
+            )}
           </NavLink>
         </li>
         <li>
-          <NavLink to="/packages" className={({ isActive }) => clsx(styles.navLink, isActive && styles.active)} onClick={closeMenu}>
-            {({ isActive }) => (<> {t('packages')} {isActive && (<motion.div className={styles.underline} layoutId="magic-underline" />)} </>)}
+          <NavLink
+            to="/packages"
+            className={({ isActive }) =>
+              clsx(styles.navLink, isActive && styles.active)
+            }
+            onClick={closeMenu}
+          >
+            {({ isActive }) => (
+              <>
+                {" "}
+                {t("packages")}{" "}
+                {isActive && (
+                  <motion.div
+                    className={styles.underline}
+                    layoutId="magic-underline"
+                  />
+                )}{" "}
+              </>
+            )}
           </NavLink>
         </li>
         <li>
-          <NavLink to="/contact" className={({ isActive }) => clsx(styles.navLink, isActive && styles.active)} onClick={closeMenu}>
-            {({ isActive }) => (<> {t('contact')} {isActive && (<motion.div className={styles.underline} layoutId="magic-underline" />)} </>)}
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              clsx(styles.navLink, isActive && styles.active)
+            }
+            onClick={closeMenu}
+          >
+            {({ isActive }) => (
+              <>
+                {" "}
+                {t("contact")}{" "}
+                {isActive && (
+                  <motion.div
+                    className={styles.underline}
+                    layoutId="magic-underline"
+                  />
+                )}{" "}
+              </>
+            )}
           </NavLink>
         </li>
       </ul>
 
       <div className={styles.navRight}>
         <div className={styles.langContainer} ref={langRef}>
-          <button className={styles.langSwitcher} onClick={() => setIsLangOpen(!isLangOpen)}>
-            {selectedLang} <span>{isLangOpen ? '▲' : '▼'}</span>
+          <button
+            className={styles.langSwitcher}
+            onClick={() => setIsLangOpen(!isLangOpen)}
+          >
+            {selectedLang} <span>{isLangOpen ? "▲" : "▼"}</span>
           </button>
           <AnimatePresence>
             {isLangOpen && (
@@ -98,29 +172,36 @@ const Navbar = () => {
                 variants={dropdownVariants}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
               >
-                <button className={styles.langOption} onClick={() => handleLangSelect("en", "Eng")}>
-                  {t('langEn')}
+                <button
+                  className={styles.langOption}
+                  onClick={() => handleLangSelect("en", "Eng")}
+                >
+                  {t("langEn")}
                 </button>
-                <button className={styles.langOption} onClick={() => handleLangSelect("ar", "Ar")}>
-                  {t('langAr')}
+                <button
+                  className={styles.langOption}
+                  onClick={() => handleLangSelect("ar", "Ar")}
+                >
+                  {t("langAr")}
                 </button>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
-        <Link to="/auth" className={styles.loginLink} onClick={closeMenu}>
-          {t('login')}
-        </Link>
-        <button 
-          className={styles.signupBtn}
+        <Link
+          className={styles.loginLink}
           onClick={() => {
-            navigate('/auth');
-            closeMenu();
+            openAuthModal("login"); // 1. Open modal to Login view
+            closeMenu(); // 2. Close mobile menu if open
           }}
         >
-          {t('signup')}
-        </button>
-        <ThemeToggler/>
+          {t("login")}
+        </Link>
+        <Button variant="primary" size="small" onClick={() => {
+            openAuthModal("register"); // 1. Open modal to register view
+            closeMenu(); // 2. Close mobile menu if open
+          }}> {t("signup")} </Button>
+        <ThemeToggler />
       </div>
     </>
   );
@@ -152,9 +233,7 @@ const Navbar = () => {
         </AnimatePresence>
       ) : (
         // Static desktop menu
-        <div className={styles.navCollapse}>
-          {navContent}
-        </div>
+        <div className={styles.navCollapse}>{navContent}</div>
       )}
     </nav>
   );

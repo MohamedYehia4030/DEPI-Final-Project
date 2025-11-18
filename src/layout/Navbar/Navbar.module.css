@@ -58,7 +58,7 @@ html[data-theme="dark"] .navbar {
 .navbarToggler {
   background: rgba(255, 255, 255, 0.15);
   border: 1.5px solid rgba(255, 255, 255, 0.3);
-  color: var(--color-primary-text);
+  color: var(--color-text);
   border-radius: 6px;
   padding: 8px 10px;
   font-size: 1.5rem;
