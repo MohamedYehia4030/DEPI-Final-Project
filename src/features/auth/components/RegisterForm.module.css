@@ -1,6 +1,3 @@
-
-/* --- 🌟 ملف الستايل الخاص بالـ Register Form 🌟 --- */
-
 .registerForm {
   display: flex;
   flex-direction: column;
@@ -10,7 +7,6 @@
   margin: 0 auto;
 }
 
-/* تنسيق الـ Checkbox (Terms & Conditions) */
 .termsWrapper {
   display: flex;
   align-items: center;
@@ -22,7 +18,7 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
-  accent-color: var(--color-primary-accent); /* يلون الشيك بوكس بلون الثيم */
+  accent-color: var(--color-primary-accent);
 }
 
 .termsText {

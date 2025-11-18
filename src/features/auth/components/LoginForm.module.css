@@ -1,12 +1,13 @@
-/* --- 🌟 ملف الستايل الخاص بالـ Login Form 🌟 --- */
-
-/* 1. اللينك الخاص بـ "نسيت كلمة السر" */
 .forgotLink {
   font-size: 0.75rem;
-  color: var(--color-text-light); /* 🌟 استخدمت متغير */
+  color: var(--color-text-light);
   text-align: right;
   cursor: pointer;
   font-weight: 400;
 }
-.forgotLink:hover { color: var(--color-primary-accent); }
-[dir="rtl"] .forgotLink { text-align: left; }
+.forgotLink:hover {
+  color: var(--color-primary-accent);
+}
+[dir="rtl"] .forgotLink {
+  text-align: left;
+}
