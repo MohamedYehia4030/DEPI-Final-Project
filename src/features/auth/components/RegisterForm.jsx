@@ -5,8 +5,8 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import useAppStore from "../../../app/store";
 import Button from "../../../components/Button/Button";
 
-import styles from "./RegisterForm.module.css"; // الخاص
-import sharedStyles from "./AuthModal.module.css"; // المشترك
+import styles from "./RegisterForm.module.css";
+import sharedStyles from "./AuthModal.module.css";
 
 const RegisterForm = () => {
   const { t } = useTranslation("auth");
@@ -64,7 +64,7 @@ const RegisterForm = () => {
         </div>
       </div>
 
-      {/* 🌟 Terms Checkbox (ستايل خاص) */}
+    
       <div className={styles.termsWrapper}>
         <input type="checkbox" id="terms" className={styles.checkbox} required />
         <label htmlFor="terms" className={styles.termsText}>

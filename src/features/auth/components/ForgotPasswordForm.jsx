@@ -1,33 +1,33 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FiKey, FiMail, FiArrowLeft, FiArrowRight } from "react-icons/fi"; // أيقونات
+import { FiKey, FiMail, FiArrowLeft, FiArrowRight } from "react-icons/fi"; 
 import useAppStore from "../../../app/store";
 import Button from "../../../components/Button/Button";
 
-import styles from "./ForgotPasswordForm.module.css"; // الخاص
-import sharedStyles from "./AuthModal.module.css"; // المشترك
-import { dir } from "i18next";
+import styles from "./ForgotPasswordForm.module.css"; 
+import sharedStyles from "./AuthModal.module.css"; 
+
 
 const ForgotPasswordForm = () => {
   const { t } = useTranslation("auth");
   const { openAuthModal } = useAppStore();
   
-  // State عشان نعرف إحنا بعتنا الإيميل ولا لسه
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // هنا المفروض نكلم الـ API
+
     console.log("Reset link sent to:", email);
-    setIsSubmitted(true); // نقلب الشاشة
+    setIsSubmitted(true); 
   };
 
-  // --- 🌟 الحالة الثانية: تم الإرسال (Check Email) ---
+
   if (isSubmitted) {
     return (
       <div className={styles.forgotForm}>
-        {/* أيقونة الرسالة */}
+
         <div className={sharedStyles.iconContainer}>
           <FiMail />
         </div>
@@ -45,7 +45,7 @@ const ForgotPasswordForm = () => {
           <Button 
             variant="primary" 
             size="large" 
-            onClick={() => window.open('mailto:')} // يفتح تطبيق الإيميل
+            onClick={() => window.open('mailto:')} 
           >
             {t("forgot.openEmailBtn")}
           </Button>
@@ -65,10 +65,10 @@ const ForgotPasswordForm = () => {
     );
   }
 
-  // --- 🌟 الحالة الأولى: فورم الإدخال ---
+
   return (
     <form className={styles.forgotForm} onSubmit={handleSubmit}>
-      {/* أيقونة المفتاح */}
+
       <div className={sharedStyles.iconContainer}>
         <FiKey />
       </div>

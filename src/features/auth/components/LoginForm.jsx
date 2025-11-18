@@ -5,22 +5,20 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import useAppStore from "../../../app/store";
 import Button from "../../../components/Button/Button";
 
-
-import styles from "./LoginForm.module.css"; 
-import sharedStyles from "./AuthModal.module.css"; 
+import styles from "./LoginForm.module.css";
+import sharedStyles from "./AuthModal.module.css";
 
 const LoginForm = () => {
   const { t } = useTranslation("auth");
   const { openAuthModal } = useAppStore();
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => { e.preventDefault(); };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
-    // 🌟 4. استخدام كلاس الحاوية المشترك
     <form className={sharedStyles.formContainer} onSubmit={handleSubmit}>
-      
-      {/* 🌟 استخدام كلاس العنوان المشترك */}
       <h2 className={sharedStyles.title}>{t("login.title")}</h2>
 
       <div className={sharedStyles.inputGroup}>
@@ -52,7 +50,6 @@ const LoginForm = () => {
         </div>
       </div>
 
-      {/* 🌟 5. استخدام الكلاس الخاص بـ "نسيت كلمة السر" من "styles" */}
       <div
         className={styles.forgotLink}
         onClick={() => openAuthModal("forgot-password")}
@@ -60,13 +57,7 @@ const LoginForm = () => {
         {t("login.forgotPassword")}
       </div>
 
-      {/* 🌟 6. استخدام كلاس الزرار المشترك من "sharedStyles" */}
-      <Button
-        variant="primary"
-        size="large"
-        type="submit"
-        className={sharedStyles.submitBtn}
-      >
+      <Button variant="primary" size="large" type="submit">
         {t("login.loginBtn")}
       </Button>
 

@@ -1,16 +1,15 @@
-/* --- 🌟 ملف الستايل المشترك لكل فورمات الـ Auth 🌟 --- */
 
-/* 1. الحاوية (الـ layout العام للفورم) */
+
 .formContainer {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem; /* 🌟 استخدمت الـ gap بتاعك */
+  gap: 0.8rem; 
   width: 100%;
   max-width: 360px;
   margin: 0 auto;
 }
 
-/* 2. العنوان (Title) */
+
 .title {
   font-size: 1.8rem;
   font-weight: 700 !important;
@@ -20,7 +19,7 @@
 }
 [dir="rtl"] .title { text-align: right; }
 
-/* 3. المدخلات (Inputs) */
+
 .inputGroup {
   display: flex;
   flex-direction: column;
@@ -48,7 +47,7 @@
 }
 .input:focus { border-color: var(--color-primary-accent); }
 
-/* 4. أيقونة العين (Password Eye) */
+
 .passwordWrapper {
   position: relative;
   display: flex;
@@ -71,7 +70,7 @@
 }
 [dir="rtl"] .eyeBtn { right: auto; left: 12px; }
 
-/* 5. الفواصل واللينكات (Dividers & Links) */
+
 .divider {
   text-align: center;
   font-size: 0.8rem;
@@ -82,22 +81,20 @@
 .footerText {
   text-align: center;
   font-size: 0.85rem;
-  color: var(--color-text-light); /* 🌟 استخدمت متغير */
+  color: var(--color-text-light);
   margin-top: 15px;
 }
 
 .link {
-  color: var(--color-primary-accent); /* 🌟 استخدمت متغير */
+  color: var(--color-primary-accent);
   font-weight: 700;
   cursor: pointer;
   margin-left: 4px;
 }
 [dir="rtl"] .link { margin-left: 0; margin-right: 4px; }
 
-/* 6. كلاسات الزراير (Buttons) */
-.submitBtn {
-  width: 100%;
-}
+
+
 
 .googleBtn {
   width: 100%;
@@ -106,7 +103,7 @@
   justify-content: center;
 }
 
-/* 7. ستايلات إضافية (من الصور الجديدة) */
+
 .iconContainer {
   display: flex;
   justify-content: center;
