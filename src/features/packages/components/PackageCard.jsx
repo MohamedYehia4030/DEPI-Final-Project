@@ -23,7 +23,7 @@ const PackageCard = ({ tour, index }) => {
   const tourUrl = `/packages/${tour.id}`;
   // Arrow direction changes based on language (RTL for Arabic)
   const arrow = i18n.dir() === 'rtl' ? '←' : '→';
-
+//  const tourUrl = `/packages/${tour.id}`;
   return (
     <Col 
       as={motion.div}
