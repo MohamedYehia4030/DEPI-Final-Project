@@ -11,7 +11,6 @@ import PackageServices from '../../packages/components/PackageServices.jsx';
 
 // Shared components
 import BikeBookingForm from '../../../components/BikeBookingForm/BikeBookingForm.jsx';
-import Testimonials from '../../../components/Testimonials/Testimonials.jsx';
 
 const PackagesPage = () => {
   const { t } = useTranslation(['packages', 'common', 'home']);
@@ -35,8 +34,7 @@ const PackagesPage = () => {
       {/* Booking Form */}
       <BikeBookingForm />
 
-      {/* Testimonials */}
-      <Testimonials title={t('home:testimonials.title')} />
+
     </div>
   );
 };
