@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./Navbar.module.css";
-import logoImage from "../../assets/icons/logo.png";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import logoImage from "../../assets/icons/logo.svg";
+import { NavLink, Link, } from "react-router-dom";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggler from "../../components/ThemeToggler/ThemeToggler";
@@ -19,7 +19,6 @@ const dropdownVariants = {
 const Navbar = () => {
   const { t, i18n } = useTranslation("navbar");
   const { openAuthModal } = useAppStore();
-  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState(

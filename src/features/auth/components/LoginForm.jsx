@@ -4,7 +4,6 @@ import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import useAppStore from "../../../app/store";
 import Button from "../../../components/Button/Button";
-
 import styles from "./LoginForm.module.css";
 import sharedStyles from "./AuthModal.module.css";
 

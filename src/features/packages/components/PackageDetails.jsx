@@ -13,24 +13,23 @@ import { Col, Form } from 'react-bootstrap';
 export default function PackageDetails() {
   const { id } = useParams();
   const { t } = useTranslation(['packages', 'common']);
-  
+  // Hooks must be called unconditionally at the top level
+  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedDay, setSelectedDay] = useState(null);
+
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+
   const packageData = tours.find(tour => tour.id === parseInt(id));
+
+  useEffect(() => {
+    if (packageData && packageData.img) setSelectedImage(packageData.img);
+  }, [packageData]);
+
   if (!packageData) {
     return <div className="container py-5">{t('common:notFound')}</div>;
   }
 
-  const [selectedImage, setSelectedImage] = useState(packageData.img);
-  const [selectedDay, setSelectedDay] = useState(null);
-  const [selectedTime, setSelectedTime] = useState("");
-
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
-  const times = ["08:00 AM", "09:30 AM", "11:00 AM", "01:00 PM", "03:00 PM", "05:00 PM"];
-
   const images = [packageData.img, ...(packageData.subimages || [])];
-
-  useEffect(() => {
-    setSelectedImage(packageData.img);
-  }, [packageData.img]);
 
   return (
     <div className={`container py-5 ${styles.mainContainer}`}>
