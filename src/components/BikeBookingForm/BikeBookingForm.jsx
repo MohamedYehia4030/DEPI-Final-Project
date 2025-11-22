@@ -1,9 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap';
+import { Container, Row, Col, Form, Image } from 'react-bootstrap';
 import styles from './BikeBookingForm.module.css';
 import { motion } from 'framer-motion'; // 1. Import motion
 import bikeImage from '../../assets/images/Common/bike.png'; 
+import Button from '../Button/Button'; 
 
 const BikeBookingForm = () => {
   const { t } = useTranslation('bikeBooking');
@@ -21,28 +22,38 @@ const BikeBookingForm = () => {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
+            <div className='title'>
+            <h3 className="fw-bold mb-4 text-center">{t('Book Now Bike')}</h3>
+            </div>
             <div className={styles.formBox}>
-              <h3 className="fw-bold mb-4">{t('bikeBooking.title')}</h3>
+              
               <Form className="row g-3">
                 <Col md={6}>
-                  <Form.Control type="text" placeholder={t('bikeBooking.form.name')} />
+                  <label>Name and Surname</label>
+                  <Form.Control type="text" placeholder={t('Enter your name and surname')} />
                 </Col>
                 <Col md={6}>
-                  <Form.Control type="email" placeholder={t('bikeBooking.form.email')} />
+                  <label>Email Address</label>
+                  <Form.Control type="email" placeholder={t('Enter your email address')} />
                 </Col>
                 <Col md={6}>
-                  <Form.Control type="tel" placeholder={t('bikeBooking.form.phone')} />
+                  <label>Telephone Number</label>
+                  <Form.Control type="tel" placeholder={t('Enter your telephone number')} />
                 </Col>
                 <Col md={6}>
-                  <Form.Control type="text" placeholder={t('bikeBooking.form.service')} />
+                  <label>Service Type</label>
+                  <Form.Control type="text" placeholder={t('select the service type')} />
+                </Col>
+                <Col md={6}>
+                  <label>Date</label>
+                  <Form.Control type="date" placeholder={t('select the date')} />
+                </Col>
+                <Col md={6}>
+                  <label>Time</label>
+                  <Form.Control type="time" placeholder={t('select the time')} />
                 </Col>
                 <Col md={12}>
-                  <Form.Control type="date" />
-                </Col>
-                <Col md={12}>
-                  <Button type="submit" className={styles.submitBtn}>
-                    {t('bikeBooking.form.button')}
-                  </Button>
+                 <Button size="book">Book Now</Button>
                 </Col>
               </Form>
             </div>
