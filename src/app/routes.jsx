@@ -14,6 +14,7 @@ import FAQPage from '../features/shared/FAQ/FAQScreen';
 import PrivacyPolicyPage from '../features/shared/PrivacyPolicy/PrivacyPolicyScreen';
 import TermsOfServicePage from '../features/shared/TermsOfService/TermsOfServiceScreen';
 import PackageDetails from '../features/packages/components/PackageDetails';
+import Booking from "../components/Booking";
 
 const AppRoutes = () => {
   return (
@@ -25,7 +26,8 @@ const AppRoutes = () => {
       <Route path="/packages" element={<PackagesPage />} />
       <Route path="/packages/:id" element={<PackageDetails />} />
       <Route path="/dashboard" element={<DashboardPage />} />
-      <Route path="/booking" element={<BookingPage />} />
+      <Route path="/bookingPage" element={<BookingPage />} />
+      <Route path="/booking" element={<Booking />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/login" element={<AuthPage />} />
       <Route path="/faq" element={<FAQPage />} />
