@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './BikeBookingForm.module.css';
+import styles from './BikeBookingFormm.module.css';
 
 function BikeBookingForm({ onNext }) {
   const [selectedPackage, setSelectedPackage] = useState(null);
@@ -22,7 +22,7 @@ function BikeBookingForm({ onNext }) {
     },
     {
       id: 2,
-      name: "City Bike Tour", 
+      name: "City Bike Tour",
       image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400",
       description: "Discover the city's hidden gems on two wheels",
       adultPrice: 35,
