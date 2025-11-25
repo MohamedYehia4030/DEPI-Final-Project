@@ -1,1 +1,212 @@
-.root { }
+.testimonials-section-container {
+    padding: 50px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    color: #0B3D5E;
+}
+
+.header-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 30px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.controls {
+    display: flex;
+    gap: 8px;
+}
+
+.travel-nav-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+}
+
+.travel-nav-button-prev {
+    border: 1px solid #ddd;
+    background-color: transparent;
+    color: #999;
+}
+
+.travel-nav-button-next {
+    background-color: #0B3D5E;
+    border: 1px solid #0B3D5E;
+    color: white;
+}
+
+.travel-nav-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: lightgray !important;
+    border-color: lightgray !important;
+    color: #666 !important;
+    transform: scale(1) !important;
+}
+
+.travel-nav-button-prev:hover {
+    border-color: #555;
+    color: #333;
+    transform: scale(1.05);
+}
+
+.travel-nav-button-next:hover {
+    background: var(--color-primary-accent-hover);
+    box-shadow: #0d6efd;
+    transform: scale(1.05);
+}
+
+.slider-container {
+    overflow: hidden;
+    padding: 10px 0;
+}
+
+.testimonials-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    gap: 25px;
+}
+
+.testimonial-card {
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* ---------------------------------- */
+/* أيقونات الاقتباس والـ Z-index لحل مشكلة تداخل الصورة */
+/* ---------------------------------- */
+
+.quote-icon-top,
+.quote-icon-bottom {
+    color: #f0f0f0;
+    font-size: 4rem;
+    position: absolute;
+    opacity: 1;
+    z-index: 1;
+    /* الأيقونة تكون في الخلف */
+}
+
+.quote-icon-top {
+    top: 10px;
+    left: 20px;
+    right: auto;
+}
+
+.quote-icon-bottom {
+    bottom: 0px;
+    right: 20px;
+    left: auto;
+    transform: rotate(180deg);
+}
+
+.quote-text {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.8;
+    margin: 30px 0;
+    font-style: italic;
+    font-weight: 400;
+    position: relative;
+    z-index: 3;
+    /* النص يكون في الأمام */
+}
+
+.client-info {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+    /* لضمان بقائها فوق أيقونة الكوتس */
+    z-index: 3;
+}
+
+.client-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-inline-end: 15px;
+    border: 2px solid #0B3D5E;
+    background-size: cover;
+    background-position: center;
+}
+
+.client-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ---------------------------------- */
+/* إصلاحات RTL (اللغة العربية) */
+/* ---------------------------------- */
+
+[dir='rtl'] .testimonials-section-container {
+    direction: rtl;
+}
+
+[dir='rtl'] .header-controls {
+    flex-direction: row-reverse;
+}
+
+[dir='rtl'] .section-title {
+    text-align: right;
+}
+
+[dir='rtl'] .controls {
+    flex-direction: row-reverse;
+}
+
+[dir='rtl'] .testimonial-card {
+    text-align: right;
+}
+
+[dir='rtl'] .quote-icon-top {
+    left: auto;
+    right: 20px;
+}
+
+[dir='rtl'] .quote-icon-bottom {
+    right: auto;
+    left: 20px;
+}
+
+[dir='rtl'] .client-info {
+    flex-direction: row-reverse;
+}
+
+/* ---------------------------------- */
+/* التنسيقات المتجاوبة (Responsive) */
+/* ---------------------------------- */
+
+@media (max-width: 900px) {
+    .testimonial-card {
+        min-width: calc(100% - 12.5px) !important;
+    }
+}

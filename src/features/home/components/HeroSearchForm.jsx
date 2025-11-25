@@ -1,8 +1,134 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiUsers, FiCalendar, FiClock, FiFlag, FiTruck, FiSearch, FiGlobe } from 'react-icons/fi';
 import { HiUsers } from 'react-icons/hi';
+import { FaChevronDown } from 'react-icons/fa';
 import styles from './HeroSearchForm.module.css';
+
+const peopleOptions = [
+  { value: '1', label: '1' },
+  { value: '2', label: '2' },
+  { value: '3', label: '3' },
+  { value: '4', label: '4' },
+  { value: '5+', label: '5+' },
+];
+
+const tourOptions = [
+  { value: 'lucca_bike', label: 'tour_lucca_bike' },
+  { value: 'book_bike', label: 'tour_book_bike' },
+  { value: 'outside_lucca', label: 'tour_outside_lucca' },
+  { value: 'wine_tasting', label: 'tour_wine_tasting' },
+  { value: 'cinque_terre', label: 'tour_cinque_terre' },
+  { value: 'siena', label: 'tour_siena' },
+  { value: 'pisa_lucca', label: 'tour_pisa_lucca' },
+];
+
+const transportationOptions = [
+  { value: 'minivan_bus', label: 'trans_minivan_bus' },
+  { value: 'transfers_ncc', label: 'trans_transfers_ncc' },
+  { value: 'luxury_exp', label: 'trans_luxury_exp' },
+];
+
+const CalendarMock = ({ onSelectDate, selectedDate, onClose }) => {
+  const { t } = useTranslation('home');
+  const today = new Date();
+  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
+  const [currentYear, setCurrentYear] = useState(today.getFullYear());
+
+  const monthNames = [
+    t('month_january'), t('month_february'), t('month_march'),
+    t('month_april'), t('month_may'), t('month_june'),
+    t('month_july'), t('month_august'), t('month_september'),
+    t('month_october'), t('month_november'), t('month_december')
+  ];
+
+  const daysOfWeek = [
+    t('day_sunday_short'), t('day_monday_short'), t('day_tuesday_short'),
+    t('day_wednesday_short'), t('day_thursday_short'), t('day_friday_short'),
+    t('day_saturday_short')
+  ];
+
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const firstDayOfWeek = new Date(currentYear, currentMonth, 1).getDay();
+
+  const handlePrevMonth = (e) => {
+    e.stopPropagation();
+    if (currentMonth === 0) {
+      setCurrentMonth(11);
+      setCurrentYear(currentYear - 1);
+    } else setCurrentMonth(currentMonth - 1);
+  };
+
+  const handleNextMonth = (e) => {
+    e.stopPropagation();
+    if (currentMonth === 11) {
+      setCurrentMonth(0);
+      setCurrentYear(currentYear + 1);
+    } else setCurrentMonth(currentMonth + 1);
+  };
+
+  const handleSelect = (day) => {
+    const fullDate = new Date(currentYear, currentMonth, day)
+      .toISOString().split('T')[0];
+    onSelectDate(fullDate);
+    onClose();
+  };
+
+  return (
+    <div className={styles.calendarMock}>
+      <div className={styles.calendarHeader}>
+        <span className={styles.monthName}>
+          {monthNames[currentMonth]} {currentYear}
+        </span>
+        <div className={styles.navButtons}>
+          <span onClick={handlePrevMonth}>{'<'}</span>
+          <span onClick={handleNextMonth}>{'>'}</span>
+        </div>
+      </div>
+
+      <div className={styles.calendarGrid}>
+        {daysOfWeek.map(d => (
+          <span key={d} className={styles.dayHeader}>{d}</span>
+        ))}
+        {Array.from({ length: firstDayOfWeek }).map((_, i) => (
+          <span key={`empty-${i}`} className={styles.calendarDay}></span>
+        ))}
+        {Array.from({ length: daysInMonth }).map((_, idx) => {
+          const day = idx + 1;
+          const fullDate = new Date(currentYear, currentMonth, day).toISOString().split('T')[0];
+          const isSelected = fullDate === selectedDate;
+          return (
+            <span
+              key={fullDate}
+              className={`${styles.calendarDay} ${isSelected ? styles.selectedDay : ''}`}
+              onClick={(e) => { e.stopPropagation(); handleSelect(day); }}
+            >
+              {day}
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+const TimePickerMock = ({ onSelectTime, selectedTime }) => {
+  const { t } = useTranslation('home');
+  const times = ['1:00 am', '2:00 am', '3:00 am', '4:00 am', '5:00 am', '6:00 am', '7:00 am'];
+  return (
+    <div className={styles.timePickerMock}>
+      {times.map((time, index) => (
+        <div
+          key={index}
+          className={`${styles.timeOption} ${time === selectedTime ? styles.selectedTime : ''}`}
+          onClick={(e) => { e.stopPropagation(); onSelectTime(time); }}
+        >
+          {t(`time_${time.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()}`, time)}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 function HeroSearchForm() {
   const { t } = useTranslation('home');
@@ -14,19 +140,100 @@ function HeroSearchForm() {
     tour: '',
     transportation: ''
   });
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const calendarRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (calendarRef.current && !calendarRef.current.contains(e.target)) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    setFormData(prev => ({ ...prev, [field]: value }));
+    setActiveDropdown(null);
+  };
+
+  const toggleDropdown = (field) => {
+    setActiveDropdown(activeDropdown === field ? null : field);
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // Handle search logic here
     console.log('Search:', { tourType, ...formData });
   };
+
+  const getDisplayValue = (fieldName, options = []) => {
+    const value = formData[fieldName];
+    if (!value) return '';
+
+    if (fieldName === 'numberOfPeople') return value;
+
+    if (fieldName === 'date' || fieldName === 'time') return value;
+
+    const option = options.find(opt => opt.value === value);
+    return option ? t(option.label) : value;
+  };
+
+  const renderDropdown = (field, options, labelKey, placeholderKey) => (
+    <div className={`${styles.formField} ${activeDropdown === field ? styles.activeField : ''}`}>
+      <div className={styles.fieldHeader} onClick={() => toggleDropdown(field)}>
+        {field === 'numberOfPeople' && <FiUsers className={styles.fieldIcon} />}
+        {field === 'date' && <FiCalendar className={styles.fieldIcon} />}
+        {field === 'time' && <FiClock className={styles.fieldIcon} />}
+        {field === 'tour' && <FiFlag className={styles.fieldIcon} />}
+        {field === 'transportation' && <FiTruck className={styles.fieldIcon} />}
+        <span className={styles.fieldLabel}>{t(labelKey)}</span>
+      </div>
+
+      <div className={styles.inputContainer} onClick={() => toggleDropdown(field)}>
+        <span className={`${styles.input} ${!formData[field] ? styles.placeholder : ''}`}>
+          {getDisplayValue(field, options) || t(placeholderKey)}
+        </span>
+        <FaChevronDown className={`${styles.inputArrow} ${activeDropdown === field ? styles.rotated : ''}`} />
+      </div>
+
+      {activeDropdown === field && (
+        <div
+          className={`${styles.dropdownContent} ${field === 'date' ? styles.calendarContent : ''} ${field === 'time' ? styles.timeContent : ''}`}
+          ref={field === 'date' ? calendarRef : null}
+        >
+          {options && options.length > 0 && field !== 'date' && field !== 'time' && (
+            <div className={styles.listOptions}>
+              {options.map(option => (
+                <div
+                  key={option.value}
+                  className={styles.dropdownOption}
+                  onClick={() => handleInputChange(field, option.value)}
+                >
+                  {field === 'numberOfPeople' ? option.label : t(option.label)}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {field === 'date' && (
+            <CalendarMock
+              selectedDate={formData.date}
+              onSelectDate={(date) => handleInputChange('date', date)}
+              onClose={() => setActiveDropdown(null)}
+            />
+          )}
+
+          {field === 'time' && (
+            <TimePickerMock
+              selectedTime={formData.time}
+              onSelectTime={(time) => handleInputChange('time', time)}
+            />
+          )}
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className={styles.searchFormContainer}>
@@ -35,91 +242,32 @@ function HeroSearchForm() {
           className={`${styles.tab} ${tourType === 'public' ? styles.active : ''}`}
           onClick={() => setTourType('public')}
         >
-          <FiGlobe className={styles.tabIcon} />
-          {t('publicTours', 'Public Tours')}
+          <FiGlobe className={styles.tabIcon} /> {t('public_tours_tab')}
         </button>
+
         <button
           className={`${styles.tab} ${tourType === 'private' ? styles.active : ''}`}
           onClick={() => setTourType('private')}
         >
-          <HiUsers className={styles.tabIcon} />
-          {t('privateTours', 'Private Tours')}
+          <HiUsers className={styles.tabIcon} /> {t('private_tours_tab')}
         </button>
       </div>
 
-      <form className={styles.searchForm} onSubmit={handleSearch}>
-        <div className={styles.formFields}>
-          <div className={styles.formField}>
-            <FiUsers className={styles.fieldIcon} />
-            <select
-              className={styles.input}
-              value={formData.numberOfPeople}
-              onChange={(e) => handleInputChange('numberOfPeople', e.target.value)}
-            >
-              <option value="">{t('chooseNumberOfPeople', 'Choose number')}</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5+">5+</option>
-            </select>
+      <div className={styles.searchFrame}>
+        <form className={styles.searchForm} onSubmit={handleSearch}>
+          <div className={styles.formFields}>
+            {renderDropdown('numberOfPeople', peopleOptions, 'label_number_of_people', 'placeholder_choose_number')}
+            {renderDropdown('date', [], 'label_date', 'placeholder_choose_date')}
+            {renderDropdown('time', [], 'label_time', 'placeholder_choose_time')}
+            {renderDropdown('tour', tourOptions, 'label_tour', 'placeholder_select_tour')}
+            {renderDropdown('transportation', transportationOptions, 'label_transportation', 'placeholder_select_transportation')}
           </div>
 
-          <div className={styles.formField}>
-            <FiCalendar className={styles.fieldIcon} />
-            <input
-              type="date"
-              className={styles.input}
-              value={formData.date}
-              onChange={(e) => handleInputChange('date', e.target.value)}
-              placeholder={t('chooseDate', 'Choose Date')}
-            />
-          </div>
-
-          <div className={styles.formField}>
-            <FiClock className={styles.fieldIcon} />
-            <input
-              type="time"
-              className={styles.input}
-              value={formData.time}
-              onChange={(e) => handleInputChange('time', e.target.value)}
-              placeholder={t('chooseTime', 'Choose Time')}
-            />
-          </div>
-
-          <div className={styles.formField}>
-            <FiFlag className={styles.fieldIcon} />
-            <select
-              className={styles.input}
-              value={formData.tour}
-              onChange={(e) => handleInputChange('tour', e.target.value)}
-            >
-              <option value="">{t('selectTour', 'Select Tour')}</option>
-              <option value="tuscany">Tuscany Wine Tasting</option>
-              <option value="florence">Florence City Tour</option>
-              <option value="venice">Venice Canal Tour</option>
-            </select>
-          </div>
-
-          <div className={styles.formField}>
-            <FiTruck className={styles.fieldIcon} />
-            <select
-              className={styles.input}
-              value={formData.transportation}
-              onChange={(e) => handleInputChange('transportation', e.target.value)}
-            >
-              <option value="">{t('selectTransportation', 'Select Transportation')}</option>
-              <option value="car">Car</option>
-              <option value="bus">Bus</option>
-              <option value="van">Van</option>
-            </select>
-          </div>
-        </div>
-
-        <button type="submit" className={styles.searchButton}>
-          <FiSearch className={styles.searchIcon} />
-        </button>
-      </form>
+          <button type="submit" className={styles.searchButton}>
+            <FiSearch className={styles.searchIcon} />
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

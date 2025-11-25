@@ -5,12 +5,11 @@ import { Carousel } from 'react-bootstrap';
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
 /**
- * Slider-only Testimonials component.
  * Props:
  * - reviews: array of grouped review arrays (each item is an array of 1-2 review objects)
  * - renderReview: function(review, index) => ReactNode (renders the review card)
  */
-const Slider = ({ children, perSlide = 2 }) => {
+const Slider = ({ children, perSlide = 2, maxWidth }) => {
   const items = React.Children.toArray(children || []);
   const grouped = [];
   for (let i = 0; i < items.length; i += perSlide) grouped.push(items.slice(i, i + perSlide));
@@ -30,8 +29,14 @@ const Slider = ({ children, perSlide = 2 }) => {
   const PrevIcon = isRTL ? FiChevronRight : FiChevronLeft;
   const NextIcon = isRTL ? FiChevronLeft : FiChevronRight;
 
+  // allow callers to override the container max width via `maxWidth` prop
+  const containerStyle = {};
+  if (maxWidth) {
+    containerStyle.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
+  }
+
   return (
-    <div className={styles.sliderContainer} dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className={styles.sliderContainer} dir={isRTL ? 'rtl' : 'ltr'} style={containerStyle}>
       <div className={styles.carouselHeader}>
         <div className={styles.carouselButtons}>
           <button

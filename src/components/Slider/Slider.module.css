@@ -1,7 +1,6 @@
 /* Slider wrapper: center and constrain width */
 .sliderContainer {
   padding: 2rem 0 1.5rem 0;
-  max-width: 1100px;
   margin: 0 auto;
 }
 

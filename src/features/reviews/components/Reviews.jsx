@@ -54,5 +54,5 @@ export default function Reviews() {
     });
   }, [t]);
 
-  return <Slider perSlide={2}>{reviewNodes}</Slider>;
+  return <Slider perSlide={3} maxWidth={"1500px"}>{reviewNodes}</Slider>;
 }
