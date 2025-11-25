@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Row, Col, Form, Image } from 'react-bootstrap';
 import styles from './BikeBookingForm.module.css';
-import { motion } from 'framer-motion'; // 1. Import motion
+import { motion } from 'framer-motion'; 
 import bikeImage from '../../assets/images/Common/bike.png'; 
 import Button from '../Button/Button'; 
 

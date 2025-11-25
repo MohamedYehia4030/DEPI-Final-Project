@@ -4,9 +4,9 @@ import PopularDestinations from "../../home/components/PopularDestinations";
 import ExploreCategories from "../../home/components/ExploreCategories";
 import PopularTransport from "../../home/components/PopularTransport";
 import TravelTips from "../../home/components/TravelTips";
-import OffersCTA from "../../home/components/OffersCTA";
 import BikeBookingForm from "../../../components/BikeBookingForm/BikeBookingForm.jsx";
 import styles from "./HomeScreen.module.css";
+import Reviews from "../../reviews/components/Reviews.jsx";
 
 export default function HomePage() {
   return (
@@ -17,7 +17,7 @@ export default function HomePage() {
       <PopularTransport />
       <BikeBookingForm />
       <TravelTips />
-      <OffersCTA />
+      <Reviews/>
     </div>
   );
 }
