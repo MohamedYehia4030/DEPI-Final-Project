@@ -5,7 +5,6 @@ import { Carousel } from 'react-bootstrap';
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
 /**
- * Slider-only Testimonials component.
  * Props:
  * - reviews: array of grouped review arrays (each item is an array of 1-2 review objects)
  * - renderReview: function(review, index) => ReactNode (renders the review card)

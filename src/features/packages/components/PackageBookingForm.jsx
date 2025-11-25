@@ -1,3 +1,9 @@
-export default function PackageBookingForm() {
-  return <div className="PackageBookingForm">PackageBookingForm works!</div>;
+import React from 'react'
+
+function PackageBookingForm() {
+  return (
+    <div></div>
+  )
 }
+
+export default PackageBookingForm
