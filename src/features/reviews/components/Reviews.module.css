@@ -1,0 +1,83 @@
+/* Card and review-specific styles moved from the component-level CSS */
+.reviewCard {
+  position: relative;
+  background-color: var(--color-card-background);
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 1.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem; /* Space between elements */
+  box-shadow: 0 6px 18px rgba(11,22,33,0.04);
+  max-width: 520px;
+  margin: 8px auto;
+}
+
+.reviewHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-primary-accent);
+  background: white;
+}
+
+.reviewerInfo h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.reviewerInfo p {
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333333;
+  margin: 0;
+}
+
+.comment {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  padding: 1.25rem 1.25rem;
+  text-align: center;
+}
+
+.quoteContainer {
+  position: relative;
+  width: 100%;
+}
+
+.quoteIcon {
+  position: absolute;
+  color: var(--color-primary-accent);
+  opacity: 0.3;
+  font-size: 1.5rem;
+}
+
+.quoteTopLeft {
+  top: 0.5rem;
+  left: 0.5rem;
+}
+
+.quoteBottomRight {
+  bottom: 0.5rem;
+  right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .avatar { width: 56px; height:56px; }
+  .comment { padding: 1rem 1rem; font-size: .95rem }
+  .reviewCard { padding: 1rem; }
+}

@@ -10,7 +10,6 @@ import BikeBookingForm from '../../../components/BikeBookingForm/BikeBookingForm
 import { useTranslation } from 'react-i18next';
 
 export default function HomePage() {
-  const { t } = useTranslation('home');
 
   return (
     <div className="HomePage">
@@ -21,7 +20,7 @@ export default function HomePage() {
       <BikeBookingForm />
       <TravelTips />
       <OffersCTA />
-      <Testimonials title={t('testimonials.title')} />
+   
     </div>
   );
 }

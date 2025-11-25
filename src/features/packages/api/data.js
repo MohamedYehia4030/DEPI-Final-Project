@@ -18,6 +18,50 @@ import service4 from '../../../assets/images/Packages/service4.png';
 import service5 from '../../../assets/images/Packages/service5.png';
 import service6 from '../../../assets/images/Packages/service6.png';
 
+// sub images
+import sub1 from '../../../assets/images/Packages/sub1.png';
+import sub2 from '../../../assets/images/Packages/sub2.png';
+import sub3 from '../../../assets/images/Packages/sub3.png';
+import sub4 from '../../../assets/images/Packages/sub4.png';
+import sub5 from '../../../assets/images/Packages/sub5.png';
+import sub6 from '../../../assets/images/Packages/sub6.png';
+import sub7 from '../../../assets/images/Packages/sub7.png';
+import sub8 from '../../../assets/images/Packages/sub8.png';
+import sub9 from '../../../assets/images/Packages/sub9.png';
+import sub11 from '../../../assets/images/Packages/sub11.png';
+import sub12 from '../../../assets/images/Packages/sub12.png';
+import sub13 from '../../../assets/images/Packages/sub13.png';
+import sub14 from '../../../assets/images/Packages/sub14.png';
+import sub15 from '../../../assets/images/Packages/sub15.png';
+import sub16 from '../../../assets/images/Packages/sub16.png';
+import sub17 from '../../../assets/images/Packages/sub17.png';
+import sub18 from '../../../assets/images/Packages/sub18.png';
+
+//Gallery images
+import gallery1 from '../../../assets/images/Packages/gallery1.png';
+import gallery2 from '../../../assets/images/Packages/gallery2.png';
+import gallery3 from '../../../assets/images/Packages/gallery3.png';
+import gallery4 from '../../../assets/images/Packages/gallery4.png';
+import gallery5 from '../../../assets/images/Packages/gallery5.png';
+import gallery6 from '../../../assets/images/Packages/gallery6.png';
+import gallery7 from '../../../assets/images/Packages/gallery7.png';
+import gallery8 from '../../../assets/images/Packages/gallery8.png';
+import gallery9 from '../../../assets/images/Packages/gallery9.png';
+import gallery10 from '../../../assets/images/Packages/gallery10.png';
+import gallery11 from '../../../assets/images/Packages/gallery11.png';
+import gallery12 from '../../../assets/images/Packages/gallery12.png';
+import gallery13 from '../../../assets/images/Packages/gallery13.png';
+
+import gallery14 from '../../../assets/images/Packages/gallery14.png';
+import gallery15 from '../../../assets/images/Packages/gallery15.png';
+import gallery16 from '../../../assets/images/Packages/gallery16.png';
+import gallery17 from '../../../assets/images/Packages/gallery17.png';
+import gallery18 from '../../../assets/images/Packages/gallery18.png';
+import gallery19 from '../../../assets/images/Packages/gallery19.png';
+import gallery20 from '../../../assets/images/Packages/gallery20.png';
+import gallery21 from '../../../assets/images/Packages/gallery21.png';
+
+
 export const tours = [
   {
     id: 1,
@@ -27,6 +71,10 @@ export const tours = [
     duration: "2.5 hour",
     groupKey: "packages:tours.luccaBike.group",
     rating: "5.0",
+    subimages:[sub1,sub2],
+    longDescKey:'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+    gallery:[gallery3,gallery1,gallery2,gallery4],
+    desc:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
   },
   {
     id: 2,
@@ -36,7 +84,11 @@ export const tours = [
     duration: "3 hour",
     groupKey: "packages:tours.wineTasting.group",
     rating: "5.0",
-  },
+    subimages:[sub3,sub4],
+    longDescKey:'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+    gallery:[gallery3,gallery1,gallery2,gallery4],
+    desc:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    },
   {
     id: 3,
     titleKey: "packages:tours.cinqueTerre.title",
@@ -45,6 +97,10 @@ export const tours = [
     duration: "5 hour",
     groupKey: "packages:tours.cinqueTerre.group",
     rating: "4.9",
+    subimages:[sub5,sub6],
+    longDescKey:'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+    gallery:[gallery1,gallery2,gallery3,gallery4],
+    desc:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
   },
   {
     id: 4,
@@ -54,6 +110,10 @@ export const tours = [
     duration: "3.5 hour",
     groupKey: "packages:tours.siena.group",
     rating: "5.0",
+    subimages:[sub7,sub8],
+    longDescKey:'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+    gallery:[gallery21,gallery1,gallery3,gallery4],
+    desc:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
   },
   {
     id: 5,
@@ -63,6 +123,10 @@ export const tours = [
     duration: "3 hour",
     groupKey: "packages:tours.luccaHills.group",
     rating: "5.0",
+    subimages:[sub9,sub11],
+    longDescKey:'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+    gallery:[gallery3,gallery1,gallery2,gallery4],
+    desc:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
   },
   {
     id: 6,
@@ -72,6 +136,10 @@ export const tours = [
     duration: "6 hour",
     groupKey: "packages:tours.gardaland.group",
     rating: "4.8",
+    subimages:[sub11,sub12],
+    longDescKey:'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+    gallery:[gallery21,gallery1,gallery3,gallery4],
+    desc:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
   },
   {
     id: 7,
@@ -81,7 +149,11 @@ export const tours = [
     duration: "4 hour",
     groupKey: "packages:tours.pisaLucca.group",
     rating: "4.9",
-  },
+    subimages:[sub13,sub14],
+    longDescKey:'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+    gallery:[gallery1,gallery2,gallery3,gallery4],
+    desc:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    },
   {
     id: 8,
     titleKey: "packages:tours.florence.title",
@@ -90,7 +162,11 @@ export const tours = [
     duration: "5 hour",
     groupKey: "packages:tours.florence.group",
     rating: "5.0",
-  },
+    subimages:[sub15,sub16],
+    longDescKey:'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+    gallery:[gallery21,gallery1,gallery3,gallery4],
+    desc:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    },
 ];
 
 export const services = [
