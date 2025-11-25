@@ -4,6 +4,7 @@ import Footer from '../layout/Footer/Footer';
 import AppRoutes from './routes';
 import './App.css';
 import AuthModal from '../features/auth/components/AuthModal';
+import Booking from "../components/Booking";
 
 function App() {
   return (
