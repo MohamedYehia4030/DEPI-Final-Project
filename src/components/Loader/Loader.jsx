@@ -1,9 +1,18 @@
+import React from 'react';
+import styles from './Loader.module.css';
 
+const Loader = ({ size = 'medium', color = 'primary', fullScreen = false, message = '' }) => {
+  const loaderClasses = [
+    styles.loader,
+    styles[`size-${size}`],
+    styles[`color-${color}`],
+    fullScreen ? styles.fullScreen : ''
+  ].filter(Boolean).join(' ');
 
-const Loader = () => {
   return (
-    <div className="loader">
-      {/* TODO: Implement Loader */}
+    <div className={loaderClasses}>
+      <div className={styles.spinner}></div>
+      {message && <span className={styles.message}>{message}</span>}
     </div>
   );
 };
