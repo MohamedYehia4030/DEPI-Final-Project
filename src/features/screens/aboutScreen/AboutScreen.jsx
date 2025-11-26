@@ -1,12 +1,16 @@
-import Testimonials from "../../reviews/Testimonials/Testimonials";
+import React from "react";
+import AboutHero from "../../about/components/AboutHero";
+import AboutStats from "../../about/components/AboutStats";
+import AboutFeatures from "../../about/components/AboutFeatures";
 
-export default function AboutPage() {
+const AboutPage = () => {
   return (
-    <div className="AboutPage">
- <h1>About</h1>
- <hr></hr>
-    <Testimonials /> 
+    <div>
+      <AboutHero />
+      <AboutStats />
+      <AboutFeatures />
     </div>
   );
-}
+};
 
+export default AboutPage;

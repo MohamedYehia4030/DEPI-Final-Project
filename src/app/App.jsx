@@ -5,11 +5,13 @@ import AppRoutes from './routes';
 import './App.css';
 import AuthModal from '../features/auth/components/AuthModal';
 import Testimonials from '../features/reviews/Testimonials/Testimonials';
+import { Toaster } from 'sonner';
 
 function App() {
   return (
     <>
-    <AuthModal />
+      <Toaster position="top-center" richColors />
+      <AuthModal />
       <Navbar />
       <main>
         <AppRoutes />
