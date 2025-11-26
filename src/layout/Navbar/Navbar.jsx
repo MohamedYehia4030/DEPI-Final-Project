@@ -1,14 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./Navbar.module.css";
-import logoImage from "../../assets/icons/logo.png";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import logoImage from "../../assets/icons/logo.svg";
+import { NavLink, Link, } from "react-router-dom";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggler from "../../components/ThemeToggler/ThemeToggler";
 import { useTranslation } from "react-i18next";
 import useMediaQuery from "../../hooks/useMediaQuery";
-import useAppStore from "../../app/store";
+import useAppStore from "../../store/useAppStore";
 import Button from "../../components/Button/Button";
+import UserAccountButton from "../../features/auth/components/UserAccountButton";
 
 const dropdownVariants = {
   hidden: { opacity: 0, y: -10, scale: 0.95 },
@@ -19,7 +20,6 @@ const dropdownVariants = {
 const Navbar = () => {
   const { t, i18n } = useTranslation("navbar");
   const { openAuthModal } = useAppStore();
-  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState(
@@ -202,6 +202,7 @@ const Navbar = () => {
             closeMenu(); // 2. Close mobile menu if open
           }}> {t("signup")} </Button>
         <ThemeToggler />
+        <UserAccountButton/>
       </div>
     </>
   );

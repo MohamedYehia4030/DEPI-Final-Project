@@ -1,24 +1,39 @@
-import useAppStore from '../../../app/store';
-import Modal from '../../../components/Modal/Modal';
-import ForgotPasswordForm from './ForgotPasswordForm';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import useAppStore from "../../../store/useAppStore";
+import Modal from "../../../components/Modal/Modal";
+import ForgotPasswordForm from "./ForgotPasswordForm";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 
 const AuthModal = () => {
-  // 1. Listen to the store. 
-  // React re-renders this component because 'isAuthModalOpen' changed to true.
-  const { isAuthModalOpen, closeAuthModal, authView } = useAppStore();
+  // 1. ⬅️ CRITICAL FIX: Use a selector to only subscribe to necessary state
+  const isAuthModalOpen = useAppStore((state) => state.isAuthModalOpen);
+  const authView = useAppStore((state) => state.authView);
+  const closeAuthModal = useAppStore((state) => state.closeAuthModal);
 
+  // 3. Conditional Rendering Logic (The internal "router")
+  let ContentComponent = null;
+
+  if (authView === "login") {
+    ContentComponent = LoginForm;
+  } else if (authView === "register") {
+    ContentComponent = RegisterForm;
+  } else if (authView === "forgot-password") {
+    ContentComponent = ForgotPasswordForm;
+  }
+
+  // If modal is closed or view is invalid, render nothing
+  if (!isAuthModalOpen || !ContentComponent) {
+    return null;
+  }
+
+  // 4. Render the Modal wrapper and the determined content
   return (
-    // 2. Pass the state to the Generic Shell (Modal)
-    <Modal 
-      isOpen={isAuthModalOpen} 
-      onClose={closeAuthModal} 
+    <Modal
+      isOpen={isAuthModalOpen}
+      onClose={closeAuthModal}
+      // You may pass the ContentComponent itself as children
     >
-      {/* 3. Decide WHAT to render based on 'authView' */}
-      {authView === 'login' && <LoginForm />}
-      {authView === 'register' && <RegisterForm />}
-      {authView === 'forgot-password' && <ForgotPasswordForm/>}
+      <ContentComponent />
     </Modal>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import AboutHero from "../../about/components/AboutHero";
 import AboutStats from "../../about/components/AboutStats";
 import AboutFeatures from "../../about/components/AboutFeatures";
+import Reviews from '../../reviews/components/Reviews';
 
 const AboutPage = () => {
   return (
@@ -9,6 +10,13 @@ const AboutPage = () => {
       <AboutHero />
       <AboutStats />
       <AboutFeatures />
+    <div className="AboutPage">
+<br />
+<br />
+<br />
+<br />
+<br />
+    <Reviews /> 
     </div>
   );
 };
