@@ -1,5 +1,4 @@
 import { create } from "zustand";
-
 const useAppStore = create((set) => ({
   isAuthModalOpen: false,
   authView: null,

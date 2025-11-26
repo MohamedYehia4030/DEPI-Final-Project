@@ -14,6 +14,7 @@ import FAQPage from '../features/shared/FAQ/FAQScreen';
 import PrivacyPolicyPage from '../features/shared/PrivacyPolicy/PrivacyPolicyScreen';
 import TermsOfServicePage from '../features/shared/TermsOfService/TermsOfServiceScreen';
 import PackageDetails from '../features/packages/components/PackageDetails';
+import AuthCallback from '../features/auth/components/AuthCallback';
 
 const AppRoutes = () => {
   return (
@@ -33,6 +34,7 @@ const AppRoutes = () => {
       <Route path="/terms-of-service" element={<TermsOfServicePage />} />
       <Route path="/error" element={<ErrorPage />} />
       <Route path="*" element={<NotFoundPage />} />
+      <Route path="/auth/callback" element={<AuthCallback />} />
     </Routes>
   );
 };
