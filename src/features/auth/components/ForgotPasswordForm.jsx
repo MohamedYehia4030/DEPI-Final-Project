@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FiKey, FiMail, FiArrowLeft, FiArrowRight } from "react-icons/fi"; 
-import useAppStore from "../../../app/store";
+import useAppStore from "../../../store/useAppStore";
 import Button from "../../../components/Button/Button";
 
 import styles from "./ForgotPasswordForm.module.css"; 

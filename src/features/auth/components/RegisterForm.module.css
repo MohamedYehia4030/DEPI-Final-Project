@@ -6,31 +6,50 @@
   max-width: 360px;
   margin: 0 auto;
 }
-
+/* Terms checkbox layout and styles for auth forms */
 .termsWrapper {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 5px;
+  gap: 12px;
+  margin: 6px 0 4px 0;
 }
 
-.checkbox {
-  width: 16px;
-  height: 16px;
+.termsCheckbox {
+  width: 18px;
+  height: 18px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid rgba(0,0,0,0.12);
+  border-radius: 6px;
+  display: inline-block;
+  position: relative;
   cursor: pointer;
-  accent-color: var(--color-primary-accent);
+  background: white;
+}
+.termsCheckbox:checked {
+  background: var(--color-primary-accent-active, #0b5a76);
+  border-color: var(--color-primary-accent-active, #0b5a76);
+}
+.termsCheckbox:checked::after {
+  content: '\2714';
+  position: absolute;
+  left: 3px;
+  top: -1px;
+  font-size: 14px;
+  color: white;
 }
 
 .termsText {
-  font-size: 0.8rem;
-  color: var(--color-text-light);
+  font-size: 0.85rem;
+  color: var(--color-text);
+  line-height: 1.2;
 }
 
 .termsLink {
   color: var(--color-primary-accent);
   font-weight: 600;
   text-decoration: none;
-  cursor: pointer;
+  margin-left: 4px;
 }
 .termsLink:hover {
   text-decoration: underline;

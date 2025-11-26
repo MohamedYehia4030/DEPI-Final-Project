@@ -7,8 +7,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggler from "../../components/ThemeToggler/ThemeToggler";
 import { useTranslation } from "react-i18next";
 import useMediaQuery from "../../hooks/useMediaQuery";
-import useAppStore from "../../app/store";
+import useAppStore from "../../store/useAppStore";
 import Button from "../../components/Button/Button";
+import UserAccountButton from "../../features/auth/components/UserAccountButton";
 
 const dropdownVariants = {
   hidden: { opacity: 0, y: -10, scale: 0.95 },
@@ -201,6 +202,7 @@ const Navbar = () => {
             closeMenu(); // 2. Close mobile menu if open
           }}> {t("signup")} </Button>
         <ThemeToggler />
+        <UserAccountButton/>
       </div>
     </>
   );
