@@ -16,7 +16,8 @@ import Loader from '../../components/Loader/Loader';
 | size | string | 'medium' | Size of the loader ('small', 'medium', 'large') |
 | color | string | 'primary' | Color of the loader ('primary', 'secondary', 'white') |
 | fullScreen | boolean | false | Whether to display the loader as a fullscreen overlay |
-| message | string | '' | Optional text to display below the spinner |
+| inline | boolean | false | Whether to display loader inline (horizontal layout, good for buttons) |
+| message | string | '' | Optional text to display beside (inline) or below (default) the spinner |
 
 ## Usage Examples
 
@@ -37,6 +38,15 @@ import Loader from '../../components/Loader/Loader';
   fullScreen={true} 
   message="Please wait..." 
 />
+
+// Inline loader inside a button
+<Button disabled={isLoading}>
+  {isLoading ? (
+    <Loader size="small" color="white" inline message="Submitting..." />
+  ) : (
+    'Submit'
+  )}
+</Button>
 ```
 
 ### In a Form Submission Context

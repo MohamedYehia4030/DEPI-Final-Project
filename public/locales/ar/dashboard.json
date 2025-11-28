@@ -1,0 +1,105 @@
+{
+  "title": "لوحة التحكم",
+  "welcome": "مرحباً بعودتك",
+  "overview": "نظرة عامة",
+  "myBookings": "حجوزاتي",
+  "profileNav": "الملف الشخصي",
+  "settingsNav": "الإعدادات",
+  "logout": "تسجيل الخروج",
+  "tourPackages": "باقات الجولات",
+  "readMore": "اقرأ المزيد",
+  
+  "tickets": {
+    "title": "تذاكري",
+    "tourName": "اسم الجولة",
+    "paymentMethod": "طريقة الدفع",
+    "price": "السعر",
+    "noTickets": "ليس لديك أي تذاكر بعد",
+    "actions": "الإجراءات",
+    "viewDetails": "عرض التفاصيل",
+    "download": "تحميل",
+    "cancel": "إلغاء الحجز",
+    "refNumber": "رقم المرجع",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "traveler": "المسافر",
+    "guests": "الضيوف",
+    "totalPaid": "المبلغ المدفوع",
+    "status": {
+      "label": "الحالة",
+      "upcoming": "قادمة",
+      "ended": "انتهت",
+      "cancelled": "ملغية"
+    },
+    "cancelModal": {
+      "title": "إلغاء الحجز",
+      "message": "هل أنت متأكد من إلغاء هذا الحجز؟",
+      "warning": "لا يمكن التراجع عن هذا الإجراء. قد يستغرق الاسترداد 5-7 أيام عمل.",
+      "keep": "الاحتفاظ بالحجز",
+      "confirm": "نعم، إلغاء"
+    },
+    "detailsModal": {
+      "title": "تفاصيل الحجز"
+    }
+  },
+  
+  "stats": {
+    "totalBookings": "إجمالي الحجوزات",
+    "upcomingTrips": "الرحلات القادمة",
+    "completedTrips": "الرحلات المكتملة",
+    "savedPackages": "الباقات المحفوظة"
+  },
+  
+  "bookings": {
+    "title": "الحجوزات الأخيرة",
+    "viewAll": "عرض الكل",
+    "noBookings": "ليس لديك أي حجوزات بعد",
+    "status": {
+      "confirmed": "مؤكد",
+      "pending": "قيد الانتظار",
+      "cancelled": "ملغي",
+      "completed": "مكتمل"
+    },
+    "date": "التاريخ",
+    "package": "الباقة",
+    "travelers": "المسافرون",
+    "total": "الإجمالي",
+    "actions": "الإجراءات",
+    "viewDetails": "عرض التفاصيل",
+    "cancelBooking": "إلغاء",
+    "downloadTicket": "تحميل"
+  },
+  
+  "profile": {
+    "title": "معلومات الملف الشخصي",
+    "personalInfo": "المعلومات الشخصية",
+    "name": "الاسم الكامل",
+    "namePlaceholder": "أدخل اسمك",
+    "email": "البريد الإلكتروني",
+    "emailHint": "لا يمكن تغيير البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "address": "العنوان",
+    "changePhoto": "انقر لتغيير الصورة",
+    "removePhoto": "إزالة الصورة",
+    "saveChanges": "حفظ التغييرات",
+    "cancel": "إلغاء",
+    "changePassword": "تغيير كلمة المرور",
+    "currentPassword": "كلمة المرور الحالية",
+    "newPassword": "كلمة المرور الجديدة",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "updatePassword": "تحديث كلمة المرور"
+  },
+  
+  "settings": {
+    "title": "الإعدادات",
+    "notifications": "الإشعارات",
+    "emailNotifications": "إشعارات البريد الإلكتروني",
+    "smsNotifications": "إشعارات الرسائل النصية",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "lightMode": "الوضع الفاتح",
+    "darkMode": "الوضع الداكن",
+    "deleteAccount": "حذف الحساب",
+    "deleteWarning": "لا يمكن التراجع عن هذا الإجراء"
+  }
+}

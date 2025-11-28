@@ -2,6 +2,147 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+// ==================== VALIDATION HELPERS ====================
+
+/**
+ * Validate email format
+ * @param {string} email 
+ * @returns {{ isValid: boolean, error: string|null }}
+ */
+const validateEmail = (email) => {
+  if (!email || typeof email !== 'string') {
+    return { isValid: false, error: 'Email is required' };
+  }
+  
+  const trimmedEmail = email.trim().toLowerCase();
+  
+  if (trimmedEmail.length === 0) {
+    return { isValid: false, error: 'Email is required' };
+  }
+  
+  if (trimmedEmail.length > 254) {
+    return { isValid: false, error: 'Email is too long' };
+  }
+  
+  // RFC 5322 compliant email regex
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  
+  if (!emailRegex.test(trimmedEmail)) {
+    return { isValid: false, error: 'Please enter a valid email address' };
+  }
+  
+  return { isValid: true, error: null };
+};
+
+/**
+ * Validate password strength
+ * @param {string} password 
+ * @returns {{ isValid: boolean, error: string|null, errors: string[] }}
+ */
+const validatePassword = (password) => {
+  const errors = [];
+  
+  if (!password || typeof password !== 'string') {
+    return { isValid: false, error: 'Password is required', errors: ['Password is required'] };
+  }
+  
+  if (password.length < 8) {
+    errors.push('Password must be at least 8 characters');
+  }
+  
+  if (password.length > 128) {
+    errors.push('Password must be less than 128 characters');
+  }
+  
+  if (!/[A-Z]/.test(password)) {
+    errors.push('Password must contain at least one uppercase letter');
+  }
+  
+  if (!/[a-z]/.test(password)) {
+    errors.push('Password must contain at least one lowercase letter');
+  }
+  
+  if (!/\d/.test(password)) {
+    errors.push('Password must contain at least one number');
+  }
+  
+  if (!/[!@#$%^&*(),.?":{}|<>_\-+=\[\]\\;'/`~]/.test(password)) {
+    errors.push('Password must contain at least one special character');
+  }
+  
+  // Check for common weak passwords
+  const weakPasswords = [
+    'password', 'password123', '12345678', 'qwerty123', 'letmein',
+    'welcome', 'admin123', 'abc12345', 'password1', '123456789'
+  ];
+  
+  if (weakPasswords.includes(password.toLowerCase())) {
+    errors.push('This password is too common. Please choose a stronger one');
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    error: errors[0] || null,
+    errors
+  };
+};
+
+/**
+ * Validate name
+ * @param {string} name 
+ * @param {string} fieldName 
+ * @returns {{ isValid: boolean, error: string|null }}
+ */
+const validateName = (name, fieldName = 'Name') => {
+  if (!name || typeof name !== 'string') {
+    return { isValid: false, error: `${fieldName} is required` };
+  }
+  
+  const trimmedName = name.trim();
+  
+  if (trimmedName.length === 0) {
+    return { isValid: false, error: `${fieldName} is required` };
+  }
+  
+  if (trimmedName.length < 2) {
+    return { isValid: false, error: `${fieldName} must be at least 2 characters` };
+  }
+  
+  if (trimmedName.length > 50) {
+    return { isValid: false, error: `${fieldName} must be less than 50 characters` };
+  }
+  
+  // Only allow letters, spaces, hyphens, and apostrophes
+  const nameRegex = /^[a-zA-ZÀ-ÿ\u0600-\u06FF\s'-]+$/;
+  if (!nameRegex.test(trimmedName)) {
+    return { isValid: false, error: `${fieldName} contains invalid characters` };
+  }
+  
+  // Check for suspicious patterns (repeated characters)
+  if (/(.)\1{3,}/.test(trimmedName)) {
+    return { isValid: false, error: `${fieldName} contains invalid repeated characters` };
+  }
+  
+  return { isValid: true, error: null };
+};
+
+/**
+ * Sanitize input to prevent XSS
+ * @param {string} input 
+ * @returns {string}
+ */
+const sanitizeInput = (input) => {
+  if (typeof input !== 'string') return input;
+  return input
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+};
+
+// ==================== HELPER FUNCTIONS ====================
+
 // Helper function to generate a JWT (JSON Web Token)
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -9,35 +150,62 @@ const generateToken = (id) => {
   });
 };
 
+// ==================== CONTROLLERS ====================
+
 // @desc    Register new user
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
-
-  if (!name || !email || !password) {
-    return res
-      .status(400)
-      .json({
-        message: "Please include all fields: name, email, and password.",
-      });
-  }
-
   try {
-    const userExists = await User.findOne({ email });
+    const { name, email, password } = req.body;
 
-    if (userExists) {
-      return res
-        .status(400)
-        .json({ message: "User already exists with this email." });
+    // Validate all fields
+    const nameValidation = validateName(name);
+    if (!nameValidation.isValid) {
+      return res.status(400).json({ 
+        message: nameValidation.error,
+        field: 'name'
+      });
     }
 
-    const salt = await bcrypt.genSalt(10);
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.isValid) {
+      return res.status(400).json({ 
+        message: emailValidation.error,
+        field: 'email'
+      });
+    }
+
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+      return res.status(400).json({ 
+        message: passwordValidation.error,
+        errors: passwordValidation.errors,
+        field: 'password'
+      });
+    }
+
+    // Sanitize and normalize inputs
+    const sanitizedName = sanitizeInput(name.trim());
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Check if user already exists
+    const userExists = await User.findOne({ email: normalizedEmail });
+    if (userExists) {
+      return res.status(400).json({ 
+        message: "An account with this email already exists.",
+        field: 'email'
+      });
+    }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(12); // Increased from 10 for better security
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Create user
     const user = await User.create({
-      name,
-      email,
+      name: sanitizedName,
+      email: normalizedEmail,
       password: hashedPassword,
     });
 
@@ -52,7 +220,16 @@ const registerUser = async (req, res) => {
       res.status(400).json({ message: "Invalid user data." });
     }
   } catch (error) {
-    console.error(error);
+    console.error("Registration error:", error);
+    
+    // Handle MongoDB duplicate key error
+    if (error.code === 11000) {
+      return res.status(400).json({ 
+        message: "An account with this email already exists.",
+        field: 'email'
+      });
+    }
+    
     res.status(500).json({ message: "Server error during registration." });
   }
 };
@@ -61,35 +238,61 @@ const registerUser = async (req, res) => {
 // @route   POST /api/auth/login
 // @access  Public
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
-  // Initial validation
-  if (!email || !password) {
-    return res
-      .status(400)
-      .json({ message: "Please include both email and password." });
-  }
-
   try {
-    // 1. Find user by email
-    // NOTE: 'user' is declared and initialized successfully within the try block.
-    const user = await User.findOne({ email });
+    const { email, password } = req.body;
 
-    // 2. Check if the user exists AND if the password is correct
-    if (user && (await bcrypt.compare(password, user.password))) {
-      // 3. Success: Send back user data and a new token
+    // Validate email
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.isValid) {
+      return res.status(400).json({ 
+        message: emailValidation.error,
+        field: 'email'
+      });
+    }
+
+    // Basic password validation (not full strength check for login)
+    if (!password || typeof password !== 'string') {
+      return res.status(400).json({ 
+        message: "Password is required.",
+        field: 'password'
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ 
+        message: "Password must be at least 6 characters.",
+        field: 'password'
+      });
+    }
+
+    // Normalize email
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Find user by email
+    const user = await User.findOne({ email: normalizedEmail });
+
+    // Check if the user exists AND if the password is correct
+    if (user && user.password && (await bcrypt.compare(password, user.password))) {
+      // Success: Send back user data and a new token
       res.json({
         _id: user.id,
         name: user.name,
         email: user.email,
         token: generateToken(user._id),
       });
+    } else if (user && user.googleId && !user.password) {
+      // User exists but registered with Google
+      res.status(401).json({ 
+        message: "This account was created with Google. Please sign in with Google.",
+        field: 'email'
+      });
     } else {
-      // 4. Failure: User not found or password incorrect
-      res.status(401).json({ message: "Invalid credentials." });
+      // Failure: User not found or password incorrect
+      // Use generic message to prevent user enumeration
+      res.status(401).json({ message: "Invalid email or password." });
     }
   } catch (error) {
-    console.error(error);
+    console.error("Login error:", error);
     res.status(500).json({ message: "Server error during login." });
   }
 };
@@ -98,8 +301,76 @@ const loginUser = async (req, res) => {
 // @route   GET /api/auth/me
 // @access  Private
 const getMe = async (req, res) => {
-  // The 'protect' middleware ensures req.user is populated with the authenticated user's data
-  res.status(200).json(req.user);
+  try {
+    // The 'protect' middleware ensures req.user is populated with the authenticated user's data
+    if (!req.user) {
+      return res.status(401).json({ message: "Not authorized." });
+    }
+    
+    res.status(200).json({
+      _id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      avatar: req.user.avatar,
+    });
+  } catch (error) {
+    console.error("GetMe error:", error);
+    res.status(500).json({ message: "Server error." });
+  }
+};
+
+// @desc    Update user profile (name, avatar)
+// @route   PUT /api/auth/profile
+// @access  Private
+const updateProfile = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Not authorized." });
+    }
+
+    const { name, avatar } = req.body;
+    const updates = {};
+
+    // Validate and add name if provided
+    if (name !== undefined) {
+      const nameValidation = validateName(name);
+      if (!nameValidation.isValid) {
+        return res.status(400).json({ 
+          message: nameValidation.error,
+          field: 'name'
+        });
+      }
+      updates.name = sanitizeInput(name.trim());
+    }
+
+    // Add avatar if provided (can be empty string to remove)
+    if (avatar !== undefined) {
+      // Avatar can be a base64 string or empty to remove
+      updates.avatar = avatar || null;
+    }
+
+    // Update user in database
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      updates,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      avatar: updatedUser.avatar,
+      token: generateToken(updatedUser._id),
+    });
+  } catch (error) {
+    console.error("Update profile error:", error);
+    res.status(500).json({ message: "Server error during profile update." });
+  }
 };
 
 // Export the functions
@@ -107,5 +378,6 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
+  updateProfile,
   generateToken,
 };

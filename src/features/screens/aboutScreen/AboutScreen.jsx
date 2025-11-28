@@ -1,16 +1,15 @@
 import React from "react";
-import AboutHero from "../../about/components/AboutHero";
-import AboutStats from "../../about/components/AboutStats";
-import AboutFeatures from "../../about/components/AboutFeatures";
-import Reviews from '../../reviews/components/Reviews';
+import AboutHero from "../../about/components/AboutHero/AboutHero";
+import AboutStats from "../../about/components/AboutStats/AboutStats";
+import AboutFeatures from "../../about/components/AboutFeatures/AboutFeatures";
+import Reviews from '../../reviews/components/Reviews/Reviews';
 
 const AboutPage = () => {
   return (
-    <div>
+    <div className="AboutPage">
       <AboutHero />
       <AboutStats />
       <AboutFeatures />
-    <div className="AboutPage">
 <br />
 <br />
 <br />

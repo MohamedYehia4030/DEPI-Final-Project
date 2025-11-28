@@ -6,8 +6,8 @@ import { tours, services } from '../../packages/api/data.js';
 
 import './PackageScreen.module.css';
 
-import PackageCard from '../../packages/components/PackageCard.jsx';
-import PackageServices from '../../packages/components/PackageServices.jsx';
+import PackageCard from '../../packages/components/PackageCard/PackageCard.jsx';
+import PackageServices from '../../packages/components/PackageServices/PackageServices.jsx';
 
 // Shared components
 import BikeBookingForm from '../../../components/BikeBookingForm/BikeBookingForm.jsx';

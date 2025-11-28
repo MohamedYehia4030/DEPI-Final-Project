@@ -1,0 +1,105 @@
+{
+  "title": "My Dashboard",
+  "welcome": "Welcome back",
+  "overview": "Overview",
+  "myBookings": "My Bookings",
+  "profileNav": "Profile",
+  "settingsNav": "Settings",
+  "logout": "Logout",
+  "tourPackages": "Tour Packages",
+  "readMore": "Read More",
+  
+  "tickets": {
+    "title": "My Tickets",
+    "tourName": "Tour Name",
+    "paymentMethod": "Payment Method",
+    "price": "Price",
+    "noTickets": "You don't have any tickets yet",
+    "actions": "Actions",
+    "viewDetails": "View Details",
+    "download": "Download",
+    "cancel": "Cancel Booking",
+    "refNumber": "Reference",
+    "date": "Date",
+    "time": "Time",
+    "traveler": "Traveler",
+    "guests": "Guests",
+    "totalPaid": "Total Paid",
+    "status": {
+      "label": "Status",
+      "upcoming": "Upcoming",
+      "ended": "Ended",
+      "cancelled": "Cancelled"
+    },
+    "cancelModal": {
+      "title": "Cancel Booking",
+      "message": "Are you sure you want to cancel this booking?",
+      "warning": "This action cannot be undone. Refund may take 5-7 business days.",
+      "keep": "Keep Booking",
+      "confirm": "Yes, Cancel"
+    },
+    "detailsModal": {
+      "title": "Booking Details"
+    }
+  },
+  
+  "stats": {
+    "totalBookings": "Total Bookings",
+    "upcomingTrips": "Upcoming Trips",
+    "completedTrips": "Completed Trips",
+    "savedPackages": "Saved Packages"
+  },
+  
+  "bookings": {
+    "title": "Recent Bookings",
+    "viewAll": "View All",
+    "noBookings": "You don't have any bookings yet",
+    "status": {
+      "confirmed": "Confirmed",
+      "pending": "Pending",
+      "cancelled": "Cancelled",
+      "completed": "Completed"
+    },
+    "date": "Date",
+    "package": "Package",
+    "travelers": "Travelers",
+    "total": "Total",
+    "actions": "Actions",
+    "viewDetails": "View Details",
+    "cancelBooking": "Cancel",
+    "downloadTicket": "Download"
+  },
+  
+  "profile": {
+    "title": "Profile Information",
+    "personalInfo": "Personal Information",
+    "name": "Full Name",
+    "namePlaceholder": "Enter your name",
+    "email": "Email Address",
+    "emailHint": "Email cannot be changed",
+    "phone": "Phone Number",
+    "address": "Address",
+    "changePhoto": "Click to change photo",
+    "removePhoto": "Remove photo",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "updatePassword": "Update Password"
+  },
+  
+  "settings": {
+    "title": "Settings",
+    "notifications": "Notifications",
+    "emailNotifications": "Email Notifications",
+    "smsNotifications": "SMS Notifications",
+    "language": "Language",
+    "theme": "Theme",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "deleteAccount": "Delete Account",
+    "deleteWarning": "This action cannot be undone"
+  }
+}

@@ -30,7 +30,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #999;
+  color: var(--color-icon-muted);
   transition: color 0.2s;
   padding: 5px;
   z-index: 2002;

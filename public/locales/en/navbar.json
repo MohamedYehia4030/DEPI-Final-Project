@@ -6,5 +6,11 @@
   "login": "Login",
   "signup": "Sign Up",
   "langEn": "English (EN)",
-  "langAr": "Arabic (AR)"
+  "langAr": "Arabic (AR)",
+  "userMenu": {
+    "myCart": "My Cart",
+    "payments": "Payments",
+    "projects": "Projects",
+    "logout": "Logout"
+  }
 }

@@ -1,10 +1,66 @@
 {
   "title": "Book Our Best Bikes",
+  "subtitle": "Choose from our premium selection of bikes for your adventure",
   "form": {
     "name": "Name and Surname",
     "email": "Email Address",
     "phone": "Telephone Number",
     "service": "Service Type",
-    "button": "Book Now"
+    "button": "Book Now",
+    "pickupDate": "Pickup Date",
+    "pickupTime": "Pickup Time",
+    "returnDate": "Return Date",
+    "pickupLocation": "Pickup Location",
+    "returnLocation": "Return Location",
+    "bikeType": "Bike Type",
+    "quantity": "Number of Bikes",
+    "accessories": "Accessories",
+    "specialRequests": "Special Requests",
+    "termsAccept": "I accept the terms and conditions"
+  },
+  "bikeTypes": {
+    "city": "City Bike",
+    "mountain": "Mountain Bike",
+    "electric": "Electric Bike",
+    "road": "Road Bike",
+    "hybrid": "Hybrid Bike",
+    "tandem": "Tandem Bike"
+  },
+  "accessories": {
+    "helmet": "Helmet",
+    "lock": "Bike Lock",
+    "basket": "Basket",
+    "childSeat": "Child Seat",
+    "gps": "GPS Device",
+    "repairKit": "Repair Kit"
+  },
+  "pricing": {
+    "hourly": "Hourly Rate",
+    "daily": "Daily Rate",
+    "weekly": "Weekly Rate",
+    "deposit": "Security Deposit",
+    "total": "Total Price"
+  },
+  "locations": {
+    "mainOffice": "Main Office - City Center",
+    "trainStation": "Train Station",
+    "airport": "Airport",
+    "hotel": "Hotel Delivery"
+  },
+  "messages": {
+    "success": "Your bike has been booked successfully!",
+    "error": "There was an error processing your booking. Please try again.",
+    "confirmation": "A confirmation email has been sent to your address.",
+    "availability": "Checking availability...",
+    "notAvailable": "Sorry, this bike is not available for the selected dates."
+  },
+  "summary": {
+    "title": "Booking Summary",
+    "duration": "Rental Duration",
+    "selectedBike": "Selected Bike",
+    "selectedAccessories": "Selected Accessories",
+    "subtotal": "Subtotal",
+    "taxes": "Taxes & Fees",
+    "grandTotal": "Grand Total"
   }
 }

@@ -102,10 +102,39 @@
 }
 
 .copyright {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
   text-align: center;
   color: var(--muted);
   padding: 14px 0 0 0;
   font-size: 13px;
+}
+
+.copyright p {
+  margin: 0;
+}
+
+.copyrightLinks {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.copyrightLinks a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.copyrightLinks a:hover {
+  color: var(--footer-text);
+  text-decoration: underline;
+}
+
+.copyrightLinks span {
+  opacity: 0.5;
 }
 
 /* Responsive */

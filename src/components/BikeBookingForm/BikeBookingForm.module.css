@@ -25,6 +25,71 @@ label{
   text-align:center;
 }
 
+/* Date and Time Input Styling */
+.formBox :global(.form-control) {
+  background-color: var(--color-input-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.formBox :global(.form-control):focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(11, 61, 94, 0.1);
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+}
+
+.formBox :global(.form-control)::placeholder {
+  color: var(--color-placeholder);
+}
+
+/* Date Input Specific Styles */
+.formBox :global(.form-control[type="date"]),
+.formBox :global(.form-control[type="time"]) {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+  padding: 0.75rem 1rem;
+  min-height: 48px;
+  cursor: pointer;
+}
+
+/* Calendar and clock icon styling */
+.formBox :global(.form-control[type="date"])::-webkit-calendar-picker-indicator,
+.formBox :global(.form-control[type="time"])::-webkit-calendar-picker-indicator {
+  background-color: var(--color-primary);
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  filter: invert(1);
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.formBox :global(.form-control[type="date"])::-webkit-calendar-picker-indicator:hover,
+.formBox :global(.form-control[type="time"])::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  background-color: var(--color-primary-accent-hover);
+}
+
+/* Dark mode adjustments for date/time inputs */
+html[data-theme="dark"] .formBox :global(.form-control[type="date"]),
+html[data-theme="dark"] .formBox :global(.form-control[type="time"]) {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] .formBox :global(.form-control[type="date"])::-webkit-calendar-picker-indicator,
+html[data-theme="dark"] .formBox :global(.form-control[type="time"])::-webkit-calendar-picker-indicator {
+  filter: invert(0);
+  background-color: var(--color-primary);
+}
+
 .submitBtn {
   /* Use your theme's primary accent colors */
   background-color: var(--color-primary-accent);

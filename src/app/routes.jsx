@@ -6,16 +6,15 @@ import ContactPage from '../features/screens/contactScreen/ContactScreen';
 import PackagesPage from '../features/screens/packageScreen/PackagesScreen';
 import SearchPage from '../features/screens/searchScreen/SearchScreen';
 import DashboardPage from '../features/screens/dashboardScreen/DashboardScreen';
-import BookingPage from '../features/screens/bookingScreen/BookingScreen';
+import BookingScreen from '../features/screens/bookingScreen/BookingScreen';
 import AuthPage from '../features/screens/authScreen/AuthScreen';
-import NotFoundPage from '../features/shared/NotFoundPage/NotFoundScreen';
-import ErrorPage from '../features/shared/Error/ErrorScreen';
-import FAQPage from '../features/shared/FAQ/FAQScreen';
-import PrivacyPolicyPage from '../features/shared/PrivacyPolicy/PrivacyPolicyScreen';
-import TermsOfServicePage from '../features/shared/TermsOfService/TermsOfServiceScreen';
-import PackageDetails from '../features/packages/components/PackageDetails';
-import AuthCallback from '../features/auth/components/AuthCallback';
-import Booking from "../components/Booking";
+import NotFoundPage from '../features/screens/shared/NotFoundPage/NotFoundScreen';
+import ErrorPage from '../features/screens/shared/Error/ErrorScreen';
+import FAQPage from '../features/screens/shared/FAQ/FAQScreen';
+import PrivacyPolicyPage from '../features/screens/shared/PrivacyPolicy/PrivacyPolicyScreen';
+import TermsOfServicePage from '../features/screens/shared/TermsOfService/TermsOfServiceScreen';
+import PackageDetails from '../features/packages/components/PackageDetails/PackageDetails';
+import AuthCallback from '../features/auth/components/AuthCallback/AuthCallback';
 
 const AppRoutes = () => {
   return (
@@ -27,12 +26,13 @@ const AppRoutes = () => {
       <Route path="/packages" element={<PackagesPage />} />
       <Route path="/packages/:id" element={<PackageDetails />} />
       <Route path="/dashboard" element={<DashboardPage />} />
-      <Route path="/bookingPage" element={<BookingPage />} />
-      <Route path="/booking" element={<Booking />} />
+      <Route path="/booking" element={<BookingScreen />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/login" element={<AuthPage />} />
       <Route path="/faq" element={<FAQPage />} />
+      <Route path="/privacy" element={<PrivacyPolicyPage />} />
       <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+      <Route path="/terms" element={<TermsOfServicePage />} />
       <Route path="/terms-of-service" element={<TermsOfServicePage />} />
       <Route path="/error" element={<ErrorPage />} />
       <Route path="*" element={<NotFoundPage />} />

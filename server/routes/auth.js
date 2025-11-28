@@ -5,7 +5,8 @@ const {
   registerUser,
   loginUser,
   getMe,
-  generateToken, // ⬅️ FIX: Import the helper function here
+  updateProfile,
+  generateToken,
 } = require("../controllers/authController");
 const passport = require("passport"); 
 
@@ -24,9 +25,10 @@ router.get(
   (req, res) => {
     // Generate JWT to send back to client
     const token = generateToken(req.user._id);
+    const avatar = req.user.avatar ? encodeURIComponent(req.user.avatar) : '';
 
     res.redirect(
-      `http://localhost:5173/auth/callback?token=${token}&name=${req.user.name}&email=${req.user.email}`
+      `http://localhost:5173/auth/callback?token=${token}&name=${req.user.name}&email=${req.user.email}&avatar=${avatar}`
     );
   }
 );
@@ -36,5 +38,6 @@ router.get(
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/me", protect, getMe);
+router.put("/profile", protect, updateProfile);
 
 module.exports = router;

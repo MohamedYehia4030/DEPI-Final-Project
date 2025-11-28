@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Row, Col, Form, Image } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
@@ -6,10 +6,13 @@ import styles from './BikeBookingForm.module.css';
 import { motion } from 'framer-motion';
 import bikeImage from '../../assets/images/Common/bike.png'; 
 import Button from '../Button/Button'; 
+import DateTimePicker from '../DateTimePicker/DateTimePicker';
 
 const BikeBookingForm = () => {
   const { t } = useTranslation('bikeBooking');
   const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
 
   const handleBooking = () => {
     navigate("/booking");
@@ -28,44 +31,56 @@ const BikeBookingForm = () => {
             transition={{ duration: 0.6 }}
           >
             <div className='title'>
-              <h3 className="fw-bold mb-4 text-center">{t('Book Now Bike')}</h3>
+              <h3 className="fw-bold mb-4 text-center">{t('title')}</h3>
             </div>
 
             <div className={styles.formBox}>
               <Form className="row g-3">
                 <Col md={6}>
-                  <label>Name and Surname</label>
-                  <Form.Control type="text" placeholder={t('Enter your name and surname')} />
+                  <label>{t('form.name')}</label>
+                  <Form.Control type="text" placeholder={t('form.name')} />
                 </Col>
 
                 <Col md={6}>
-                  <label>Email Address</label>
-                  <Form.Control type="email" placeholder={t('Enter your email address')} />
+                  <label>{t('form.email')}</label>
+                  <Form.Control type="email" placeholder={t('form.email')} />
                 </Col>
 
                 <Col md={6}>
-                  <label>Telephone Number</label>
-                  <Form.Control type="tel" placeholder={t('Enter your telephone number')} />
+                  <label>{t('form.phone')}</label>
+                  <Form.Control type="tel" placeholder={t('form.phone')} />
                 </Col>
 
                 <Col md={6}>
-                  <label>Service Type</label>
-                  <Form.Control type="text" placeholder={t('select the service type')} />
+                  <label>{t('form.service')}</label>
+                  <Form.Control type="text" placeholder={t('form.service')} />
                 </Col>
 
                 <Col md={6}>
-                  <label>Date</label>
-                  <Form.Control type="date" placeholder={t('select the date')} />
+                  <label>{t('form.pickupDate')}</label>
+                  <DateTimePicker
+                    mode="date"
+                    selected={selectedDate}
+                    onChange={setSelectedDate}
+                    placeholder={t('form.pickupDate')}
+                    minDate={new Date()}
+                  />
                 </Col>
 
                 <Col md={6}>
-                  <label>Time</label>
-                  <Form.Control type="time" placeholder={t('select the time')} />
+                  <label>{t('form.pickupTime', 'Time')}</label>
+                  <DateTimePicker
+                    mode="time"
+                    selected={selectedTime}
+                    onChange={setSelectedTime}
+                    placeholder={t('form.pickupTime', 'Time')}
+                    timeIntervals={30}
+                  />
                 </Col>
 
                 <Col md={12}>
                   <Button size="book" onClick={handleBooking}>
-                    Book Now
+                    {t('form.button')}
                   </Button>
                 </Col>
               </Form>

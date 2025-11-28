@@ -52,7 +52,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--color-glass-bg);
   z-index: 9999;
 }
 
@@ -63,6 +63,22 @@
 .message {
   font-size: 0.9rem;
   color: var(--color-text);
+}
+
+/* Inline variant for buttons */
+.inline {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.inline .spinner {
+  flex-shrink: 0;
+}
+
+.inline .message {
+  font-size: inherit;
+  color: inherit;
 }
 
 @keyframes spin {

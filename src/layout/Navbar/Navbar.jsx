@@ -7,9 +7,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggler from "../../components/ThemeToggler/ThemeToggler";
 import { useTranslation } from "react-i18next";
 import useMediaQuery from "../../hooks/useMediaQuery";
-import useAppStore from "../../store/useAppStore";
+import useAppStore from "../../store/auth/useAppStore";
+import { useAuthStore } from "../../store/auth/useAuthStore";
 import Button from "../../components/Button/Button";
-import UserAccountButton from "../../features/auth/components/UserAccountButton";
+import UserAccountButton from "../../features/auth/components/UserAccountButton/UserAccountButton";
 
 const dropdownVariants = {
   hidden: { opacity: 0, y: -10, scale: 0.95 },
@@ -20,6 +21,7 @@ const dropdownVariants = {
 const Navbar = () => {
   const { t, i18n } = useTranslation("navbar");
   const { openAuthModal } = useAppStore();
+  const user = useAuthStore((state) => state.user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState(
@@ -188,21 +190,26 @@ const Navbar = () => {
             )}
           </AnimatePresence>
         </div>
-        <Link
-          className={styles.loginLink}
-          onClick={() => {
-            openAuthModal("login"); // 1. Open modal to Login view
-            closeMenu(); // 2. Close mobile menu if open
-          }}
-        >
-          {t("login")}
-        </Link>
-        <Button variant="primary" size="small" onClick={() => {
-            openAuthModal("register"); // 1. Open modal to register view
-            closeMenu(); // 2. Close mobile menu if open
-          }}> {t("signup")} </Button>
+        {!user ? (
+          <>
+            <Link
+              className={styles.loginLink}
+              onClick={() => {
+                openAuthModal("login");
+                closeMenu();
+              }}
+            >
+              {t("login")}
+            </Link>
+            <Button variant="primary" size="small" onClick={() => {
+                openAuthModal("register");
+                closeMenu();
+              }}> {t("signup")} </Button>
+          </>
+        ) : (
+          <UserAccountButton />
+        )}
         <ThemeToggler />
-        <UserAccountButton/>
       </div>
     </>
   );

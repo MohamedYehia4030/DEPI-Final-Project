@@ -1,6 +1,6 @@
 import React from "react";
-import ContactInfo from "../../contact/components/ContactInfo";
-import ContactForm from "../../contact/components/ContactForm";
+import ContactInfo from "../../contact/components/ContactInfo/ContactInfo";
+import ContactForm from "../../contact/components/ContactForm/ContactForm";
 import map from '../../../assets/images/Contact/Contact Map.png';
 import AvatarMap from '../../../assets/images/Contact/Avatar.png';
 import styles from './ContactScreen.module.css';

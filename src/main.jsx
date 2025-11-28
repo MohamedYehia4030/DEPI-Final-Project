@@ -5,6 +5,7 @@ import App from './app/App';
 import Loader from './components/Loader/Loader';
 import './lib/i18n/i18n';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import './styles/globals.css';
 
 // Set theme before React renders to avoid flash of wrong theme

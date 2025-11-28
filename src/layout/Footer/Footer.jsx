@@ -1,77 +1,85 @@
 // src/components/Footer/Footer.jsx
 
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styles from './Footer.module.css';
 import { FaTwitter, FaFacebookF, FaInstagram } from 'react-icons/fa';
-import { FiMapPin, FiPhone, FiMail } from 'react-icons/fi'; // Import icons for contact
+import { FiMapPin, FiPhone, FiMail } from 'react-icons/fi';
 
 export default function Footer() {
+  const { t } = useTranslation('footer');
+
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.grid}>
           {/* --- Services Column --- */}
           <div className={styles.col}>
-            <h5>Services</h5>
+            <h5>{t('services')}</h5>
             <ul>
-              <li><a href="/services/bike-rickshaw">Bike and Rickshaw rental</a></li>
-              <li><a href="/services/guided-tours">Guided Tours of Lucca</a></li>
-              <li><a href="/services/bike-tour">Guided Bike Tour of Lucca</a></li>
-              <li><a href="/services/tuscan-hills">Trip In The Tuscan Hills</a></li>
-              <li><a href="/services/transportation">Transportation With Luxury Cars</a></li>
-              <li><a href="/services/wine-tours">Wine Tours By Bus With Guide</a></li>
+              <li><Link to="/services/bike-rickshaw">{t('bikeRickshaw')}</Link></li>
+              <li><Link to="/services/guided-tours">{t('guidedTours')}</Link></li>
+              <li><Link to="/services/bike-tour">{t('bikeTour')}</Link></li>
+              <li><Link to="/services/tuscan-hills">{t('tuscanHills')}</Link></li>
+              <li><Link to="/services/transportation">{t('transportation')}</Link></li>
+              <li><Link to="/services/wine-tours">{t('wineTours')}</Link></li>
             </ul>
           </div>
 
           {/* --- Home Column --- */}
           <div className={styles.col}>
-            <h5>Home</h5>
+            <h5>{t('navigation')}</h5>
             <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/about">About Us</a></li>
-              <li><a href="/packages">Tour Packages</a></li>
+              <li><Link to="/">{t('home')}</Link></li>
+              <li><Link to="/about">{t('aboutUs')}</Link></li>
+              <li><Link to="/packages">{t('tourPackages')}</Link></li>
+              <li><Link to="/contact">{t('contactUs')}</Link></li>
+              <li><Link to="/faq">{t('faq')}</Link></li>
             </ul>
           </div>
 
           {/* --- Help Column --- */}
           <div className={styles.col}>
-            <h5>Help</h5>
+            <h5>{t('help')}</h5>
             <ul>
-              <li><a href="/terms">Terms of Use</a></li>
-              <li><a href="/privacy">Privacy Policy</a></li>
+              <li><Link to="/terms">{t('termsOfUse')}</Link></li>
+              <li><Link to="/privacy">{t('privacyPolicy')}</Link></li>
+              <li><Link to="/faq">{t('faq')}</Link></li>
+              <li><Link to="/contact">{t('support')}</Link></li>
             </ul>
           </div>
 
           {/* --- Contacts Column --- */}
           <div className={`${styles.col} ${styles.colContact}`}>
-            <h5>Contacts</h5>
+            <h5>{t('contacts')}</h5>
             <ul className={styles.contactList}>
               <li>
                 <span className={styles.contactIcon}><FiMapPin size={16} /></span>
-                Piazza Napoleone, Lucca, Tuscany
+                {t('address')}
               </li>
               <li>
                 <span className={styles.contactIcon}><FiPhone size={16} /></span>
-                <a href="tel:+393463685708">+39 346 368 5708</a>
+                <a href="tel:+393463685708">{t('phone')}</a>
               </li>
               <li>
                 <span className={styles.contactIcon}><FiMail size={16} /></span>
-                <a href="mailto:italianlimo@gmail.com">italianlimo@gmail.com</a>
+                <a href="mailto:italianlimo@gmail.com">{t('email')}</a>
               </li>
             </ul>
           </div>
 
           {/* --- Social Media Column --- */}
           <div className={styles.col}>
-            <h5>Social Media</h5>
+            <h5>{t('socialMedia')}</h5>
             <div className={styles.socials}>
-              <a className={styles.socialBtn} href="#" aria-label="twitter">
+              <a className={styles.socialBtn} href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="twitter">
                 <FaTwitter />
               </a>
-              <a className={styles.socialBtn} href="#" aria-label="facebook">
+              <a className={styles.socialBtn} href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="facebook">
                 <FaFacebookF />
               </a>
-              <a className={styles.socialBtn} href="#" aria-label="instagram">
+              <a className={styles.socialBtn} href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="instagram">
                 <FaInstagram />
               </a>
             </div>
@@ -81,7 +89,14 @@ export default function Footer() {
         <div className={styles.divider} />
 
         <div className={styles.copyright}>
-          <p>Copyright © 2025. All rights reserved.</p>
+          <p>{t('copyright')}</p>
+          <div className={styles.copyrightLinks}>
+            <Link to="/privacy">{t('privacy')}</Link>
+            <span>•</span>
+            <Link to="/terms">{t('terms')}</Link>
+            <span>•</span>
+            <Link to="/faq">{t('faq')}</Link>
+          </div>
         </div>
       </div>
     </footer>
