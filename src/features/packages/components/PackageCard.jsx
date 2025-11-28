@@ -18,6 +18,12 @@ const cardVariants = {
   })
 };
 
+const truncateWords = (text, limit) => {
+  const words = text.split(" ");
+  if (words.length <= limit) return text;
+  return words.slice(0, limit).join(" ") + "...";
+};
+
 const PackageCard = ({ tour, index }) => {
   const { t, i18n } = useTranslation(['packages', 'common']);
   const tourUrl = `/packages/${tour.id}`;
@@ -37,36 +43,34 @@ const PackageCard = ({ tour, index }) => {
       viewport={{ once: true, amount: 0.1 }}
       custom={index}
     >
-      <Card className={styles.packageCard}>
-        <Card.Img
+      <div className={styles.packageCard}>
+        <div>
+        <img
           variant="top"
           src={tour.img}
           alt={t(tour.titleKey)}
           className={styles.cardImage}
         />
-        <Card.Body className={styles.cardBody}>
-          <Card.Title className={styles.cardTitle}>{t(tour.titleKey)}</Card.Title>
-          <p className={styles.cardPrice}>
-            {t('packages:priceFrom')} <span className="fw-bold ">{tour.price}</span>
+        </div>
+        <div className={styles.cardBody}>
+          <h2 className={styles.cardTitle}>{t(tour.titleKey)}</h2>
+          <p >
+            {t('packages:priceFrom')} <span className={styles.cardPrice}>{tour.price}</span>
           </p>
 
           <div className={styles.iconRow}>
-            <span className={styles.iconItem}>
-              <FiClock /> {tour.duration}
-            </span>
-            <span className={styles.iconItem}>
-              <FiUsers /> {t(tour.groupKey)}
-            </span>
-            <span className={styles.iconItem}>
-              <FiStar /> {tour.rating}
-            </span>
+            <span className={styles.iconItem}><FiClock /> {tour.duration}</span>
+            <span className={styles.iconItem}><FiUsers /> {t(tour.groupKey)}</span>
+            {/* <span className={styles.iconItem}><FiStar /> {tour.rating}</span> */}
           </div>
+
+          <p>{truncateWords(tour.desc, 12)}</p>
 
           <Link to={tourUrl} className={styles.readMore}>
             {t('common:readMore')} {arrow}
           </Link>
-        </Card.Body>
-      </Card>
+        </div>
+      </div>
     </Col>
   );
 };

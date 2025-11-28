@@ -18,6 +18,7 @@ const AboutPage = () => {
 <br />
     <Reviews /> 
     </div>
+    </div>
   );
 };
 

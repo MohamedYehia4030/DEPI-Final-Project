@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import styles from "./PackageDetails.module.css";
 import Button from '../../../components/Button/Button'; 
 import { Col, Form } from 'react-bootstrap';
+import Reviews from '../../reviews/components/Reviews';
 
 
 export default function PackageDetails() {
@@ -149,6 +150,7 @@ export default function PackageDetails() {
       </div>
 
       <PackageGallery galleryImages={packageData.gallery} />
+      <Reviews/>
     </div>
   );
 }
