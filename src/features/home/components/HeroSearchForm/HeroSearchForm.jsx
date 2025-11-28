@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { FiUsers, FiCalendar, FiClock, FiFlag, FiTruck, FiSearch, FiGlobe } from 'react-icons/fi';
 import { HiUsers } from 'react-icons/hi';
 import { FaChevronDown } from 'react-icons/fa';
@@ -14,19 +15,19 @@ const peopleOptions = [
 ];
 
 const tourOptions = [
-  { value: 'lucca_bike', label: 'tour_lucca_bike' },
-  { value: 'book_bike', label: 'tour_book_bike' },
-  { value: 'outside_lucca', label: 'tour_outside_lucca' },
-  { value: 'wine_tasting', label: 'tour_wine_tasting' },
-  { value: 'cinque_terre', label: 'tour_cinque_terre' },
-  { value: 'siena', label: 'tour_siena' },
-  { value: 'pisa_lucca', label: 'tour_pisa_lucca' },
+  { value: 'lucca_bike', label: 'tour_lucca_bike', searchTerm: 'Lucca Bike' },
+  { value: 'book_bike', label: 'tour_book_bike', searchTerm: 'Bike' },
+  { value: 'outside_lucca', label: 'tour_outside_lucca', searchTerm: 'Lucca Hills' },
+  { value: 'wine_tasting', label: 'tour_wine_tasting', searchTerm: 'Wine' },
+  { value: 'cinque_terre', label: 'tour_cinque_terre', searchTerm: 'Cinque Terre' },
+  { value: 'siena', label: 'tour_siena', searchTerm: 'Siena' },
+  { value: 'pisa_lucca', label: 'tour_pisa_lucca', searchTerm: 'Pisa' },
 ];
 
 const transportationOptions = [
-  { value: 'minivan_bus', label: 'trans_minivan_bus' },
-  { value: 'transfers_ncc', label: 'trans_transfers_ncc' },
-  { value: 'luxury_exp', label: 'trans_luxury_exp' },
+  { value: 'minivan_bus', label: 'trans_minivan_bus', searchTerm: 'Coach' },
+  { value: 'transfers_ncc', label: 'trans_transfers_ncc', searchTerm: 'Tour' },
+  { value: 'luxury_exp', label: 'trans_luxury_exp', searchTerm: 'Luxury' },
 ];
 
 const CalendarMock = ({ onSelectDate, selectedDate, onClose }) => {
@@ -132,6 +133,7 @@ const TimePickerMock = ({ onSelectTime, selectedTime }) => {
 
 function HeroSearchForm() {
   const { t } = useTranslation('home');
+  const navigate = useNavigate();
   const [tourType, setTourType] = useState('public');
   const [formData, setFormData] = useState({
     numberOfPeople: '',
@@ -164,7 +166,38 @@ function HeroSearchForm() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log('Search:', { tourType, ...formData });
+    
+    // Build search query from selected options
+    const searchParams = new URLSearchParams();
+    
+    // Get search term from selected tour
+    if (formData.tour) {
+      const selectedTour = tourOptions.find(opt => opt.value === formData.tour);
+      if (selectedTour?.searchTerm) {
+        searchParams.set('q', selectedTour.searchTerm);
+      }
+    }
+    
+    // Add other filters as URL params
+    if (formData.numberOfPeople) {
+      searchParams.set('people', formData.numberOfPeople);
+    }
+    if (formData.date) {
+      searchParams.set('date', formData.date);
+    }
+    if (formData.time) {
+      searchParams.set('time', formData.time);
+    }
+    if (formData.transportation) {
+      const selectedTransport = transportationOptions.find(opt => opt.value === formData.transportation);
+      if (selectedTransport?.searchTerm) {
+        searchParams.set('transport', selectedTransport.searchTerm);
+      }
+    }
+    searchParams.set('tourType', tourType);
+    
+    // Navigate to search page with params
+    navigate(`/search?${searchParams.toString()}`);
   };
 
   const getDisplayValue = (fieldName, options = []) => {

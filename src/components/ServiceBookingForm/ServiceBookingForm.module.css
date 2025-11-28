@@ -9,12 +9,19 @@
   font-size: 2rem;
   font-weight: 700;
   color: #1a3a4a;
+  margin-bottom: 0.5rem;
+}
+
+.sectionSubtitle {
+  text-align: center;
+  font-size: 1rem;
+  color: #64748b;
   margin-bottom: 2.5rem;
 }
 
 .contentWrapper {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   gap: 2rem;
   max-width: 1200px;
@@ -30,6 +37,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   padding: 2.5rem 3rem;
   border-radius: 1.5rem;
+  height: 100%;
 }
 
 .formGrid {
@@ -42,6 +50,11 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  position: relative;
+}
+
+.formGroup.fullWidth {
+  grid-column: 1 / -1;
 }
 
 .label {
@@ -73,21 +86,19 @@
   box-shadow: 0 0 0 3px rgba(11, 61, 94, 0.1);
 }
 
-.selectWrapper {
-  position: relative;
+/* Error styles */
+.inputError {
+  border-color: #ef4444 !important;
 }
 
-.select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-  padding-right: 2.5rem;
-  color: #9ca3af;
+.inputError:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
 }
 
-.select:has(option:checked:not([value=""])) {
-  color: #1a3a4a;
+.errorMessage {
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
 }
 
 /* Custom Dropdown Styles */
@@ -152,12 +163,12 @@
   margin: 0;
   padding: 0.5rem 0;
   z-index: 100;
-  max-height: 200px;
+  max-height: 250px;
   overflow-y: auto;
 }
 
 .dropdownItem {
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   font-size: 0.95rem;
   color: #1a3a4a;
   cursor: pointer;
@@ -177,17 +188,7 @@
   background-color: #0a3350;
 }
 
-.selectIcon {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #9ca3af;
-  pointer-events: none;
-  font-size: 1.1rem;
-}
-
-/* DateTimePicker styling - component has built-in icons */
+/* DateTimePicker styling */
 .formGroup :global(.react-datepicker-wrapper) {
   width: 100%;
 }
@@ -223,17 +224,54 @@
   transform: translateY(0);
 }
 
+/* Image Container */
 .imageContainer {
-  flex: 0 1 500px;
+  flex: 0 1 450px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  background: linear-gradient(135deg, #1a3a4a 0%, #0b3d5e 100%);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  min-height: 450px;
 }
 
-.bikeImage {
-  max-width: 100%;
-  max-height: 450px;
-  object-fit: contain;
+.serviceImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.imageOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+}
+
+.serviceLabel {
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.imagePlaceholder {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a3a4a 0%, #0b3d5e 100%);
+}
+
+.imagePlaceholder::before {
+  content: '🎯';
+  font-size: 4rem;
 }
 
 /* Dark mode support */
@@ -243,6 +281,10 @@ html[data-theme="dark"] .bookingSection {
 
 html[data-theme="dark"] .sectionTitle {
   color: #f1f5f9;
+}
+
+html[data-theme="dark"] .sectionSubtitle {
+  color: #94a3b8;
 }
 
 html[data-theme="dark"] .formBox {
@@ -261,8 +303,7 @@ html[data-theme="dark"] .select {
   color: #f1f5f9;
 }
 
-html[data-theme="dark"] .input::placeholder,
-html[data-theme="dark"] .select {
+html[data-theme="dark"] .input::placeholder {
   color: #94a3b8;
 }
 
@@ -270,10 +311,6 @@ html[data-theme="dark"] .input:focus,
 html[data-theme="dark"] .select:focus {
   border-color: #60a5fa;
   box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
-}
-
-html[data-theme="dark"] .selectIcon {
-  color: #94a3b8;
 }
 
 /* Dark mode custom dropdown */
@@ -331,6 +368,10 @@ html[data-theme="dark"] .submitButton:hover {
   background-color: #2563eb;
 }
 
+html[data-theme="dark"] .imageContainer {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
   .contentWrapper {
@@ -346,11 +387,10 @@ html[data-theme="dark"] .submitButton:hover {
 
   .imageContainer {
     flex: 1;
+    width: 100%;
+    max-width: 650px;
+    min-height: 300px;
     order: -1;
-  }
-
-  .bikeImage {
-    max-height: 300px;
   }
 }
 
@@ -361,6 +401,9 @@ html[data-theme="dark"] .submitButton:hover {
 
   .sectionTitle {
     font-size: 1.75rem;
+  }
+
+  .sectionSubtitle {
     margin-bottom: 2rem;
   }
 
@@ -374,8 +417,12 @@ html[data-theme="dark"] .submitButton:hover {
     gap: 1rem;
   }
 
-  .bikeImage {
-    max-height: 250px;
+  .formGroup.fullWidth {
+    grid-column: 1;
+  }
+
+  .imageContainer {
+    min-height: 250px;
   }
 }
 
@@ -398,7 +445,7 @@ html[data-theme="dark"] .submitButton:hover {
     padding: 0.875rem 2rem;
   }
 
-  .bikeImage {
-    max-height: 200px;
+  .imageContainer {
+    min-height: 200px;
   }
 }

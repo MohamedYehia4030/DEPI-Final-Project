@@ -10,7 +10,7 @@ import PackageCard from '../../packages/components/PackageCard/PackageCard.jsx';
 import PackageServices from '../../packages/components/PackageServices/PackageServices.jsx';
 
 // Shared components
-import BikeBookingForm from '../../../components/BikeBookingForm/BikeBookingForm.jsx';
+import ServiceBookingForm from '../../../components/ServiceBookingForm/ServiceBookingForm.jsx';
 
 const PackagesPage = () => {
   const { t } = useTranslation(['packages', 'common', 'home']);
@@ -31,8 +31,8 @@ const PackagesPage = () => {
       {/* Services Section */}
       <PackageServices services={services} />
 
-      {/* Booking Form */}
-      <BikeBookingForm />
+      {/* Service Booking Form */}
+      <ServiceBookingForm />
 
 
     </div>

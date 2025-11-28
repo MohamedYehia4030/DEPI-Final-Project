@@ -31,5 +31,15 @@
     "halfDay": "نصف يوم",
     "fullDay": "يوم كامل",
     "multiDay": "عدة أيام"
-  }
+  },
+  "date": "التاريخ",
+  "time": "الوقت",
+  "flexible": "مرن",
+  "transportation": "النقل",
+  "included": "متضمن",
+  "perPerson": "شخص",
+  "viewTour": "عرض الجولة",
+  "activeFilters": "معايير البحث الخاصة بك",
+  "clearAll": "مسح الكل",
+  "tour": "جولة"
 }

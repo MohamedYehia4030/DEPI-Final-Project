@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import styles from './PackageServices.module.css';
 import { motion } from 'framer-motion';
@@ -16,8 +17,19 @@ const cardVariants = {
   })
 };
 
+// Service slugs mapping
+const serviceSlugs = [
+  'bike-rickshaw',
+  'guided-tours',
+  'tuscan-hills',
+  'coach-trips',
+  'luxury-cars',
+  'wine-tours'
+];
+
 const PackageServices = ({ services }) => {
-  const { t, i18n } = useTranslation(['packages', 'shared:common']);
+  const { t, i18n } = useTranslation(['packages', 'common']);
+  
   // Arrow direction adapts to language direction
   const arrow = i18n.dir() === 'rtl' ? '←' : '→';
 
@@ -44,12 +56,17 @@ const PackageServices = ({ services }) => {
                 alt={t(service.titleKey)}
                 className={styles.cardImage}
               />
-              <Card.Body>
+              <Card.Body className={styles.cardBody}>
                 <Card.Title className="fw-semibold">{t(service.titleKey)}</Card.Title>
                 <Card.Text>{t(service.descKey)}</Card.Text>
-                <span className={styles.readMore}>
-                  {t('common:readMore')} {arrow}
-                </span>
+                <div className={styles.cardActions}>
+                  <Link 
+                    to={`/services/${serviceSlugs[i]}`} 
+                    className={styles.readMore}
+                  >
+                    {t('common:readMore')} {arrow}
+                  </Link>
+                </div>
               </Card.Body>
             </Card>
           </Col>

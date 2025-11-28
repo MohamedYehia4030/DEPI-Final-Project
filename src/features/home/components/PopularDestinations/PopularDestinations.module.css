@@ -171,92 +171,6 @@
   max-height: 30px;
 }
 
-/* --- Welcome Section Styles (Kept as provided) --- */
-.travel-welcome-section {
-  margin-top: 60px;
-  display: flex;
-  align-items: center;
-  gap: 40px;
-}
-
-.travel-welcome-image-area {
-  flex: 0 0 35%;
-  display: flex;
-  justify-content: center;
-}
-
-.travel-welcome-image-placeholder {
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background-color: #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 5px solid var(--color-white);
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.travel-welcome-image-placeholder img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.travel-welcome-content {
-  flex: 0 0 65%;
-}
-
-.travel-welcome-subtitle {
-  font-size: 12px;
-  color: var(--color-icon-muted);
-  margin-bottom: 5px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.travel-welcome-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: var(--color-dark-blue);
-}
-
-.travel-welcome-description {
-  color: var(--color-text-light);
-  line-height: 1.6;
-  margin-bottom: 30px;
-  font-size: 15px;
-}
-
-.travel-stats-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 30px;
-  flex-wrap: nowrap;
-}
-
-.travel-stat-item {
-  text-align: center;
-  flex: 0 1 23%;
-  min-width: 80px;
-}
-
-.travel-stat-number {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--color-dark-blue);
-}
-
-.travel-stat-label {
-  color: var(--color-meta-text);
-  font-size: 13px;
-  margin-top: 2px;
-}
-
 /* --- Responsive Design (4, 3, 2, 1 card layout) --- */
 @media (min-width: 1200px) {
   /* To ensure 4 cards are visually spaced correctly within the 1200px container */
@@ -297,27 +211,6 @@
     width: 90vw; /* Slider handles 2 or 1 per slide */
     scroll-snap-align: start;
   }
-
-  .travel-welcome-section {
-    flex-direction: column;
-    gap: 30px;
-    text-align: center;
-  }
-
-  .travel-welcome-image-area,
-  .travel-welcome-content {
-    flex: 0 0 100%;
-  }
-
-  .travel-welcome-image-placeholder {
-    width: 250px;
-    height: 250px;
-    margin: 0 auto;
-  }
-
-  .travel-stats-container {
-    justify-content: space-around;
-  }
 }
 
 @media (max-width: 576px) {
@@ -340,15 +233,10 @@
 }
 
 [dir="rtl"] .travel-header-row {
-  flex-direction: row-reverse; /* Swap title and buttons */
+  flex-direction: row-reverse;
 }
 
-[dir="rtl"] .travel-welcome-section {
-  flex-direction: row-reverse; /* Swap image and content */
-}
-
-[dir="rtl"] .travel-card-content,
-[dir="rtl"] .travel-welcome-content {
+[dir="rtl"] .travel-card-content {
   text-align: right;
 }
 
@@ -363,23 +251,9 @@
 
 [dir="rtl"] .travel-meta-icon {
   margin-right: 0;
-  margin-left: 6px; /* Icon on the left of text */
+  margin-left: 6px;
 }
 
 [dir="rtl"] .travel-nav-buttons {
-  flex-direction: row-reverse; /* Next button should be on the left */
-}
-
-[dir="rtl"] .travel-welcome-image-area,
-[dir="rtl"] .travel-welcome-content {
-  /* Reset text align for mobile responsive text center */
-  text-align: initial;
-}
-
-@media (max-width: 768px) {
-  [dir="rtl"] .travel-welcome-image-area,
-  [dir="rtl"] .travel-welcome-content {
-    /* Re-center text on mobile */
-    text-align: center;
-  }
+  flex-direction: row-reverse;
 }

@@ -55,6 +55,24 @@
   "yourTicketsOverview": "نظرة عامة على تذاكرك",
   "goToNextStep": "انتقل إلى الخطوة التالية",
   
+  "discount": {
+    "off": "خصم",
+    "remove": "إزالة كود الخصم",
+    "enterCode": "أدخل كود الخصم",
+    "apply": "تطبيق",
+    "addPromoCode": "إضافة كود خصم",
+    "subtotal": "المجموع الفرعي",
+    "groupDiscount": "خصم المجموعات",
+    "earlyBirdDiscount": "خصم الحجز المبكر",
+    "promoDiscount": "خصم الكود الترويجي",
+    "invalidCode": "كود خصم غير صالح",
+    "expiredCode": "انتهت صلاحية كود الخصم",
+    "betterDiscount": "لديك خصم أفضل مطبق بالفعل",
+    "requiresChild": "هذا الكود يتطلب تذكرة طفل واحدة على الأقل",
+    "applied": "تم تطبيق الخصم!",
+    "saved": "لقد وفرت"
+  },
+  
   "completionTitle": "تم تأكيد الحجز!",
   "completionMessage": "شكراً لحجزك. ستتلقى رسالة تأكيد عبر البريد الإلكتروني قريباً.",
   "bookingReference": "رقم الحجز",

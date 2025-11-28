@@ -31,5 +31,15 @@
     "halfDay": "Half Day",
     "fullDay": "Full Day",
     "multiDay": "Multi-Day"
-  }
+  },
+  "date": "Date",
+  "time": "Time",
+  "flexible": "Flexible",
+  "transportation": "Transportation",
+  "included": "Included",
+  "perPerson": "person",
+  "viewTour": "View Tour",
+  "activeFilters": "Your search criteria",
+  "clearAll": "Clear All",
+  "tour": "Tour"
 }

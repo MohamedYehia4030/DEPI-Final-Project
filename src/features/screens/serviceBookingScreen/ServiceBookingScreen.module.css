@@ -1,0 +1,110 @@
+.bookingWrapper {
+  padding-top: 110px; 
+  min-height: 100vh;
+  background-color: var(--color-background-secondary);
+}
+
+.progressBar {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 2.5rem !important;
+  flex-wrap: nowrap !important;
+  padding: 2rem;
+}
+
+.step {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center;
+  margin: 0 2rem;
+  position: relative;
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  right: -60px;
+  width: 50px;
+  height: 2px;
+  background-color: var(--color-border);
+}
+
+.step.active:not(:last-child)::after {
+  background-color: var(--color-primary);
+}
+
+.step span {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-background-alt);
+  border: 2px solid var(--color-border);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.step.active span {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-text);
+}
+
+.step p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.step.active p {
+  color: var(--color-primary);
+}
+
+.bookingLayout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.formSection {
+  background: var(--color-card-background);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+.summarySection {
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
+@media (max-width: 768px) {
+  .bookingLayout {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  
+  .progressBar {
+    padding: 1rem;
+  }
+  
+  .step {
+    margin: 0 1rem;
+  }
+  
+  .step:not(:last-child)::after {
+    right: -40px;
+    width: 30px;
+  }
+}

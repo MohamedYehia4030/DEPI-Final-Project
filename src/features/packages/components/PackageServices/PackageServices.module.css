@@ -32,6 +32,19 @@
   border-top-right-radius: 8px;
 }
 
+.cardBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
 .readMore {
   cursor: pointer;
   font-size: 15px;
@@ -39,10 +52,12 @@
   color: var(--color-primary-accent);
   font-weight: 600;
   transition: color 0.3s ease;
+  text-decoration: none;
 }
 
 .readMore:hover {
   color: var(--color-primary-accent-hover);
+  text-decoration: underline;
 }
 
 .readMore:active {

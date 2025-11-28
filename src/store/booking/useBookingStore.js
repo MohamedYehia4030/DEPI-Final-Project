@@ -23,6 +23,7 @@ const initialState = {
     expiryDate: '',
     cvv: ''
   },
+  appliedDiscount: null,
   bookingComplete: false,
   refNumber: null
 };
@@ -70,6 +71,9 @@ const useBookingStore = create(
       // Set payment info
       setPaymentInfo: (paymentInfo) => set({ paymentInfo }),
 
+      // Set applied discount
+      setAppliedDiscount: (discount) => set({ appliedDiscount: discount }),
+
       // Navigation
       nextStep: () => set((state) => ({ 
         currentStep: Math.min(state.currentStep + 1, 4) 
@@ -81,8 +85,8 @@ const useBookingStore = create(
       
       goToStep: (step) => set({ currentStep: step }),
 
-      // Calculate total price
-      calculateTotal: () => {
+      // Calculate subtotal (before discount)
+      calculateSubtotal: () => {
         const { tickets, packageInfo } = get();
         if (!packageInfo) return 0;
         return (
@@ -90,6 +94,27 @@ const useBookingStore = create(
           tickets.child * packageInfo.childPrice +
           tickets.infant * packageInfo.infantPrice
         );
+      },
+
+      // Calculate total price (after discount)
+      calculateTotal: () => {
+        const { appliedDiscount } = get();
+        const subtotal = get().calculateSubtotal();
+        
+        if (!appliedDiscount) return subtotal;
+        
+        const discountAmount = (subtotal * appliedDiscount.percentage) / 100;
+        return Math.max(0, subtotal - discountAmount);
+      },
+
+      // Get discount amount
+      getDiscountAmount: () => {
+        const { appliedDiscount } = get();
+        const subtotal = get().calculateSubtotal();
+        
+        if (!appliedDiscount) return 0;
+        
+        return (subtotal * appliedDiscount.percentage) / 100;
       },
 
       // Complete booking
@@ -137,7 +162,8 @@ const useBookingStore = create(
         tickets: state.tickets,
         selectedDate: state.selectedDate,
         selectedTime: state.selectedTime,
-        traveler: state.traveler
+        traveler: state.traveler,
+        appliedDiscount: state.appliedDiscount
       })
     }
   )

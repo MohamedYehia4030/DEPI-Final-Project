@@ -1,12 +1,21 @@
 {
-  "title": "احجز أفضل دراجاتنا",
-  "subtitle": "اختر من مجموعتنا المميزة من الدراجات لمغامرتك",
+  "title": "احجز خدماتنا",
+  "subtitle": "اختر من مجموعتنا المميزة من الخدمات لمغامرتك",
   "form": {
     "name": "الاسم واللقب",
+    "namePlaceholder": "أدخل اسمك ولقبك",
     "email": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
     "phone": "رقم الهاتف",
+    "phonePlaceholder": "أدخل رقم هاتفك",
     "service": "نوع الخدمة",
+    "selectService": "اختر نوع الخدمة",
+    "date": "التاريخ",
+    "datePlaceholder": "اختر التاريخ",
+    "time": "الوقت",
+    "timePlaceholder": "اختر الوقت",
     "button": "احجز الآن",
+    "bookNowBike": "احجز دراجة الآن",
     "pickupDate": "تاريخ الاستلام",
     "pickupTime": "وقت الاستلام",
     "returnDate": "تاريخ الإرجاع",
@@ -17,6 +26,17 @@
     "accessories": "الملحقات",
     "specialRequests": "طلبات خاصة",
     "termsAccept": "أوافق على الشروط والأحكام"
+  },
+  "validation": {
+    "serviceRequired": "يرجى اختيار خدمة",
+    "nameRequired": "الاسم مطلوب",
+    "nameMin": "يجب أن يكون الاسم حرفين على الأقل",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+    "phoneRequired": "رقم الهاتف مطلوب",
+    "phoneInvalid": "يرجى إدخال رقم هاتف صحيح",
+    "dateRequired": "يرجى اختيار التاريخ",
+    "timeRequired": "يرجى اختيار الوقت"
   },
   "bikeTypes": {
     "city": "دراجة المدينة",

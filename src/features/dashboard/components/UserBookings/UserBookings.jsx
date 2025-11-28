@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FiCalendar, FiClock, FiX, FiEye, FiDownload, FiUsers, FiMapPin } from 'react-icons/fi';
+import { FiCalendar, FiClock, FiX, FiEye, FiDownload, FiUsers, FiMapPin, FiPackage } from 'react-icons/fi';
 import { useAuthStore } from '../../../../store/auth/useAuthStore';
 import useUserTicketsStore from '../../../../store/tickets/useUserTicketsStore';
-import { tours } from '../../../packages/api/data';
+import { tours, services } from '../../../packages/api/data';
 import styles from './UserBookings.module.css';
 
 const UserBookings = () => {
-  const { t } = useTranslation(['dashboard', 'packages']);
+  const { t } = useTranslation(['dashboard', 'packages', 'bikeBooking']);
   const user = useAuthStore((state) => state.user);
   const getUserTickets = useUserTicketsStore((state) => state.getUserTickets);
   const cancelTicket = useUserTicketsStore((state) => state.cancelTicket);
@@ -22,6 +22,34 @@ const UserBookings = () => {
   const getTourImage = (tourId) => {
     const tour = tours.find((t) => t.id === tourId);
     return tour?.img || null;
+  };
+
+  // Get booking name (handles both tours and services)
+  const getBookingName = (ticket) => {
+    if (ticket.bookingType === 'service') {
+      return t(ticket.tourName);
+    }
+    return t(ticket.tourName);
+  };
+
+  // Get service type label
+  const getServiceTypeLabel = (ticket) => {
+    if (!ticket.serviceType) return null;
+    // Try various translation namespaces
+    const translationKeys = [
+      `bikeBooking:bikeTypes.${ticket.serviceType}`,
+      `bikeBooking:tourTypes.${ticket.serviceType}`,
+      `bikeBooking:hillTypes.${ticket.serviceType}`,
+      `bikeBooking:transportTypes.${ticket.serviceType}`,
+      `bikeBooking:carTypes.${ticket.serviceType}`,
+      `bikeBooking:wineTypes.${ticket.serviceType}`,
+    ];
+    
+    for (const key of translationKeys) {
+      const translated = t(key, { defaultValue: '' });
+      if (translated && translated !== key) return translated;
+    }
+    return ticket.serviceType.charAt(0).toUpperCase() + ticket.serviceType.slice(1);
   };
 
   const formatDate = (dateString) => {
@@ -183,13 +211,21 @@ Booked on: ${new Date(ticket.bookedAt).toLocaleDateString()}
                   <div className={styles.tourInfo}>
                     <img
                       src={ticket.tourImage || getTourImage(ticket.tourId)}
-                      alt={t(ticket.tourName)}
+                      alt={getBookingName(ticket)}
                       className={styles.tourImage}
                     />
                     <div className={styles.tourDetails}>
                       <h3 className={styles.tourTitle}>
-                        {t(ticket.tourName)}
+                        {getBookingName(ticket)}
                       </h3>
+                      {ticket.bookingType === 'service' && ticket.serviceType && (
+                        <span className={styles.serviceType}>
+                          <FiPackage size={12} />
+                          {getServiceTypeLabel(ticket)}
+                          {ticket.serviceDuration && ` • ${ticket.serviceDuration}`}
+                          {ticket.serviceQuantity > 1 && ` • x${ticket.serviceQuantity}`}
+                        </span>
+                      )}
                       <div className={styles.tourMeta}>
                         <span className={styles.metaItem}>
                           <FiCalendar size={14} />

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styles from './PopularDestinations.module.css';
-import Slider from '../../../../components/Slider/Slider'; // Assuming this component exists
+import Slider from '../../../../components/Slider/Slider';
 import cardImage1 from '../../../../assets/images/Home/Card-Image-1.jpg';
 import cardImage2 from '../../../../assets/images/Home/Card-Image-2.png';
 import cardImage3 from '../../../../assets/images/Home/Card-Image-3.png';
@@ -15,7 +15,6 @@ import cardImage6 from '../../../../assets/images/Home/Card-Image-6.png';
 import cardImage7 from '../../../../assets/images/Home/Card-Image-7.png';
 import cardImage8 from '../../../../assets/images/Home/Card-Image-8.png';
 import cardImage9 from '../../../../assets/images/Home/Card-Image-9.jpg';
-import welcomeImage from '../../../../assets/images/Home/welcome-picture.png';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -84,8 +83,8 @@ const PopularDestinations = () => {
         viewport={{ once: true, amount: 0.3 }}
       >
         <Slider
-          perSlide={4} // Default desktop view: 4 cards
-          // Gap between cards
+          perSlide={4}
+          
           // Passing button classes for the Slider to use
           prevButtonClass={styles['travel-nav-button-prev']}
           nextButtonClass={styles['travel-nav-button-next']}
@@ -133,45 +132,6 @@ const PopularDestinations = () => {
             </motion.div>
           ))}
         </Slider>
-      </motion.div>
-
-      {/* --- Welcome Section (Kept as provided, but styled for RTL compatibility) --- */}
-      <motion.div
-        className={styles['travel-welcome-section']}
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className={styles['travel-welcome-image-area']}>
-          <div className={styles['travel-welcome-image-placeholder']}>
-            <img src={welcomeImage} alt={t('welcome_image_alt')} />
-          </div>
-        </div>
-        <div className={styles['travel-welcome-content']}>
-          <p className={styles['travel-welcome-subtitle']}>{t('welcome_subtitle')}</p>
-          <h3 className={styles['travel-welcome-title']}>{t('welcome_title')}</h3>
-          <p className={styles['travel-welcome-description']}>{t('welcome_description')}</p>
-
-          <div className={styles['travel-stats-container']}>
-            <div className={styles['travel-stat-item']}>
-              <p className={styles['travel-stat-number']}>20+</p>
-              <p className={styles['travel-stat-label']}>{t('stat1_label')}</p>
-            </div>
-            <div className={styles['travel-stat-item']}>
-              <p className={styles['travel-stat-number']}>100+</p>
-              <p className={styles['travel-stat-label']}>{t('stat2_label')}</p>
-            </div>
-            <div className={styles['travel-stat-item']}>
-              <p className={styles['travel-stat-number']}>15+</p>
-              <p className={styles['travel-stat-label']}>{t('stat3_label')}</p>
-            </div>
-            <div className={styles['travel-stat-item']}>
-              <p className={styles['travel-stat-number']}>10+</p>
-              <p className={styles['travel-stat-label']}>{t('stat4_label')}</p>
-            </div>
-          </div>
-        </div>
       </motion.div>
     </motion.div>
   );

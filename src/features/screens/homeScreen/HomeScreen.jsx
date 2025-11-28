@@ -1,6 +1,7 @@
 import React from "react";
 import HeroSection from "../../home/components/HeroSection/HeroSection";
 import PopularDestinations from "../../home/components/PopularDestinations/PopularDestinations";
+import SpecialOffers from "../../home/components/SpecialOffers/SpecialOffers";
 import ExploreCategories from "../../home/components/ExploreCategories/ExploreCategories";
 import PopularTransport from "../../home/components/PopularTransport/PopularTransport";
 import TravelTips from "../../home/components/TravelTips/TravelTips";
@@ -13,6 +14,7 @@ export default function HomePage() {
     <div className={styles.HomePage}>
       <HeroSection />
       <PopularDestinations />
+      <SpecialOffers />
       <ExploreCategories />
       <PopularTransport />
       <BikeBookingForm />

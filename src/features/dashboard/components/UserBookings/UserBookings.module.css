@@ -81,6 +81,19 @@
   margin: 0;
 }
 
+.serviceType {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  background-color: rgba(11, 61, 94, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 2px;
+  width: fit-content;
+}
+
 .tourMeta {
   display: flex;
   flex-direction: column;

@@ -4,8 +4,12 @@
   padding-top: 100px;
 }
 
+.dashboardSection {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .dashboardContent {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
 }

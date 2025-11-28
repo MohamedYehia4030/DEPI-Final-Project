@@ -5,8 +5,10 @@ import AboutPage from '../features/screens/aboutScreen/AboutScreen';
 import ContactPage from '../features/screens/contactScreen/ContactScreen';
 import PackagesPage from '../features/screens/packageScreen/PackagesScreen';
 import SearchPage from '../features/screens/searchScreen/SearchScreen';
+import ServicePage from '../features/screens/serviceScreen/ServiceScreen';
 import DashboardPage from '../features/screens/dashboardScreen/DashboardScreen';
 import BookingScreen from '../features/screens/bookingScreen/BookingScreen';
+import ServiceBookingScreen from '../features/screens/serviceBookingScreen/ServiceBookingScreen';
 import AuthPage from '../features/screens/authScreen/AuthScreen';
 import NotFoundPage from '../features/screens/shared/NotFoundPage/NotFoundScreen';
 import ErrorPage from '../features/screens/shared/Error/ErrorScreen';
@@ -25,8 +27,10 @@ const AppRoutes = () => {
       <Route path="/search" element={<SearchPage />} />
       <Route path="/packages" element={<PackagesPage />} />
       <Route path="/packages/:id" element={<PackageDetails />} />
+      <Route path="/services/:serviceType" element={<ServicePage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/booking" element={<BookingScreen />} />
+      <Route path="/service-booking" element={<ServiceBookingScreen />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/login" element={<AuthPage />} />
       <Route path="/faq" element={<FAQPage />} />

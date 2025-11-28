@@ -1,12 +1,21 @@
 {
-  "title": "Book Our Best Bikes",
-  "subtitle": "Choose from our premium selection of bikes for your adventure",
+  "title": "Book Our Services",
+  "subtitle": "Choose from our premium selection of services for your adventure",
   "form": {
     "name": "Name and Surname",
+    "namePlaceholder": "Enter your name and surname",
     "email": "Email Address",
+    "emailPlaceholder": "Enter your email address",
     "phone": "Telephone Number",
+    "phonePlaceholder": "Enter your telephone number",
     "service": "Service Type",
+    "selectService": "Select the service types",
+    "date": "Date",
+    "datePlaceholder": "Select the date",
+    "time": "Time",
+    "timePlaceholder": "Select the time",
     "button": "Book Now",
+    "bookNowBike": "Book Now Bike",
     "pickupDate": "Pickup Date",
     "pickupTime": "Pickup Time",
     "returnDate": "Return Date",
@@ -18,6 +27,17 @@
     "specialRequests": "Special Requests",
     "termsAccept": "I accept the terms and conditions"
   },
+  "validation": {
+    "serviceRequired": "Please select a service",
+    "nameRequired": "Name is required",
+    "nameMin": "Name must be at least 2 characters",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "phoneRequired": "Phone number is required",
+    "phoneInvalid": "Please enter a valid phone number",
+    "dateRequired": "Please select a date",
+    "timeRequired": "Please select a time"
+  },
   "bikeTypes": {
     "city": "City Bike",
     "mountain": "Mountain Bike",
@@ -25,6 +45,32 @@
     "road": "Road Bike",
     "hybrid": "Hybrid Bike",
     "tandem": "Tandem Bike"
+  },
+  "tourTypes": {
+    "walking": "Walking Tour",
+    "bike": "Bike Tour",
+    "bus": "Bus Tour",
+    "private": "Private Tour"
+  },
+  "hillTypes": {
+    "standard": "Standard Tour",
+    "premium": "Premium Experience",
+    "private": "Private Excursion"
+  },
+  "transportTypes": {
+    "shuttle": "Shuttle Bus",
+    "minibus": "Minibus",
+    "coach": "Full Coach"
+  },
+  "carTypes": {
+    "sedan": "Luxury Sedan",
+    "suv": "Premium SUV",
+    "limousine": "Limousine"
+  },
+  "wineTypes": {
+    "halfDay": "Half Day Tour",
+    "fullDay": "Full Day Tour",
+    "premium": "Premium Tasting"
   },
   "accessories": {
     "helmet": "Helmet",
