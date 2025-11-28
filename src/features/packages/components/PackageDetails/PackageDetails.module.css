@@ -91,4 +91,44 @@
   color: var(--color-text);
 }
 
+@media (max-width: 992px) {
+  .mainImage {
+    height: 400px;
+    
+  }
+  .thumbnail {
+    width: 80px;
+    height: 60px;
+  }
+  .calendarBox {
+    max-width: 220px;
+  }
+}
 
+@media (max-width: 768px) {
+  .mainImage {
+    height: 300px;
+    margin-top:60px;
+  }
+  .thumbnail {
+    width: 70px;
+    height: 50px;
+  }
+  .calendarBox {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .mainImage {
+    height: 250px;
+  }
+  .thumbnail {
+    width: 60px;
+    height: 45px;
+  }
+  .calendarGrid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+}
