@@ -15,7 +15,8 @@ function ServiceBookingSummary({
   onNext,
   showButton,
 }) {
-  const { t } = useTranslation(['booking', 'packages', 'bikeBooking']);
+  const { t, i18n } = useTranslation(['booking', 'packages', 'bikeBooking']);
+  const isRTL = i18n.dir() === 'rtl';
   const [promoCode, setPromoCode] = useState('');
   const [showPromoInput, setShowPromoInput] = useState(false);
   
@@ -67,7 +68,7 @@ function ServiceBookingSummary({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir={isRTL ? 'rtl' : 'ltr'}>
       <h2 className={styles.title}>{t('booking:serviceOverview', 'Service Overview')}</h2>
 
       {/* Service Info */}

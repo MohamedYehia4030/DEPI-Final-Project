@@ -11,8 +11,43 @@ import {
 import Loader from '../../../../components/Loader/Loader';
 import styles from './BookingPayment.module.css';
 
+// Map validation error keys to translation keys
+const getTranslatedError = (error, t, cardType) => {
+  if (!error) return null;
+  
+  const errorMap = {
+    'Card number is required': 'validation.cardNumberRequired',
+    'Card number is too short': 'validation.cardNumberTooShort',
+    'Card number is too long': 'validation.cardNumberTooLong',
+    'Invalid card number': 'validation.invalidCard',
+    'Card holder name is required': 'validation.cardHolderRequired',
+    'Card holder name is too short': 'validation.cardHolderTooShort',
+    'Card holder name is too long (max 26 characters)': 'validation.cardHolderTooLong',
+    'Card holder name contains invalid characters': 'validation.cardHolderInvalidChars',
+    'Please enter first and last name': 'validation.cardHolderNeedFullName',
+    'Expiry date is required': 'validation.expiryRequired',
+    'Enter expiry as MM/YY': 'validation.expiryFormat',
+    'Invalid month (01-12)': 'validation.expiryInvalidMonth',
+    'Card has expired': 'validation.expiryExpired',
+    'Invalid expiry year': 'validation.expiryInvalidYear',
+    'CVV is required': 'validation.cvvRequired',
+    'CVV is too short': 'validation.cvvTooShort',
+    'CVV is too long': 'validation.cvvTooLong',
+  };
+
+  // Handle dynamic CVV length error
+  if (error.includes('CVV should be')) {
+    const length = cardType === 'amex' ? 4 : 3;
+    return t('validation.cvvWrongLength', { length });
+  }
+
+  const translationKey = errorMap[error];
+  return translationKey ? t(translationKey) : error;
+};
+
 function BookingPayment({ data, onNext, onBack }) {
-  const { t } = useTranslation('booking');
+  const { t, i18n } = useTranslation('booking');
+  const isRTL = i18n.dir() === 'rtl';
   
   const [paymentData, setPaymentData] = useState({
     cardNumber: '',
@@ -66,9 +101,9 @@ function BookingPayment({ data, onNext, onBack }) {
 
     setErrors(prev => ({
       ...prev,
-      [field]: result.isValid ? null : result.error
+      [field]: result.isValid ? null : getTranslatedError(result.error, t, cardType)
     }));
-  }, [paymentData, cardType]);
+  }, [paymentData, cardType, t]);
 
   const handleChange = (field, value) => {
     let formattedValue = value;
@@ -109,7 +144,12 @@ function BookingPayment({ data, onNext, onBack }) {
     const validation = validatePaymentForm(paymentData);
     
     if (!validation.isValid) {
-      setErrors(validation.errors);
+      // Translate all errors
+      const translatedErrors = {};
+      for (const [field, error] of Object.entries(validation.errors)) {
+        translatedErrors[field] = getTranslatedError(error, t, validation.cardType);
+      }
+      setErrors(translatedErrors);
       setIsSubmitting(false);
       
       // Focus first error field
@@ -158,7 +198,7 @@ function BookingPayment({ data, onNext, onBack }) {
     Object.values(errors).every(e => !e);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className={styles.header}>
         <h2 className={styles.title}>{t('paymentTitle', 'Payment Information')}</h2>
         <div className={styles.secure}>
@@ -262,7 +302,7 @@ function BookingPayment({ data, onNext, onBack }) {
           <div className={styles.field}>
             <label className={styles.label}>
               {t('cvv', 'CVV')} <span className={styles.required}>*</span>
-              <span className={styles.hint}>({cardType === 'amex' ? '4 digits' : '3 digits'})</span>
+              <span className={styles.hint}>({cardType === 'amex' ? `4 ${t('digits', 'digits')}` : `3 ${t('digits', 'digits')}`})</span>
             </label>
             <div className={styles.inputWrapper}>
               <input

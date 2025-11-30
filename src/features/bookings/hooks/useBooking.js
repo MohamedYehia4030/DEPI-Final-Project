@@ -2,17 +2,10 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useBookingStore from '../../../store/booking/useBookingStore';
 
-/**
- * Custom hook for booking operations
- * Provides convenient methods for booking flow management
- */
 export const useBooking = () => {
   const navigate = useNavigate();
-  
-  // Get all store state and actions
   const store = useBookingStore();
 
-  // Start booking with a tour package
   const startBooking = useCallback((tourPackage, date = null, time = null) => {
     store.resetBooking();
     store.setPackage(tourPackage);
@@ -20,33 +13,27 @@ export const useBooking = () => {
     navigate('/booking');
   }, [store, navigate]);
 
-  // Handle next step with data
   const handleNextStep = useCallback((data = {}) => {
     if (data.tickets) store.setTickets(data.tickets);
     if (data.traveler) store.setTraveler(data.traveler);
     if (data.paymentInfo) store.setPaymentInfo(data.paymentInfo);
     if (data.date || data.time) store.setDateTime(data.date, data.time);
-    
     store.nextStep();
   }, [store]);
 
-  // Handle back step
   const handleBackStep = useCallback(() => {
     store.prevStep();
   }, [store]);
 
-  // Complete the booking
   const completeBooking = useCallback(() => {
     return store.completeBooking();
   }, [store]);
 
-  // Cancel and reset booking
   const cancelBooking = useCallback(() => {
     store.resetBooking();
     navigate('/');
   }, [store, navigate]);
 
-  // Get booking summary data
   const getBookingSummary = useCallback(() => {
     return {
       packageInfo: store.packageInfo,

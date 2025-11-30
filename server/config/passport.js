@@ -21,6 +21,11 @@ passport.deserializeUser(async (id, done) => {
 
 // 3. Google Strategy Configuration
 module.exports = () => {
+    console.log('Configuring Google Strategy with:');
+    console.log('Client ID:', process.env.GOOGLE_CLIENT_ID ? 'SET' : 'MISSING');
+    console.log('Client Secret:', process.env.GOOGLE_CLIENT_SECRET ? 'SET' : 'MISSING');
+    console.log('Callback URL:', process.env.GOOGLE_CALLBACK_URL);
+    
     passport.use(
         new GoogleStrategy(
             {
@@ -40,7 +45,11 @@ module.exports = () => {
                     let user = await User.findOne({ email: newUser.email });
 
                     if (user) {
-                        // User found, proceed with login
+                        // User found - update googleId if not set
+                        if (!user.googleId) {
+                            user.googleId = profile.id;
+                            await user.save();
+                        }
                         done(null, user); 
                     } else {
                         // User not found, create new user

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -6,12 +6,13 @@ import { FiArrowLeft, FiCheck, FiClock, FiUsers, FiMapPin } from 'react-icons/fi
 import styles from './ServiceScreen.module.css';
 import { motion } from 'framer-motion';
 import ServiceBookingForm from '../../../components/ServiceBookingForm/ServiceBookingForm';
+import { getImageUrl, handleImageError } from '../../../lib/imageUtils';
 
 // Components
 import PackageCard from '../../packages/components/PackageCard/PackageCard';
 
-// Data
-import { services } from '../../packages/api/data';
+// API
+import { getServices } from '../../packages/api/packagesAPI';
 import { getToursByService } from '../../search/api/searchAPI';
 
 // Store
@@ -63,21 +64,44 @@ const serviceDetails = {
 
 const ServiceScreen = () => {
   const { serviceType } = useParams();
-  const { t } = useTranslation(['packages', 'footer', 'common']);
+  const { t } = useTranslation(['packages', 'footer', 'common', 'services']);
   const navigate = useNavigate();
+  
+  const [services, setServices] = useState([]);
+  const [relatedTours, setRelatedTours] = useState([]);
+  const [loading, setLoading] = useState(true);
   
   // Service booking store
   const setService = useServiceBookingStore(state => state.setService);
   const resetBooking = useServiceBookingStore(state => state.resetBooking);
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Fetch services
+        const servicesData = await getServices();
+        // Fix image paths using imageUtils
+        const servicesWithFixedImages = servicesData.map(s => ({
+          ...s,
+          img: getImageUrl(s.img, 'service')
+        }));
+        setServices(servicesWithFixedImages);
+        
+        // Fetch related tours
+        const tours = await getToursByService(serviceType, t);
+        setRelatedTours(tours);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [serviceType, t]);
+
   // Get service details
   const serviceConfig = serviceDetails[serviceType] || serviceDetails['guided-tours'];
   const service = services[serviceConfig.serviceIndex];
-
-  // Get related tours
-  const relatedTours = useMemo(() => {
-    return getToursByService(serviceType, t);
-  }, [serviceType, t]);
 
   // Service name mapping for footer translations
   const serviceNameMap = {
@@ -124,6 +148,16 @@ const ServiceScreen = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className={styles.notFound}>
+        <Container>
+          <p>{t('common:loading')}</p>
+        </Container>
+      </div>
+    );
+  }
+
   if (!service) {
     return (
       <div className={styles.notFound}>
@@ -142,7 +176,7 @@ const ServiceScreen = () => {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroOverlay} />
-        <img src={service.img} alt={serviceName} className={styles.heroImage} />
+        <img src={service.img} alt={serviceName} className={styles.heroImage} loading="eager" onError={(e) => handleImageError(e, 'service')} />
         <Container className={styles.heroContent}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -226,7 +260,7 @@ const ServiceScreen = () => {
             </h2>
             <Row className="g-4">
               {relatedTours.slice(0, 4).map((tour, index) => (
-                <PackageCard key={tour.id} tour={tour} index={index} />
+                <PackageCard key={tour._id || tour.id} tour={tour} index={index} />
               ))}
             </Row>
             {relatedTours.length > 4 && (

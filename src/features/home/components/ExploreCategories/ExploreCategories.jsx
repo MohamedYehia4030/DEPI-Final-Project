@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './ExploreCategories.module.css';
-import bannerImage from '../../../../assets/images/Home/banner-image.png';
+
+const bannerImage = 'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522477/voyago/home/rqfmexx1b9n55to5pjoc.png';
 
 const OrganizationsBanner = () => {
   const { t, i18n } = useTranslation('home');

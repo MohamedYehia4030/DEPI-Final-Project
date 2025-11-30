@@ -8,7 +8,8 @@ import useDiscountStore from '../../../../store/discounts/useDiscountStore';
 import styles from './BookingComplete.module.css';
 
 function BookingComplete({ bookingDetails, onGoHome }) {
-  const { t } = useTranslation('booking');
+  const { t, i18n } = useTranslation('booking');
+  const isRTL = i18n.dir() === 'rtl';
   const user = useAuthStore((state) => state.user);
   const addTicket = useUserTicketsStore((state) => state.addTicket);
   const { packageInfo, tickets, selectedDate, selectedTime, traveler, appliedDiscount, calculateTotal, calculateSubtotal, getDiscountAmount, resetBooking } = useBookingStore();
@@ -62,7 +63,7 @@ function BookingComplete({ bookingDetails, onGoHome }) {
   const total = calculateTotal();
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className={styles.content}>
         <div className={styles.successIcon}>
           <div className={styles.iconCircle}>

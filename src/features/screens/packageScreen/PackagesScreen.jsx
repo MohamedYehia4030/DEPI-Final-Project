@@ -1,42 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Row } from 'react-bootstrap';
 
-import { tours, services } from '../../packages/api/data.js';
-
-import './PackageScreen.module.css';
-
+import { getTourPackages, getServices } from '../../packages/api/packagesAPI.js';
 import PackageCard from '../../packages/components/PackageCard/PackageCard.jsx';
 import PackageServices from '../../packages/components/PackageServices/PackageServices.jsx';
-
-// Shared components
 import ServiceBookingForm from '../../../components/ServiceBookingForm/ServiceBookingForm.jsx';
 
-const PackagesPage = () => {
+export default function PackagesPage() {
   const { t } = useTranslation(['packages', 'common', 'home']);
+  const [tourList, setTourList] = useState([]);
+  const [serviceList, setServiceList] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [tours, services] = await Promise.all([
+          getTourPackages(),
+          getServices()
+        ]);
+        setTourList(tours);
+        setServiceList(services);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <div>
-      {/* Tours List */}
-      <Container style={{marginTop:"90px"}} className="py-5" >
+      <Container className="py-5">
         <h2 className="fw-bold mb-4">{t('packages:pageTitle')}</h2>
 
         <Row className="g-4">
-          {tours.map((tour, index) => (
-            <PackageCard key={tour.id} tour={tour} index={index} />
+          {tourList.map((tour, index) => (
+            <PackageCard key={tour._id} tour={tour} index={index} />
           ))}
         </Row>
       </Container>
 
       {/* Services Section */}
-      <PackageServices services={services} />
+      <PackageServices services={serviceList} />
 
       {/* Service Booking Form */}
       <ServiceBookingForm />
-
-
     </div>
   );
-};
-
-export default PackagesPage;
+}

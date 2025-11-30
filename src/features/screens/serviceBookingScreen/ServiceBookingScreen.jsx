@@ -18,8 +18,9 @@ import { useAuthStore } from '../../../store/auth/useAuthStore';
 import styles from './ServiceBookingScreen.module.css';
 
 export default function ServiceBookingScreen() {
-  const { t } = useTranslation('booking');
+  const { t, i18n } = useTranslation('booking');
   const navigate = useNavigate();
+  const isRTL = i18n.dir() === 'rtl';
   
   // Auth store for user email
   const user = useAuthStore((state) => state.user);
@@ -117,7 +118,7 @@ export default function ServiceBookingScreen() {
   // Build booking data object for components
   const bookingData = {
     serviceInfo: serviceInfo || {
-      titleKey: 'Select a Service',
+      titleKey: t('noServiceSelected', 'Select a Service'),
       img: '',
     },
     serviceType,
@@ -215,7 +216,7 @@ export default function ServiceBookingScreen() {
   ];
 
   return (
-    <div className={styles.bookingWrapper}>
+    <div className={styles.bookingWrapper} dir={isRTL ? 'rtl' : 'ltr'}>
       {currentStep < 4 && (
         <div className={styles.progressBar}>
           {stepLabels.map((label, index) => (

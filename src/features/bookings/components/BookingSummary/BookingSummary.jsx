@@ -13,7 +13,8 @@ function BookingSummary({
   onNext,
   showButton,
 }) {
-  const { t } = useTranslation('booking');
+  const { t, i18n } = useTranslation('booking');
+  const isRTL = i18n.dir() === 'rtl';
   const [promoCode, setPromoCode] = useState('');
   const [showPromoInput, setShowPromoInput] = useState(false);
   
@@ -65,7 +66,7 @@ function BookingSummary({
   const finalPrice = calculateFinalPrice(totalPrice);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir={isRTL ? 'rtl' : 'ltr'}>
       <h2 className={styles.title}>{t('yourTicketsOverview')}</h2>
 
       <div className={styles.package}>

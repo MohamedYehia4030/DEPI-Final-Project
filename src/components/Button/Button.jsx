@@ -12,10 +12,10 @@ const Button = ({
 }) => {
   
   const buttonClasses = clsx(
-    styles.btn,              // 1. Base styles
-    styles[variant],         // 2. Color variant (primary/outline)
-    styles[size],            // 3. Size variant (large/small)
-    className                // 4. Custom class
+    styles.btn,
+    styles[variant],
+    styles[size],
+    className
   );
 
   return (

@@ -4,6 +4,7 @@ import Loader from '../../../../components/Loader/Loader';
 import { toast } from 'sonner';
 import styles from './ContactForm.module.css';
 import { useTranslation } from 'react-i18next';
+import { submitContactForm } from '../../api/contactAPI';
 
 export default function ContactForm() {
   const { t, i18n } = useTranslation('contact');
@@ -28,7 +29,7 @@ export default function ContactForm() {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Check that all fields are filled
@@ -45,12 +46,15 @@ export default function ContactForm() {
     
     setLoading(true);
     
-    // Simulate sending message
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await submitContactForm(formData);
       toast.success(t('messageSentSuccess') || 'Message sent successfully!');
       setFormData({ name: '', email: '', message: '' });
-    }, 2000);
+    } catch (error) {
+      toast.error(t('messageSendError') || 'Failed to send message. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

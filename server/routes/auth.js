@@ -18,18 +18,29 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: `http://localhost:5173/auth/callback?error=true`,
-    session: false,
-  }),
-  (req, res) => {
-    // Generate JWT to send back to client
-    const token = generateToken(req.user._id);
-    const avatar = req.user.avatar ? encodeURIComponent(req.user.avatar) : '';
+  (req, res, next) => {
+    passport.authenticate("google", {
+      failureRedirect: `http://localhost:5173/auth/callback?error=true`,
+      session: false,
+    }, (err, user, info) => {
+      if (err) {
+        console.error("Google OAuth Error:", err);
+        return res.redirect(`http://localhost:5173/auth/callback?error=true&message=${encodeURIComponent(err.message)}`);
+      }
+      if (!user) {
+        console.error("Google OAuth: No user returned", info);
+        return res.redirect(`http://localhost:5173/auth/callback?error=true&message=authentication_failed`);
+      }
+      
+      // Generate JWT to send back to client
+      const token = generateToken(user._id);
+      const avatar = user.avatar ? encodeURIComponent(user.avatar) : '';
+      const isAdmin = user.isAdmin ? 'true' : 'false';
 
-    res.redirect(
-      `http://localhost:5173/auth/callback?token=${token}&name=${req.user.name}&email=${req.user.email}&avatar=${avatar}`
-    );
+      res.redirect(
+        `http://localhost:5173/auth/callback?token=${token}&name=${encodeURIComponent(user.name)}&email=${encodeURIComponent(user.email)}&avatar=${avatar}&isAdmin=${isAdmin}&_id=${user._id}`
+      );
+    })(req, res, next);
   }
 );
 

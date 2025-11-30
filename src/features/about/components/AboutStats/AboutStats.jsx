@@ -28,7 +28,7 @@ const AboutStats = () => {
             transition={{ duration: 0.6 }}
           >
             <div className={styles.aboutImgContainer}>
-              <img src={StatsImg} alt="Lucca Cityscape" className={styles.aboutImg} />
+              <img src={StatsImg} alt="Lucca Cityscape" className={styles.aboutImg} loading="lazy" />
             </div>
           </motion.div>
           

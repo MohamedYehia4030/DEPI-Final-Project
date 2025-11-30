@@ -61,6 +61,11 @@
   font-size: 14px;
 }
 
+/* RTL support for contact list */
+[dir="rtl"] .colContact ul li {
+  flex-direction: row;
+}
+
 .colContact ul li a {
   display: inline;
   padding: 0;

@@ -180,7 +180,7 @@ const SearchForm = ({
             <div className={styles.priceInputs}>
               <input
                 type="number"
-                placeholder="Min"
+                placeholder={t('search:min', 'Min')}
                 value={filters.minPrice || ''}
                 onChange={(e) => setFilter('minPrice', e.target.value ? Number(e.target.value) : undefined)}
                 className={styles.priceInput}
@@ -188,7 +188,7 @@ const SearchForm = ({
               <span className={styles.priceSeparator}>-</span>
               <input
                 type="number"
-                placeholder="Max"
+                placeholder={t('search:max', 'Max')}
                 value={filters.maxPrice || ''}
                 onChange={(e) => setFilter('maxPrice', e.target.value ? Number(e.target.value) : undefined)}
                 className={styles.priceInput}
@@ -204,10 +204,10 @@ const SearchForm = ({
               onChange={(e) => setFilter('minRating', e.target.value ? Number(e.target.value) : undefined)}
               className={styles.filterSelect}
             >
-              <option value="">Any Rating</option>
-              <option value="4.5">4.5+ Stars</option>
-              <option value="4">4+ Stars</option>
-              <option value="3.5">3.5+ Stars</option>
+              <option value="">{t('search:anyRating', 'Any Rating')}</option>
+              <option value="4.5">{t('search:rating45', '4.5+ Stars')}</option>
+              <option value="4">{t('search:rating4', '4+ Stars')}</option>
+              <option value="3.5">{t('search:rating35', '3.5+ Stars')}</option>
             </select>
           </div>
         </div>

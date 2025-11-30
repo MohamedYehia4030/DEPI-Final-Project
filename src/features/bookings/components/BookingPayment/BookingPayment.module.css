@@ -57,6 +57,11 @@
   margin-left: 0.25rem;
 }
 
+[dir="rtl"] .hint {
+  margin-left: 0;
+  margin-right: 0.25rem;
+}
+
 .inputWrapper {
   position: relative;
   display: flex;
@@ -71,8 +76,18 @@
   z-index: 1;
 }
 
+[dir="rtl"] .icon {
+  left: auto;
+  right: 1rem;
+}
+
 .cardInput {
   padding-left: 3rem !important;
+}
+
+[dir="rtl"] .cardInput {
+  padding-left: 1rem !important;
+  padding-right: 3rem !important;
 }
 
 .inputWrapper .input {
@@ -87,11 +102,21 @@
   white-space: nowrap;
 }
 
+[dir="rtl"] .cardType {
+  right: auto;
+  left: 2.5rem;
+}
+
 .successIcon {
   position: absolute;
   right: 0.75rem;
   color: var(--color-success);
   pointer-events: none;
+}
+
+[dir="rtl"] .successIcon {
+  right: auto;
+  left: 0.75rem;
 }
 
 .input {
@@ -104,6 +129,11 @@
   transition: all 0.2s;
   background-color: var(--color-input-bg);
   width: 100%;
+}
+
+[dir="rtl"] .input {
+  padding-right: 1rem;
+  padding-left: 2.5rem;
 }
 
 .input::placeholder {

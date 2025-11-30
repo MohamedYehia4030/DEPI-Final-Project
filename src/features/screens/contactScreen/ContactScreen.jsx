@@ -12,7 +12,6 @@ export default function ContactPage() {
       {/* Main Container */}
       <div 
         className="container-fluid min-vh-100 d-flex flex-column font-sans text-dark"
-        style={{ paddingTop: '180px' }}
       >
         {/* Top Section: Contact Info & Form */}
         <div 

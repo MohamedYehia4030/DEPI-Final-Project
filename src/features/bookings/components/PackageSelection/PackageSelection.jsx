@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import useBookingStore from '../../../../store/booking/useBookingStore';
-import { tours } from '../../../packages/api/data';
+import { getTourPackages } from '../../../packages/api/packagesAPI';
 import styles from './PackageSelection.module.css';
 import DateTimePicker from '../../../../components/DateTimePicker/DateTimePicker';
+import { getImageUrl, handleImageError } from '../../../../lib/imageUtils';
 
 function PackageSelection({ onNext }) {
-  const { t } = useTranslation(['packages', 'booking']);
+  const { t, i18n } = useTranslation(['packages', 'booking', 'common']);
+  const isRTL = i18n.dir() === 'rtl';
+  
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
   
   const packageInfo = useBookingStore((state) => state.packageInfo);
   const tickets = useBookingStore((state) => state.tickets);
@@ -20,6 +25,25 @@ function PackageSelection({ onNext }) {
 
   const [localDate, setLocalDate] = useState(selectedDate ? new Date(selectedDate) : null);
   const [localTime, setLocalTime] = useState(selectedTime ? new Date(`1970-01-01T${selectedTime}`) : null);
+
+  useEffect(() => {
+    async function fetchTours() {
+      try {
+        const data = await getTourPackages();
+        // Fix image paths using imageUtils
+        const toursWithFixedImages = data.map(tour => ({
+          ...tour,
+          img: getImageUrl(tour.img, 'package')
+        }));
+        setTours(toursWithFixedImages);
+      } catch (err) {
+        console.error('Error fetching tours:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchTours();
+  }, []);
 
   const handlePackageSelect = (tour) => {
     setPackage(tour);
@@ -60,18 +84,22 @@ function PackageSelection({ onNext }) {
 
   const totalPrice = calculateTotal();
 
+  if (loading) {
+    return <div className={styles.container}>{t('common:loading', 'Loading...')}</div>;
+  }
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir={isRTL ? 'rtl' : 'ltr'}>
       <h2 className={styles.title}>{t('booking:selectPackage', 'Choose Your Adventure')}</h2>
       
       <div className={styles.packages}>
         {tours.map(tour => (
           <div 
-            key={tour.id}
-            className={`${styles.packageCard} ${packageInfo?.id === tour.id ? styles.selected : ''}`}
+            key={tour._id}
+            className={`${styles.packageCard} ${(packageInfo?._id === tour._id || packageInfo?.id === tour._id) ? styles.selected : ''}`}
             onClick={() => handlePackageSelect(tour)}
           >
-            <img src={tour.img} alt={t(tour.titleKey)} className={styles.packageImage} />
+            <img src={tour.img} alt={t(tour.titleKey)} className={styles.packageImage} loading="lazy" onError={(e) => handleImageError(e, 'package')} />
             <div className={styles.packageInfo}>
               <h3 className={styles.packageName}>{t(tour.titleKey)}</h3>
               <p className={styles.packageDescription}>{t(tour.desc || 'packages:defaultDescription')}</p>

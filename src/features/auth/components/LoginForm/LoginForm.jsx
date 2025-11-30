@@ -14,7 +14,7 @@ import sharedStyles from "../AuthModal/AuthModal.module.css";
 
 const LoginForm = () => {
   const { t } = useTranslation("auth");
-  const { openAuthModal } = useAppStore();
+  const { openAuthModal, authError, clearAuthError } = useAppStore();
   
   // --- Form State ---
   const [email, setEmail] = useState("");
@@ -26,6 +26,11 @@ const LoginForm = () => {
 
   const login = useAuthStore(state => state.login);
   const isLoading = useAuthStore(state => state.isLoading);
+
+  // Clear auth error when component unmounts or user starts typing
+  React.useEffect(() => {
+    return () => clearAuthError();
+  }, [clearAuthError]);
 
   // Real-time validation on blur
   const handleBlur = useCallback((field) => {
@@ -99,6 +104,13 @@ const LoginForm = () => {
   return (
     <form className={sharedStyles.formContainer} onSubmit={handleSubmit} noValidate>
       <h2 className={sharedStyles.title}>{t("login.title")}</h2>
+      
+      {authError && (
+        <div className={sharedStyles.errorMessage} style={{ backgroundColor: '#fff3cd', color: '#856404', borderColor: '#ffeeba' }}>
+          <FiAlertCircle />
+          {authError}
+        </div>
+      )}
       
       {errors.form && (
         <div className={sharedStyles.errorMessage}>
@@ -189,7 +201,7 @@ const LoginForm = () => {
         size="large"
         type="button"
         onClick={() => {
-          const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000";
+          const API_BASE = import.meta.env.VITE_API_BASE || "https://depi-final-project-production.up.railway.app";
           window.location.href = `${API_BASE}/api/auth/google`;
         }}
       ><FcGoogle /> {t("login.googleBtn")}</Button>

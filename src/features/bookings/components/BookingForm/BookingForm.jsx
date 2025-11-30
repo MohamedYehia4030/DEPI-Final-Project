@@ -4,8 +4,69 @@ import { AlertCircle, CheckCircle } from 'lucide-react';
 import { validateTravelerForm, validateName, validatePhone, validateEmail } from '../../../../lib/validation';
 import styles from './BookingForm.module.css';
 
+// Map validation error keys to translation keys
+const getTranslatedError = (error, t, fieldName) => {
+  if (!error) return null;
+  
+  const errorMap = {
+    // Name errors
+    'is required': 'validation.nameRequired',
+    'must be at least 2 characters': 'validation.nameTooShort',
+    'must be less than 50 characters': 'validation.nameTooLong',
+    'contains invalid characters': 'validation.nameInvalidChars',
+    'contains invalid repeated characters': 'validation.nameRepeatedChars',
+    // Phone errors
+    'Phone number is required': 'validation.phoneRequired',
+    'Phone number must contain digits': 'validation.phoneMustContainDigits',
+    'Phone number must be at least 7 digits': 'validation.phoneTooShort',
+    'Phone number cannot exceed 15 digits': 'validation.phoneTooLong',
+    'Please enter a valid phone number': 'validation.phoneInvalid',
+    'Phone number contains invalid characters': 'validation.phoneInvalidChars',
+    // Email errors  
+    'Email is required': 'validation.emailRequired',
+    'Email is too short': 'validation.emailTooShort',
+    'Email is too long': 'validation.emailTooLong',
+    'Email must contain exactly one @ symbol': 'validation.emailInvalidAt',
+    'Email username is required before @': 'validation.emailUsernameRequired',
+    'Email username is too long': 'validation.emailUsernameTooLong',
+    'Email cannot start or end with a dot': 'validation.emailDotError',
+    'Email cannot contain consecutive dots': 'validation.emailConsecutiveDots',
+    'Email domain is required after @': 'validation.emailDomainRequired',
+    'Email domain is too short': 'validation.emailDomainTooShort',
+    'Email domain must include a dot (e.g., .com)': 'validation.emailDomainNeedsDot',
+    'Invalid email domain format': 'validation.emailDomainInvalid',
+    'Email must have a valid domain extension (e.g., .com, .org)': 'validation.emailInvalidExtension',
+    'Email domain extension must contain only letters': 'validation.emailExtensionLettersOnly',
+    'Please enter a valid email address': 'validation.emailInvalid',
+    'Email contains invalid characters': 'validation.emailInvalidChars',
+    'Email cannot contain spaces': 'validation.emailNoSpaces',
+    'Please use a permanent email address': 'validation.emailDisposable',
+  };
+
+  // Check for exact match first
+  if (errorMap[error]) {
+    return t(errorMap[error], { field: fieldName });
+  }
+
+  // Check for name field errors (which include field name)
+  for (const [key, value] of Object.entries(errorMap)) {
+    if (error.includes(key)) {
+      return t(value, { field: fieldName });
+    }
+  }
+
+  // Check for email typo suggestion
+  if (error.startsWith('Did you mean')) {
+    const suggestion = error.match(/Did you mean (.+)\?/)?.[1];
+    return t('validation.emailTypo', { suggestion });
+  }
+
+  return error;
+};
+
 function BookingForm({ data, onNext, onBack }) {
-  const { t } = useTranslation('booking');
+  const { t, i18n } = useTranslation('booking');
+  const isRTL = i18n.dir() === 'rtl';
   
   const [formData, setFormData] = useState({
     name: data.traveler?.name || '',
@@ -23,17 +84,22 @@ function BookingForm({ data, onNext, onBack }) {
     setTouched(prev => ({ ...prev, [field]: true }));
     
     let result;
+    let fieldName;
     switch (field) {
       case 'name':
-        result = validateName(formData.name, t('firstName', 'First name'));
+        fieldName = t('firstName', 'First name');
+        result = validateName(formData.name, fieldName);
         break;
       case 'surname':
-        result = validateName(formData.surname, t('lastName', 'Last name'));
+        fieldName = t('lastName', 'Last name');
+        result = validateName(formData.surname, fieldName);
         break;
       case 'phone':
+        fieldName = t('phone', 'Phone');
         result = validatePhone(formData.phone);
         break;
       case 'email':
+        fieldName = t('email', 'Email');
         result = validateEmail(formData.email);
         break;
       default:
@@ -42,7 +108,7 @@ function BookingForm({ data, onNext, onBack }) {
 
     setErrors(prev => ({
       ...prev,
-      [field]: result.isValid ? null : result.error
+      [field]: result.isValid ? null : getTranslatedError(result.error, t, fieldName)
     }));
   }, [formData, t]);
 
@@ -68,7 +134,18 @@ function BookingForm({ data, onNext, onBack }) {
     const validation = validateTravelerForm(formData);
     
     if (!validation.isValid) {
-      setErrors(validation.errors);
+      // Translate all errors
+      const translatedErrors = {};
+      const fieldNames = {
+        name: t('firstName', 'First name'),
+        surname: t('lastName', 'Last name'),
+        phone: t('phone', 'Phone'),
+        email: t('email', 'Email'),
+      };
+      for (const [field, error] of Object.entries(validation.errors)) {
+        translatedErrors[field] = getTranslatedError(error, t, fieldNames[field]);
+      }
+      setErrors(translatedErrors);
       setIsSubmitting(false);
       
       // Focus first error field
@@ -105,7 +182,7 @@ function BookingForm({ data, onNext, onBack }) {
     Object.values(errors).every(e => !e);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir={isRTL ? 'rtl' : 'ltr'}>
       <h2 className={styles.title}>{t('travelerTitle', 'Who shall we send these tickets to?')}</h2>
 
       <div className={styles.form}>

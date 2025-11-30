@@ -36,7 +36,8 @@ const useBookingStore = create(
       // Set package from tour data
       setPackage: (tourPackage) => set({
         packageInfo: {
-          id: tourPackage.id,
+          id: tourPackage.id || tourPackage._id,
+          _id: tourPackage._id || tourPackage.id,
           name: tourPackage.titleKey,
           image: tourPackage.img,
           price: tourPackage.price,

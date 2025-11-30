@@ -6,20 +6,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import { FiChevronDown } from 'react-icons/fi';
 import useServiceBookingStore from '../../store/booking/useServiceBookingStore';
+import { getServices } from '../../features/packages/api/packagesAPI';
+import { getImageUrl, handleImageError, PLACEHOLDER_SERVICE } from '../../lib/imageUtils';
 
-// Placeholder images - replace with actual images later
-// You can add your images to src/assets/images/Services/ folder
-const servicePlaceholders = {
-  'bike-rickshaw': '/Media/services/bike-placeholder.png',
-  'guided-tours': '/Media/services/guided-placeholder.png',
-  'tuscan-hills': '/Media/services/hills-placeholder.png',
-  'coach-trips': '/Media/services/coach-placeholder.png',
-  'luxury-cars': '/Media/services/luxury-placeholder.png',
-  'wine-tours': '/Media/services/wine-placeholder.png',
-};
-
-// Default placeholder
-const defaultPlaceholder = '/Media/services/default-placeholder.png';
+// Default placeholder for when no service is selected or image fails
+const defaultPlaceholder = PLACEHOLDER_SERVICE;
 
 const ServiceBookingForm = ({ initialServiceType = '' }) => {
   const { t } = useTranslation(['bikeBooking', 'packages', 'common']);
@@ -30,6 +21,8 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
   const prefillFromForm = useServiceBookingStore(state => state.prefillFromForm);
   const resetBooking = useServiceBookingStore(state => state.resetBooking);
   
+  const [services, setServices] = useState([]);
+  const [loadingServices, setLoadingServices] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -39,52 +32,33 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(
-    initialServiceType ? (servicePlaceholders[initialServiceType] || defaultPlaceholder) : defaultPlaceholder
-  );
+  const [currentImage, setCurrentImage] = useState(defaultPlaceholder);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const dropdownRef = useRef(null);
 
-  // Service types with their corresponding slugs and translation keys
-  const serviceTypes = [
-    { 
-      value: 'bike-rickshaw', 
-      label: t('packages:services.bike.title'),
-      titleKey: 'packages:services.bike.title',
-      descKey: 'packages:services.bike.desc'
-    },
-    { 
-      value: 'guided-tours', 
-      label: t('packages:services.guided.title'),
-      titleKey: 'packages:services.guided.title',
-      descKey: 'packages:services.guided.desc'
-    },
-    { 
-      value: 'tuscan-hills', 
-      label: t('packages:services.hills.title'),
-      titleKey: 'packages:services.hills.title',
-      descKey: 'packages:services.hills.desc'
-    },
-    { 
-      value: 'coach-trips', 
-      label: t('packages:services.coach.title'),
-      titleKey: 'packages:services.coach.title',
-      descKey: 'packages:services.coach.desc'
-    },
-    { 
-      value: 'luxury-cars', 
-      label: t('packages:services.luxury.title'),
-      titleKey: 'packages:services.luxury.title',
-      descKey: 'packages:services.luxury.desc'
-    },
-    { 
-      value: 'wine-tours', 
-      label: t('packages:services.wine.title'),
-      titleKey: 'packages:services.wine.title',
-      descKey: 'packages:services.wine.desc'
-    },
-  ];
+  // Fetch services from API
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const data = await getServices();
+        setServices(data);
+        
+        // If initial service type is set, find and set its image
+        if (initialServiceType) {
+          const initialService = data.find(s => s._id === initialServiceType || s.titleKey === initialServiceType);
+          if (initialService?.img) {
+            setCurrentImage(getImageUrl(initialService.img, 'service'));
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching services:', err);
+      } finally {
+        setLoadingServices(false);
+      }
+    }
+    fetchServices();
+  }, [initialServiceType]);
 
   // Validation functions
   const validateEmail = (email) => {
@@ -147,13 +121,18 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
     setTouched(prev => ({ ...prev, [field]: true }));
   };
 
-  const handleServiceSelect = (value) => {
-    setFormData(prev => ({ ...prev, serviceType: value }));
+  const handleServiceSelect = (serviceId) => {
+    setFormData(prev => ({ ...prev, serviceType: serviceId }));
     setDropdownOpen(false);
     setErrors(prev => ({ ...prev, serviceType: '' }));
     
-    // Update image based on selected service
-    setCurrentImage(servicePlaceholders[value] || defaultPlaceholder);
+    // Find the selected service and update image
+    const selectedSvc = services.find(s => s._id === serviceId);
+    if (selectedSvc?.img) {
+      setCurrentImage(getImageUrl(selectedSvc.img, 'service'));
+    } else {
+      setCurrentImage(defaultPlaceholder);
+    }
   };
 
   const handleDateChange = (date) => {
@@ -190,15 +169,16 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
     // Reset any previous booking
     resetBooking();
     
-    // Find the selected service
-    const selectedServiceData = serviceTypes.find(s => s.value === formData.serviceType);
+    // Find the selected service from API data
+    const selectedServiceData = services.find(s => s._id === formData.serviceType);
     
     // Set the service info
     setService({
+      id: selectedServiceData?._id,
       slug: formData.serviceType,
-      titleKey: selectedServiceData?.titleKey || 'packages:services.bike.title',
-      descKey: selectedServiceData?.descKey || 'packages:services.bike.desc',
-      img: servicePlaceholders[formData.serviceType] || defaultPlaceholder
+      titleKey: selectedServiceData?.titleKey || '',
+      descKey: selectedServiceData?.descKey || '',
+      img: getImageUrl(selectedServiceData?.img, 'service') || defaultPlaceholder
     });
     
     // Pre-fill the form data
@@ -226,7 +206,16 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const selectedService = serviceTypes.find(s => s.value === formData.serviceType);
+  // Get selected service from API data
+  const selectedService = services.find(s => s._id === formData.serviceType);
+  
+  // Get translated label for a service
+  const getServiceLabel = (service) => {
+    if (!service) return '';
+    // Try to translate the titleKey, fallback to titleKey itself
+    const translated = t(service.titleKey);
+    return translated !== service.titleKey ? translated : service.titleKey;
+  };
 
   return (
     <section className={styles.bookingSection}>
@@ -252,9 +241,14 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
                       type="button"
                       className={`${styles.dropdownTrigger} ${formData.serviceType ? styles.hasValue : ''} ${errors.serviceType && touched.serviceType ? styles.inputError : ''}`}
                       onClick={() => setDropdownOpen(!dropdownOpen)}
+                      disabled={loadingServices}
                     >
                       <span>
-                        {selectedService ? selectedService.label : t('bikeBooking:form.selectService', 'Select a service')}
+                        {loadingServices 
+                          ? t('common:loading', 'Loading...') 
+                          : selectedService 
+                            ? getServiceLabel(selectedService) 
+                            : t('bikeBooking:form.selectService', 'Select a service')}
                       </span>
                       <FiChevronDown className={`${styles.dropdownIcon} ${dropdownOpen ? styles.open : ''}`} />
                     </button>
@@ -267,13 +261,21 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
                           exit={{ opacity: 0, y: -10 }}
                           transition={{ duration: 0.2 }}
                         >
-                          {serviceTypes.map(option => (
+                          {services.map(service => (
                             <li
-                              key={option.value}
-                              className={`${styles.dropdownItem} ${formData.serviceType === option.value ? styles.selected : ''}`}
-                              onClick={() => handleServiceSelect(option.value)}
+                              key={service._id}
+                              className={`${styles.dropdownItem} ${formData.serviceType === service._id ? styles.selected : ''}`}
+                              onClick={() => handleServiceSelect(service._id)}
                             >
-                              {option.label}
+                              {service.img && (
+                                <img 
+                                  src={service.img} 
+                                  alt="" 
+                                  className={styles.dropdownItemImg}
+                                  onError={(e) => e.target.style.display = 'none'}
+                                />
+                              )}
+                              <span>{getServiceLabel(service)}</span>
                             </li>
                           ))}
                         </motion.ul>
@@ -390,22 +392,18 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
             <motion.img
               key={currentImage}
               src={currentImage}
-              alt={selectedService?.label || 'Service'}
+              alt={selectedService ? getServiceLabel(selectedService) : 'Service'}
               className={styles.serviceImage}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3 }}
-              onError={(e) => {
-                // Fallback to a colored placeholder if image fails to load
-                e.target.style.display = 'none';
-                e.target.parentElement.classList.add(styles.imagePlaceholder);
-              }}
+              onError={(e) => handleImageError(e, 'service')}
             />
           </AnimatePresence>
           <div className={styles.imageOverlay}>
             <span className={styles.serviceLabel}>
-              {selectedService?.label || t('bikeBooking:form.selectService', 'Select a service')}
+              {selectedService ? getServiceLabel(selectedService) : t('bikeBooking:form.selectService', 'Select a service')}
             </span>
           </div>
         </motion.div>

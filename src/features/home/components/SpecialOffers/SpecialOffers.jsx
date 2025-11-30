@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { FiGift, FiUsers, FiPercent, FiArrowRight, FiCopy, FiCheck } from 'react-icons/fi';
 import styles from './SpecialOffers.module.css';
-import welcomeImage from '../../../../assets/images/Home/welcome-picture.png';
+
+const welcomeImage = 'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522518/voyago/home/atdzilz193zgjnoa4daa.png';
 
 const SpecialOffers = () => {
   const { t } = useTranslation('home');
@@ -65,7 +66,7 @@ const SpecialOffers = () => {
         {/* Left Side - Image and Stats */}
         <div className={styles.imageSection}>
           <div className={styles.imageWrapper}>
-            <img src={welcomeImage} alt={t('welcome_image_alt')} className={styles.image} />
+            <img src={welcomeImage} alt={t('welcome_image_alt')} className={styles.image} loading="lazy" />
           </div>
           
           <div className={styles.statsGrid}>

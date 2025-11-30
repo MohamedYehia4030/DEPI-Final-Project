@@ -86,7 +86,7 @@ const UserProfile = () => {
 
   const getAvatarContent = () => {
     if (previewAvatar) {
-      return <img src={previewAvatar} alt={formData.name} className={styles.avatarImage} />;
+      return <img src={previewAvatar} alt={formData.name} className={styles.avatarImage} loading="lazy" />;
     }
     if (formData.name) {
       return <span className={styles.avatarInitial}>{formData.name.charAt(0).toUpperCase()}</span>;

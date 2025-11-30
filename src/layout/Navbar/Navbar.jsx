@@ -217,7 +217,7 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <Link to="/" className={styles.logoContainer} onClick={closeMenu}>
-        <img src={logoImage} alt="Voyago Logo" className={styles.logoIcon} />
+        <img src={logoImage} alt="Voyago Logo" className={styles.logoIcon} loading="eager" />
       </Link>
 
       <button className={styles.navbarToggler} onClick={toggleMenu}>

@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { FaChevronLeft, FaChevronRight, FaQuoteLeft } from 'react-icons/fa';
 import styles from './OffersCTA.module.css';
-import clientImage from '../../../../assets/images/Home/customer-img.png';
+
+const clientImage = 'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522497/voyago/home/onjkwekepw1oocwmqqf8.png';
 
 const testimonialsData = [
   {

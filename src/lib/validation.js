@@ -1,9 +1,6 @@
-/**
- * Comprehensive Validation Utility Library
- * Strong validation for forms across the application
- */
+// Form validation utilities
 
-// ==================== EMAIL VALIDATION ====================
+// Email validation
 export const validateEmail = (email) => {
   if (!email || typeof email !== 'string') {
     return { isValid: false, error: 'Email is required' };
@@ -141,7 +138,7 @@ export const validateEmail = (email) => {
   return { isValid: true, error: null };
 };
 
-// ==================== PASSWORD VALIDATION ====================
+// Password validation
 export const validatePassword = (password, options = {}) => {
   const {
     minLength = 8,
@@ -216,7 +213,7 @@ export const validatePassword = (password, options = {}) => {
   };
 };
 
-// ==================== NAME VALIDATION ====================
+// Name validation
 export const validateName = (name, fieldName = 'Name') => {
   if (!name || typeof name !== 'string') {
     return { isValid: false, error: `${fieldName} is required` };
@@ -250,7 +247,7 @@ export const validateName = (name, fieldName = 'Name') => {
   return { isValid: true, error: null };
 };
 
-// ==================== PHONE VALIDATION ====================
+// Phone validation
 export const validatePhone = (phone) => {
   if (!phone || typeof phone !== 'string') {
     return { isValid: false, error: 'Phone number is required' };
@@ -336,7 +333,7 @@ export const validatePhone = (phone) => {
   return { isValid: true, error: null, formatted, digits: digitsOnly.length };
 };
 
-// ==================== CREDIT CARD VALIDATION ====================
+// Credit card validation
 export const validateCardNumber = (cardNumber) => {
   if (!cardNumber || typeof cardNumber !== 'string') {
     return { isValid: false, error: 'Card number is required', cardType: null };
@@ -410,14 +407,13 @@ const detectCardType = (cardNumber) => {
   return 'unknown';
 };
 
-// Format card number with spaces
 const formatCardNumber = (cardNumber) => {
   const cleaned = cardNumber.replace(/\D/g, '');
   const groups = cleaned.match(/.{1,4}/g);
   return groups ? groups.join(' ') : cleaned;
 };
 
-// ==================== EXPIRY DATE VALIDATION ====================
+// Expiry date validation
 export const validateExpiryDate = (expiry) => {
   if (!expiry || typeof expiry !== 'string') {
     return { isValid: false, error: 'Expiry date is required' };
@@ -467,7 +463,7 @@ export const validateExpiryDate = (expiry) => {
   };
 };
 
-// ==================== CVV VALIDATION ====================
+// CVV validation
 export const validateCVV = (cvv, cardType = 'unknown') => {
   if (!cvv || typeof cvv !== 'string') {
     return { isValid: false, error: 'CVV is required' };
@@ -497,7 +493,7 @@ export const validateCVV = (cvv, cardType = 'unknown') => {
   return { isValid: true, error: null };
 };
 
-// ==================== CARD HOLDER NAME VALIDATION ====================
+// Card holder name validation
 export const validateCardHolderName = (name) => {
   if (!name || typeof name !== 'string') {
     return { isValid: false, error: 'Card holder name is required' };
@@ -532,9 +528,6 @@ export const validateCardHolderName = (name) => {
   return { isValid: true, error: null };
 };
 
-// ==================== FORM VALIDATORS ====================
-
-// Validate entire traveler form
 export const validateTravelerForm = (formData) => {
   const errors = {};
 

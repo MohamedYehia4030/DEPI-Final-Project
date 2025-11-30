@@ -1,45 +1,59 @@
-// Search API - handles searching and filtering tours
-import { tours, services } from '../../packages/api/data.js';
+import axios from 'axios';
+import { getImageUrl } from '../../../lib/imageUtils';
 
-/**
- * Parse price string to number
- * @param {string} priceStr - Price string like "34€"
- * @returns {number} - Numeric price value
- */
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://depi-final-project-production.up.railway.app/api';
+
+let toursCache = null;
+let servicesCacheLocal = null;
+
+const fetchTours = async () => {
+  if (toursCache) return toursCache;
+  try {
+    const res = await axios.get(`${API_BASE_URL}/tourPackages`);
+    toursCache = res.data.map(tour => ({
+      ...tour,
+      img: getImageUrl(tour.img, 'package')
+    }));
+    return toursCache;
+  } catch (error) {
+    console.error('Error fetching tours:', error);
+    return [];
+  }
+};
+
+const fetchServicesLocal = async () => {
+  if (servicesCacheLocal) return servicesCacheLocal;
+  try {
+    const res = await axios.get(`${API_BASE_URL}/services`);
+    servicesCacheLocal = res.data;
+    return servicesCacheLocal;
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return [];
+  }
+};
+
+export const clearSearchCache = () => {
+  toursCache = null;
+  servicesCacheLocal = null;
+};
+
 const parsePrice = (priceStr) => {
   return parseFloat(priceStr.replace(/[^0-9.]/g, ''));
 };
 
-/**
- * Parse duration string to hours
- * @param {string} durationStr - Duration string like "2.5 hour" or "3 hours"
- * @returns {number} - Duration in hours
- */
 const parseDuration = (durationStr) => {
   return parseFloat(durationStr.replace(/[^0-9.]/g, ''));
 };
 
-/**
- * Get duration category
- * @param {number} hours - Duration in hours
- * @returns {string} - Duration category
- */
 const getDurationCategory = (hours) => {
   if (hours <= 4) return 'halfDay';
   if (hours <= 8) return 'fullDay';
   return 'multiDay';
 };
 
-/**
- * Search tours based on query and filters
- * @param {Object} params - Search parameters
- * @param {string} params.query - Search query text
- * @param {Object} params.filters - Filter options
- * @param {string} params.sortBy - Sort option
- * @param {Function} t - Translation function
- * @returns {Array} - Filtered and sorted tours
- */
-export const searchTours = ({ query = '', filters = {}, sortBy = 'recommended' }, t) => {
+export const searchTours = async ({ query = '', filters = {}, sortBy = 'recommended' }, t) => {
+  const tours = await fetchTours();
   let results = [...tours];
 
   // Text search - search in title (only filter if query is not empty)
@@ -109,7 +123,7 @@ export const searchTours = ({ query = '', filters = {}, sortBy = 'recommended' }
       results.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
       break;
     case 'newest':
-      results.sort((a, b) => b.id - a.id);
+      results.sort((a, b) => (b.id || 0) - (a.id || 0));
       break;
     case 'recommended':
     default:
@@ -120,20 +134,12 @@ export const searchTours = ({ query = '', filters = {}, sortBy = 'recommended' }
   return results;
 };
 
-/**
- * Get all available services
- * @returns {Array} - All services
- */
-export const getServices = () => {
-  return services;
+export const getServices = async () => {
+  return await fetchServicesLocal();
 };
 
-/**
- * Get service by slug
- * @param {string} slug - Service slug like "bike-rickshaw"
- * @returns {Object|null} - Service object or null
- */
-export const getServiceBySlug = (slug) => {
+export const getServiceBySlug = async (slug) => {
+  const services = await fetchServicesLocal();
   const serviceMap = {
     'bike-rickshaw': 0,
     'guided-tours': 1,
@@ -149,13 +155,8 @@ export const getServiceBySlug = (slug) => {
   return index !== undefined ? services[index] : null;
 };
 
-/**
- * Get tours by service type
- * @param {string} serviceType - Service type slug
- * @param {Function} t - Translation function
- * @returns {Array} - Related tours
- */
-export const getToursByService = (serviceType, t) => {
+export const getToursByService = async (serviceType, t) => {
+  const tours = await fetchTours();
   const serviceKeywords = {
     'bike-rickshaw': ['bike', 'lucca'],
     'guided-tours': ['tour', 'guided'],
@@ -177,15 +178,10 @@ export const getToursByService = (serviceType, t) => {
   });
 };
 
-/**
- * Get search suggestions based on query
- * @param {string} query - Search query
- * @param {Function} t - Translation function
- * @returns {Array} - Suggestions
- */
-export const getSearchSuggestions = (query, t) => {
+export const getSearchSuggestions = async (query, t) => {
   if (!query || query.length < 2) return [];
   
+  const tours = await fetchTours();
   const queryLower = query.toLowerCase();
   const suggestions = [];
   
@@ -195,7 +191,7 @@ export const getSearchSuggestions = (query, t) => {
       suggestions.push({
         type: 'tour',
         title,
-        id: tour.id,
+        id: tour._id || tour.id,
       });
     }
   });

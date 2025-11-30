@@ -182,7 +182,7 @@ const SearchScreen = () => {
             <div className={styles.resultsList}>
               {results.map((tour, index) => (
                 <SearchResultCard 
-                  key={tour.id} 
+                  key={tour._id || tour.id} 
                   tour={tour} 
                   searchFilters={urlFilters}
                 />

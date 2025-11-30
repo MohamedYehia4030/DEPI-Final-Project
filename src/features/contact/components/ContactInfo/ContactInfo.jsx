@@ -10,12 +10,12 @@ export default function ContactInfo() {
   // Copy phone number to clipboard and show toast
   const handlePhoneClick = () => {
     toast.success(t('phoneCopied') || 'Phone number copied to clipboard!');
-    navigator.clipboard.writeText('+39 346 368 5708');
+    navigator.clipboard.writeText('+20 111 893 6100');
   };
 
   // Open default mail client
   const handleEmailClick = () => {
-    window.location.href = 'mailto:italiainlimo@gmail.com';
+    window.location.href = 'mailto:voyagodepi@gmail.com';
   };
 
   return (
@@ -44,7 +44,7 @@ export default function ContactInfo() {
         <div className={styles.infoItem}>
           <button className={styles.phoneButton} onClick={handlePhoneClick}>
             <Phone className="w-5 h-5 text-primary" />
-            <span className={styles.infoText}>{t('phone')}</span>
+            <span className={styles.infoText} dir="ltr">+20 111 893 6100</span>
           </button>
         </div>
 

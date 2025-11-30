@@ -93,8 +93,7 @@
 
 @media (max-width: 992px) {
   .mainImage {
-    height: 400px;
-    
+    height: 380px;
   }
   .thumbnail {
     width: 80px;
@@ -103,32 +102,60 @@
   .calendarBox {
     max-width: 220px;
   }
+  .buyNowBtn {
+    width: 50%;
+  }
 }
 
 @media (max-width: 768px) {
+  .mainContainer {
+    padding-top: 80px;
+  }
   .mainImage {
-    height: 300px;
-    margin-top:60px;
+    height: 280px;
+    margin-top: 0;
   }
   .thumbnail {
-    width: 70px;
-    height: 50px;
+    width: 65px;
+    height: 48px;
   }
   .calendarBox {
+    max-width: 100%;
+  }
+  .buyNowBtn {
+    width: 60%;
+  }
+  .timeSelect {
     max-width: 100%;
   }
 }
 
 @media (max-width: 576px) {
+  .mainContainer {
+    padding-top: 70px;
+  }
   .mainImage {
-    height: 250px;
+    height: 220px;
   }
   .thumbnail {
-    width: 60px;
-    height: 45px;
+    width: 55px;
+    height: 42px;
   }
   .calendarGrid {
     grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
+    gap: 3px;
+  }
+  .calendarDay {
+    height: 28px;
+    font-size: 0.85rem;
+  }
+  .buyNowBtn {
+    width: 80%;
+    max-width: 250px;
+    font-size: 16px;
+    padding: 10px;
+  }
+  .detailsText {
+    font-size: 0.95rem;
   }
 }

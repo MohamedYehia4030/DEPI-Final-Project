@@ -16,8 +16,9 @@ import useBookingStore from '../../../store/booking/useBookingStore';
 import styles from './BookingScreen.module.css';
 
 export default function BookingScreen() {
-  const { t } = useTranslation('booking');
+  const { t, i18n } = useTranslation('booking');
   const navigate = useNavigate();
+  const isRTL = i18n.dir() === 'rtl';
   
   // Get state and actions from store
   const currentStep = useBookingStore((state) => state.currentStep);
@@ -67,7 +68,7 @@ export default function BookingScreen() {
   // Build booking data object for components
   const bookingData = {
     packageInfo: packageInfo || {
-      name: "Select a Package",
+      name: t('selectPackage', 'Select a Package'),
       image: "",
       adultPrice: 0,
       childPrice: 0,
@@ -157,7 +158,7 @@ export default function BookingScreen() {
   ];
 
   return (
-    <div className={styles.bookingWrapper}>
+    <div className={styles.bookingWrapper} dir={isRTL ? 'rtl' : 'ltr'}>
       {currentStep < 4 && (
         <div className={styles.progressBar}>
           {stepLabels.map((label, index) => (

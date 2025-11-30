@@ -119,6 +119,15 @@ html[data-theme="dark"] .navbar {
   font-weight: 600;
 }
 
+/* Admin link special styling */
+.adminLink {
+  color: #8b5cf6 !important;
+}
+
+.adminLink:hover {
+  color: #7c3aed !important;
+}
+
 .underline {
   position: absolute;
   bottom: -4px;

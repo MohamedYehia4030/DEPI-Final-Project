@@ -9,20 +9,21 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false,
     },
-    ns: ['common', 'navbar', 'footer', 'home', 'Reviews', 'contact', 'about', 'packages', 'booking', 'auth', 'bikeBooking', 'dashboard', 'search', 'static'], 
-    defaultNS: 'common', 
+    ns: ['common', 'navbar', 'footer', 'home'],
+    defaultNS: 'common',
+    partialBundledLanguages: true,
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json',
     },
+    load: 'currentOnly',
+    preload: [],
   })
   .then(() => {
-    // Set initial document direction (RTL for Arabic, LTR for English)
     document.dir = i18n.dir();
-    // Update direction when language changes
     i18n.on('languageChanged', () => {
       document.dir = i18n.dir();
     });

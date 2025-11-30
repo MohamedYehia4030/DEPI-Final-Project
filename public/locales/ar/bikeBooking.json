@@ -46,6 +46,32 @@
     "hybrid": "دراجة هجينة",
     "tandem": "دراجة ثنائية"
   },
+  "tourTypes": {
+    "walking": "جولة سيرًا على الأقدام",
+    "bike": "جولة بالدراجة",
+    "bus": "جولة بالحافلة",
+    "private": "جولة خاصة"
+  },
+  "hillTypes": {
+    "standard": "جولة قياسية",
+    "premium": "تجربة مميزة",
+    "private": "رحلة خاصة"
+  },
+  "transportTypes": {
+    "shuttle": "حافلة نقل",
+    "minibus": "حافلة صغيرة",
+    "coach": "حافلة كبيرة"
+  },
+  "carTypes": {
+    "sedan": "سيدان فاخرة",
+    "suv": "سيارة دفع رباعي فاخرة",
+    "limousine": "ليموزين"
+  },
+  "wineTypes": {
+    "halfDay": "جولة نصف يوم",
+    "fullDay": "جولة يوم كامل",
+    "premium": "تذوق مميز"
+  },
   "accessories": {
     "helmet": "خوذة",
     "lock": "قفل الدراجة",

@@ -101,7 +101,7 @@
 }
 
 /* ---------------------------------- */
-/* أيقونات الاقتباس والـ Z-index لحل مشكلة تداخل الصورة */
+/* Quote icons and z-index to fix image overlap issue */
 /* ---------------------------------- */
 
 .quote-icon-top,
@@ -111,7 +111,7 @@
     position: absolute;
     opacity: 1;
     z-index: 1;
-    /* الأيقونة تكون في الخلف */
+    /* Icon stays in the back */
 }
 
 .quote-icon-top {
@@ -136,7 +136,7 @@
     font-weight: 400;
     position: relative;
     z-index: 3;
-    /* النص يكون في الأمام */
+    /* Text stays in the front */
 }
 
 .client-info {
@@ -144,7 +144,7 @@
     align-items: center;
     margin-top: 20px;
     position: relative;
-    /* لضمان بقائها فوق أيقونة الكوتس */
+    /* Ensures it stays above the quote icon */
     z-index: 3;
 }
 
@@ -166,7 +166,7 @@
 }
 
 /* ---------------------------------- */
-/* إصلاحات RTL (اللغة العربية) */
+/* RTL (Arabic language) fixes */
 /* ---------------------------------- */
 
 [dir='rtl'] .testimonials-section-container {
@@ -204,7 +204,7 @@
 }
 
 /* ---------------------------------- */
-/* التنسيقات المتجاوبة (Responsive) */
+/* Responsive styles */
 /* ---------------------------------- */
 
 @media (max-width: 900px) {

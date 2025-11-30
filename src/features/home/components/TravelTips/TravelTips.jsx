@@ -1,69 +1,74 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaMobileAlt, FaCity, FaTag, FaCheck, FaCar, FaMapMarkerAlt, FaBus, FaTicketAlt } from 'react-icons/fa';
+import { FaMobileAlt, FaTag, FaCheck, FaCar, FaMapMarkerAlt, FaBus, FaTicketAlt } from 'react-icons/fa';
 import styles from './TravelTips.module.css';
-
-import packageImage1 from '../../../../assets/images/Home/explore-img1.png';
-import packageImage2 from '../../../../assets/images/Home/explore-img2.png';
-import packageImage3 from '../../../../assets/images/Home/explore-img3.png';
-import packageImage4 from '../../../../assets/images/Home/transport-img3.png';
+import useServiceBookingStore from '../../../../store/booking/useServiceBookingStore';
 
 const packagesData = [
   {
     key: 'package1',
-    categoryKey: 'category_bike_rickshaw',
-    titleKey: 'package1_title',
+    slug: 'bike-rickshaw',
+    serviceType: 'city',
+    categoryKey: 'home:category_bike_rickshaw',
+    titleKey: 'home:package1_title',
     price: '10',
     unit: '/day',
-    image: packageImage1,
+    image: 'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522499/voyago/home/j5wzoh0sbzk4xd5ea0nd.png',
     features: [
-      { textKey: 'f1_bike_day', icon: FaCheck },
-      { textKey: 'f2_city_app', icon: FaMobileAlt },
-      { textKey: 'f3_discount', icon: FaTag },
-      { textKey: 'f4_support', icon: FaCheck },
+      { textKey: 'home:f1_bike_day', icon: FaCheck },
+      { textKey: 'home:f2_city_app', icon: FaMobileAlt },
+      { textKey: 'home:f3_discount', icon: FaTag },
+      { textKey: 'home:f4_support', icon: FaCheck },
     ]
   },
   {
     key: 'package2',
-    categoryKey: 'category_bike_tours',
-    titleKey: 'package2_title',
+    slug: 'guided-tours',
+    serviceType: 'bike',
+    categoryKey: 'home:category_bike_tours',
+    titleKey: 'home:package2_title',
     price: '30',
     unit: '/day',
-    image: packageImage2,
+    image: 'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522500/voyago/home/jyumymppnq0pm9zx43qv.png',
     features: [
-      { textKey: 'f1_mountain_bike', icon: FaCheck },
-      { textKey: 'f2_guide', icon: FaCheck },
-      { textKey: 'f3_water', icon: FaCheck },
-      { textKey: 'f4_support', icon: FaCheck },
+      { textKey: 'home:f1_mountain_bike', icon: FaCheck },
+      { textKey: 'home:f2_guide', icon: FaCheck },
+      { textKey: 'home:f3_water', icon: FaCheck },
+      { textKey: 'home:f4_support', icon: FaCheck },
     ]
   },
   {
     key: 'package3',
-    categoryKey: 'category_bus_trips',
-    titleKey: 'package3_title',
+    slug: 'transportation',
+    serviceType: 'coach',
+    categoryKey: 'home:category_bus_trips',
+    titleKey: 'home:package3_title',
     price: '45',
     unit: '/day',
-    image: packageImage3,
+    image: 'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522501/voyago/home/iyruo63vbh6b87k1qeai.png',
     features: [
-      { textKey: 'f1_park_ticket', icon: FaTicketAlt },
-      { textKey: 'f2_return_bus', icon: FaBus },
-      { textKey: 'f3_companion', icon: FaCheck },
-      { textKey: 'f4_support', icon: FaCheck },
+      { textKey: 'home:f1_park_ticket', icon: FaTicketAlt },
+      { textKey: 'home:f2_return_bus', icon: FaBus },
+      { textKey: 'home:f3_companion', icon: FaCheck },
+      { textKey: 'home:f4_support', icon: FaCheck },
     ]
   },
   {
     key: 'package4',
-    categoryKey: 'category_transfer',
-    titleKey: 'package4_title',
+    slug: 'luxury-cars',
+    serviceType: 'sedan',
+    categoryKey: 'home:category_transfer',
+    titleKey: 'home:package4_title',
     price: '10',
     unit: '/day',
-    image: packageImage4,
+    image: 'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522515/voyago/home/ca8yxkncjtr015fmb8sf.png',
     features: [
-      { textKey: 'f1_personal_driver', icon: FaCar },
-      { textKey: 'f2_wherever_you_want', icon: FaMapMarkerAlt },
-      { textKey: 'f3_best_price', icon: FaTag },
-      { textKey: 'f4_support', icon: FaCheck },
+      { textKey: 'home:f1_personal_driver', icon: FaCar },
+      { textKey: 'home:f2_wherever_you_want', icon: FaMapMarkerAlt },
+      { textKey: 'home:f3_best_price', icon: FaTag },
+      { textKey: 'home:f4_support', icon: FaCheck },
     ]
   }
 ];
@@ -94,6 +99,33 @@ const cardItemVariants = {
 
 const PopularPackages = () => {
   const { t } = useTranslation('home');
+  const navigate = useNavigate();
+  
+  // Service booking store
+  const setService = useServiceBookingStore(state => state.setService);
+  const setServiceType = useServiceBookingStore(state => state.setServiceType);
+  const resetBooking = useServiceBookingStore(state => state.resetBooking);
+
+  // Handle Book Now click - navigates to service booking form
+  const handleBookNow = (pkg) => {
+    // Reset any previous booking
+    resetBooking();
+    
+    // Set the service info in the store
+    setService({
+      id: pkg.key,
+      slug: pkg.slug,
+      titleKey: pkg.titleKey || '',
+      descKey: pkg.categoryKey || '',
+      img: pkg.image,
+    });
+    
+    // Set the service type (e.g., 'city', 'bike', 'coach', 'sedan')
+    setServiceType(pkg.serviceType);
+    
+    // Navigate to service booking page
+    navigate('/service-booking');
+  };
 
   return (
     <div className={styles['packages-container-wrapper']}>
@@ -115,7 +147,7 @@ const PopularPackages = () => {
             transition={{ type: "spring", stiffness: 300 }}
           >
             <div className={styles['package-image-wrapper']}>
-              <img src={pkg.image} alt={t(pkg.titleKey)} className={styles['package-image']} />
+              <img src={pkg.image} alt={t(pkg.titleKey)} className={styles['package-image']} loading="lazy" />
             </div>
 
             <div className={styles['package-content']}>
@@ -135,7 +167,10 @@ const PopularPackages = () => {
                 ))}
               </ul>
 
-              <button className={styles['book-button']}>
+              <button 
+                className={styles['book-button']}
+                onClick={() => handleBookNow(pkg)}
+              >
                 {t('book_now_button', 'Book Now')}
               </button>
             </div>

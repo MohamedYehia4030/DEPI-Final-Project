@@ -53,6 +53,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
     lastLogin: {
       type: Date,
       default: null,
@@ -63,7 +67,6 @@ const userSchema = mongoose.Schema(
   }
 );
 
-// Method to safely return user data without sensitive info
 userSchema.methods.toSafeObject = function() {
   return {
     _id: this._id,
@@ -71,11 +74,9 @@ userSchema.methods.toSafeObject = function() {
     email: this.email,
     avatar: this.avatar,
     isVerified: this.isVerified,
+    isAdmin: this.isAdmin,
     createdAt: this.createdAt,
   };
 };
 
-// This line is crucial: it exports the Model directly.
-// If you wrapped it in an object (e.g., module.exports = { User }),
-// you would get the "not a function" error when calling User.findOne()
 module.exports = mongoose.model("User", userSchema);

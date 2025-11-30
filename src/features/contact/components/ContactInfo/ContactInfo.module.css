@@ -67,6 +67,10 @@
   align-self: center;
 }
 
+.infoText:hover{
+  cursor: pointer;
+}
+
 /* Special styling for phone button */
 .phoneButton {
   display: flex;
@@ -83,6 +87,11 @@
   color: #4a5568;
   font-size: 1.125rem;
   font-weight: 500;
+}
+
+/* RTL support for phone button */
+[dir="rtl"] .phoneButton {
+  text-align: right;
 }
 
 /* Hover effect for phone button */

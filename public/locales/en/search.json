@@ -41,5 +41,13 @@
   "viewTour": "View Tour",
   "activeFilters": "Your search criteria",
   "clearAll": "Clear All",
-  "tour": "Tour"
+  "tour": "Tour",
+  "min": "Min",
+  "max": "Max",
+  "from": "from",
+  "anyRating": "Any Rating",
+  "rating45": "4.5+ Stars",
+  "rating4": "4+ Stars",
+  "rating35": "3.5+ Stars",
+  "bus": "Bus"
 }

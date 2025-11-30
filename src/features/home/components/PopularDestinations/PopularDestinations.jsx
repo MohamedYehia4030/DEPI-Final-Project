@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUsers } from 'react-icons/fa';
 import { MdOutlineDateRange } from 'react-icons/md';
 import { motion } from 'framer-motion';
@@ -6,15 +6,19 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styles from './PopularDestinations.module.css';
 import Slider from '../../../../components/Slider/Slider';
-import cardImage1 from '../../../../assets/images/Home/Card-Image-1.jpg';
-import cardImage2 from '../../../../assets/images/Home/Card-Image-2.png';
-import cardImage3 from '../../../../assets/images/Home/Card-Image-3.png';
-import cardImage4 from '../../../../assets/images/Home/Card-Image-4.png';
-import cardImage5 from '../../../../assets/images/Home/Card-Image-5.png';
-import cardImage6 from '../../../../assets/images/Home/Card-Image-6.png';
-import cardImage7 from '../../../../assets/images/Home/Card-Image-7.png';
-import cardImage8 from '../../../../assets/images/Home/Card-Image-8.png';
-import cardImage9 from '../../../../assets/images/Home/Card-Image-9.jpg';
+import { getTourPackages } from '../../../packages/api/packagesAPI';
+
+const cardImages = [
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522478/voyago/home/qvgcmpfh06patbvqce1j.jpg',
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522479/voyago/home/b48s660oucznlyrlzasb.png',
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522480/voyago/home/bvt8h9ywr2d4eyjo9el6.png',
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522483/voyago/home/e2yn22wxjkcn3uhwosmo.jpg',
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522486/voyago/home/ejlloat36niqv7fh6dxr.jpg',
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522488/voyago/home/f0hdad2vj7sstabtxfyw.jpg',
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522491/voyago/home/lvagrxawgvxijq2ka3ld.jpg',
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522494/voyago/home/hmccp59retlbz7mehdme.jpg',
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522496/voyago/home/w2461waoxs7y5jg1o7cx.jpg'
+];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,39 +34,36 @@ const cardItemVariants = {
 };
 
 const PopularDestinations = () => {
-  const { t } = useTranslation('home');
+  const { t } = useTranslation(['home', 'packages', 'common']);
   const navigate = useNavigate();
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Map tours to actual package IDs for linking
-  const toursData = [
-    { key: "tour1", title: "Lucca Bike Tour", price: "34", image: cardImage1, details: "A tour of the city and its surroundings led by a professional guide ...", schedule: "EVERY_DAY", duration: "3-10 PP", packageId: 1 },
-    { key: "tour2", title: "Wine tasting In Tuscany", price: "34", image: cardImage2, details: "The real magic is here where you can enjoy the best Tuscan wine and eat ...", schedule: "MONDAY", duration: "10-30 PP", packageId: 2 },
-    { key: "tour3", title: "Cinque Terre Tour", price: "34", image: cardImage3, details: "Visiting the 5 Terre is a must, and you can never go there enough ...", schedule: "TBD", duration: "10-50 PP", packageId: 3 },
-    { key: "tour4", title: "Siena and Surroundings", price: "34", image: cardImage4, details: "Visit the beautiful Siena and the cities that surround it to experience ...", schedule: "TBD", duration: "5-10 PP", packageId: 4 },
-    { key: "tour5", title: "Florence Art Walk", price: "45", image: cardImage5, details: "Discover the artistic heart of Florence with a guided walking tour.", schedule: "SATURDAY", duration: "5-15 PP", packageId: 8 },
-    { key: "tour6", title: "Pisa Tower Climb", price: "25", image: cardImage6, details: "A thrilling experience to climb the iconic Leaning Tower of Pisa.", schedule: "SUNDAY", duration: "10-20 PP", packageId: 7 },
-    { key: "tour7", title: "Tuscan Cooking Class", price: "60", image: cardImage7, details: "Learn to cook authentic Tuscan dishes from a local chef.", schedule: "FRIDAY", duration: "8-12 PP", packageId: 5 },
-    { key: "tour8", title: "Venice Gondola Ride", price: "50", image: cardImage8, details: "Experience the magic of Venice with a traditional gondola ride.", schedule: "EVERY_DAY", duration: "2-5 PP", packageId: 6 },
-    { key: "tour9", title: "Rome Colosseum Tour", price: "35", image: cardImage9, details: "A journey back in time with a guided tour of the ancient Colosseum.", schedule: "TUESDAY", duration: "15-40 PP", packageId: 1 }
-  ];
+  useEffect(() => {
+    async function fetchTours() {
+      try {
+        const data = await getTourPackages();
+        setTours(data);
+      } catch (err) {
+        console.error('Error fetching tours:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchTours();
+  }, []);
 
-  const handleTourClick = (packageId) => {
-    navigate(`/packages/${packageId}`);
+  const handleTourClick = (tourId) => {
+    navigate(`/packages/${tourId}`);
   };
 
-  const getScheduleTranslationKey = (schedule) => {
-    switch (schedule) {
-      case 'EVERY_DAY': return 'schedule_every_day';
-      case 'MONDAY': return 'schedule_monday';
-      case 'TUESDAY': return 'schedule_tuesday';
-      case 'WEDNESDAY': return 'schedule_wednesday';
-      case 'THURSDAY': return 'schedule_thursday';
-      case 'FRIDAY': return 'schedule_friday';
-      case 'SATURDAY': return 'schedule_saturday';
-      case 'SUNDAY': return 'schedule_sunday';
-      case 'TBD': return 'schedule_tbd';
-      default: return schedule;
+  // Get tour key for translations (e.g., "packages:tours.luccaBike.title" -> "tours.luccaBike")
+  const getTourKey = (titleKey) => {
+    if (titleKey) {
+      const match = titleKey.match(/packages:(tours\.[^.]+)/);
+      return match ? match[1] : null;
     }
+    return null;
   };
 
   return (
@@ -76,63 +77,80 @@ const PopularDestinations = () => {
         <h2 className={styles['travel-section-title']}>{t('popular_destinations_title')}</h2>
       </div>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        <Slider
-          perSlide={4}
-          
-          // Passing button classes for the Slider to use
-          prevButtonClass={styles['travel-nav-button-prev']}
-          nextButtonClass={styles['travel-nav-button-next']}
-          navButtonClass={styles['travel-nav-button']}
-          // Responsive breakpoints for the Slider (Assuming the Slider component supports this format)
-          breakpoints={{
-            1200: { perSlide: 4 }, // Large screens: 4
-            992: { perSlide: 3 },  // Medium screens: 3
-            768: { perSlide: 2 },  // Small tablets: 2
-            0: { perSlide: 1 }     // Mobile: 1
-          }}
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          {t('common:loading', 'Loading...')}
+        </div>
+      ) : tours.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          {t('common:noTours', 'No tours available')}
+        </div>
+      ) : (
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
         >
-          {toursData.map((tour, index) => (
-            <motion.div
-              key={index}
-              className={styles['travel-tour-card']}
-              variants={cardItemVariants}
-              whileHover={{ y: -5, boxShadow: '0 12px 25px rgba(0,0,0,0.12)' }}
-              transition={{ type: 'spring', stiffness: 300 }}
-              onClick={() => handleTourClick(tour.packageId)}
-              style={{ cursor: 'pointer' }}
-            >
-              <div className={styles['travel-card-image']}>
-                <img src={tour.image} alt={t(`${tour.key}_title`)} />
-              </div>
-              <div className={styles['travel-card-content']}>
-                <h3 className={styles['travel-card-title']}>{t(`${tour.key}_title`)}</h3>
-                <p className={styles['travel-card-price']}>
-                  <span className={styles['travel-price-from']}>{t('price_from', 'from')}</span> {tour.price} €
-                </p>
+          <Slider
+            perSlide={4}
+            prevButtonClass={styles['travel-nav-button-prev']}
+            nextButtonClass={styles['travel-nav-button-next']}
+            navButtonClass={styles['travel-nav-button']}
+            breakpoints={{
+              1200: { perSlide: 4 },
+              992: { perSlide: 3 },
+              768: { perSlide: 2 },
+              0: { perSlide: 1 }
+            }}
+          >
+            {tours.map((tour, index) => {
+              const tourKey = getTourKey(tour.titleKey);
+              const shortDesc = tourKey 
+                ? t(`packages:${tourKey}.shortDesc`, tour.desc) 
+                : tour.desc;
 
-                <div className={styles['travel-tour-meta']}>
-                  <span className={styles['travel-meta-item']}>
-                    <MdOutlineDateRange className={styles['travel-meta-icon']} />
-                    {t(getScheduleTranslationKey(tour.schedule))}
-                  </span>
-                  <span className={styles['travel-meta-item']}>
-                    <FaUsers className={styles['travel-meta-icon']} />
-                    {tour.duration}
-                  </span>
-                </div>
+              return (
+                <motion.div
+                  key={tour._id || index}
+                  className={styles['travel-tour-card']}
+                  variants={cardItemVariants}
+                  whileHover={{ y: -5, boxShadow: '0 12px 25px rgba(0,0,0,0.12)' }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                  onClick={() => handleTourClick(tour._id)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className={styles['travel-card-image']}>
+                    <img 
+                      src={cardImages[index % cardImages.length]} 
+                      alt={t(tour.titleKey)} 
+                    />
+                  </div>
+                  <div className={styles['travel-card-content']}>
+                    <h3 className={styles['travel-card-title']}>{t(tour.titleKey)}</h3>
+                    <p className={styles['travel-card-price']}>
+                      <span className={styles['travel-price-from']}>{t('packages:priceFrom', 'from')}</span> {tour.price}
+                    </p>
 
-                <p className={styles['travel-card-details']}>{t(`${tour.key}_details`)}</p>
-              </div>
-            </motion.div>
-          ))}
-        </Slider>
-      </motion.div>
+                    <div className={styles['travel-tour-meta']}>
+                      <span className={styles['travel-meta-item']}>
+                        <MdOutlineDateRange className={styles['travel-meta-icon']} />
+                        {tour.duration}
+                      </span>
+                      <span className={styles['travel-meta-item']}>
+                        <FaUsers className={styles['travel-meta-icon']} />
+                        {t(tour.groupKey)}
+                      </span>
+                    </div>
+
+                    <p className={styles['travel-card-details']}>{shortDesc}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </Slider>
+        </motion.div>
+      )}
     </motion.div>
   );
 };

@@ -1,35 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiCalendar, FiClock, FiX, FiEye, FiDownload, FiUsers, FiMapPin, FiPackage } from 'react-icons/fi';
 import { useAuthStore } from '../../../../store/auth/useAuthStore';
 import useUserTicketsStore from '../../../../store/tickets/useUserTicketsStore';
-import { tours, services } from '../../../packages/api/data';
+import { getTourPackages, getServices } from '../../../packages/api/packagesAPI';
 import styles from './UserBookings.module.css';
+import { getImageUrl, handleImageError } from '../../../../lib/imageUtils';
 
 const UserBookings = () => {
-  const { t } = useTranslation(['dashboard', 'packages', 'bikeBooking']);
+  const { t } = useTranslation(['dashboard', 'packages', 'bikeBooking', 'home']);
   const user = useAuthStore((state) => state.user);
   const getUserTickets = useUserTicketsStore((state) => state.getUserTickets);
   const cancelTicket = useUserTicketsStore((state) => state.cancelTicket);
   
   const [cancelModal, setCancelModal] = useState({ open: false, ticket: null });
   const [detailsModal, setDetailsModal] = useState({ open: false, ticket: null });
+  const [tours, setTours] = useState([]);
+  const [services, setServices] = useState([]);
+  
+  // Fetch tours and services
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [toursData, servicesData] = await Promise.all([
+          getTourPackages(),
+          getServices()
+        ]);
+        setTours(toursData);
+        setServices(servicesData);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      }
+    }
+    fetchData();
+  }, []);
   
   // Get tickets for current user (this also auto-updates past tickets to 'ended')
   const userTickets = user?.email ? getUserTickets(user.email) : [];
 
   // Get tour image from tours data
   const getTourImage = (tourId) => {
-    const tour = tours.find((t) => t.id === tourId);
-    return tour?.img || null;
+    const tour = tours.find((t) => t._id === tourId || t.id === tourId);
+    if (tour?.img) {
+      return getImageUrl(tour.img, 'package');
+    }
+    return getImageUrl(null, 'package');
   };
 
   // Get booking name (handles both tours and services)
   const getBookingName = (ticket) => {
-    if (ticket.bookingType === 'service') {
-      return t(ticket.tourName);
+    // If tourName is a translation key with namespace (e.g., 'packages:tours.luccaBike.title' or 'home:package1_title')
+    if (ticket.tourName && ticket.tourName.includes(':')) {
+      const translated = t(ticket.tourName);
+      // If translation found (not same as key), return it
+      if (translated !== ticket.tourName) {
+        return translated;
+      }
     }
-    return t(ticket.tourName);
+    
+    // Try with different namespaces if no namespace specified
+    if (ticket.tourName && !ticket.tourName.includes(':')) {
+      // Try home namespace first
+      const homeTranslation = t(`home:${ticket.tourName}`);
+      if (homeTranslation !== `home:${ticket.tourName}`) {
+        return homeTranslation;
+      }
+      // Try packages namespace
+      const packagesTranslation = t(`packages:${ticket.tourName}`);
+      if (packagesTranslation !== `packages:${ticket.tourName}`) {
+        return packagesTranslation;
+      }
+    }
+    
+    // Try to find the tour in database and get its translated title
+    if (ticket.tourId) {
+      const tour = tours.find(t => t._id === ticket.tourId || t.id === ticket.tourId);
+      if (tour?.titleKey) {
+        return t(tour.titleKey);
+      }
+    }
+    
+    // Fallback to the raw name
+    return ticket.tourName || t('dashboard:tickets.unknownTour', 'Unknown Tour');
   };
 
   // Get service type label

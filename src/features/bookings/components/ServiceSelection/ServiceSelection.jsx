@@ -50,7 +50,8 @@ const durationOptions = [
 ];
 
 function ServiceSelection({ onNext }) {
-  const { t } = useTranslation(['booking', 'bikeBooking', 'packages']);
+  const { t, i18n } = useTranslation(['booking', 'bikeBooking', 'packages']);
+  const isRTL = i18n.dir() === 'rtl';
   
   // Get store state and actions
   const serviceInfo = useServiceBookingStore((state) => state.serviceInfo);
@@ -130,7 +131,7 @@ function ServiceSelection({ onNext }) {
 
   if (!serviceInfo) {
     return (
-      <div className={styles.container}>
+      <div className={styles.container} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className={styles.noService}>
           <h2>{t('booking:noServiceSelected', 'No Service Selected')}</h2>
           <p>{t('booking:pleaseSelectService', 'Please select a service from the services page.')}</p>
@@ -140,13 +141,13 @@ function ServiceSelection({ onNext }) {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir={isRTL ? 'rtl' : 'ltr'}>
       <h2 className={styles.title}>{t('booking:configureService', 'Configure Your Service')}</h2>
       
       {/* Service Info Card */}
       <div className={styles.serviceCard}>
         {serviceInfo.img && (
-          <img src={serviceInfo.img} alt={t(serviceInfo.titleKey)} className={styles.serviceImage} />
+          <img src={serviceInfo.img} alt={t(serviceInfo.titleKey)} className={styles.serviceImage} loading="lazy" />
         )}
         <div className={styles.serviceDetails}>
           <h3 className={styles.serviceName}>{t(serviceInfo.titleKey)}</h3>

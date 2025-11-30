@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// Helper to check if a date is in the past (before today, not including today)
 const isDatePast = (dateInput) => {
   if (!dateInput) return false;
   
@@ -35,7 +34,6 @@ const useUserTicketsStore = create(
     (set, get) => ({
       tickets: [],
 
-      // Add a new ticket after booking is complete
       addTicket: (ticketData) => {
         const { tickets } = get();
         
@@ -57,14 +55,12 @@ const useUserTicketsStore = create(
         return newTicket;
       },
 
-      // Get all tickets for a user (by email) - also updates past tickets to 'ended'
       getUserTickets: (userEmail) => {
         const { updatePastTickets } = get();
         updatePastTickets(); // Auto-update past tickets
         return get().tickets.filter((ticket) => ticket.userEmail === userEmail);
       },
 
-      // Auto-update tickets with past dates to 'ended' status
       updatePastTickets: () => {
         set((state) => ({
           tickets: state.tickets.map((ticket) => {
@@ -78,7 +74,6 @@ const useUserTicketsStore = create(
         }));
       },
 
-      // Update ticket status
       updateTicketStatus: (ticketId, status) => {
         set((state) => ({
           tickets: state.tickets.map((ticket) =>
@@ -87,7 +82,6 @@ const useUserTicketsStore = create(
         }));
       },
 
-      // Cancel a ticket
       cancelTicket: (ticketId) => {
         set((state) => ({
           tickets: state.tickets.map((ticket) =>
@@ -96,7 +90,6 @@ const useUserTicketsStore = create(
         }));
       },
 
-      // Clear all tickets (for testing)
       clearTickets: () => set({ tickets: [] }),
     }),
     {

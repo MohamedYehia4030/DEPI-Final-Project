@@ -11,12 +11,12 @@ export default function PackageGallery({ galleryImages = [] }) {
 
   const slideNodes = carouselItems.map((item, idx) => (
     <div className={styles.galleryGrid} key={idx}>
-      <img className={styles.bigImg} src={item[0]} alt="" />
+      {item[0] && <img className={styles.bigImg} src={item[0]} alt="" loading="lazy" />}
       <div className={styles.smallColumn}>
-        <img src={item[1]} alt="" />
-        <img src={item[2]} alt="" />
+        {item[1] && <img src={item[1]} alt="" loading="lazy" />}
+        {item[2] && <img src={item[2]} alt="" loading="lazy" />}
       </div>
-      <img className={styles.tallImg} src={item[3]} alt="" />
+      {item[3] && <img className={styles.tallImg} src={item[3]} alt="" loading="lazy" />}
     </div>
   ));
 

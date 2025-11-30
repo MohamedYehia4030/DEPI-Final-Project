@@ -18,15 +18,15 @@ const SearchResultCard = ({ tour, searchFilters = {} }) => {
   const navigate = useNavigate();
 
   // Use search filters if provided, otherwise use defaults
-  const displayDate = searchFilters.date || 'Tuesday, 02 Oct 2022';
-  const displayTime = searchFilters.time || '15:00 PM';
+  const displayDate = searchFilters.date || t('search:flexible', 'Flexible');
+  const displayTime = searchFilters.time || '15:00';
   const displayPeople = searchFilters.people ? `${searchFilters.people}` : '15-30';
-  const displayTransport = searchFilters.transport || 'Bus';
+  const displayTransport = searchFilters.transport || t('search:transportation', 'Bus');
 
   const handleBookNow = () => {
     navigate('/booking', { 
       state: { 
-        packageId: tour.id,
+        packageId: tour._id || tour.id,
         packageName: t(tour.titleKey),
         packagePrice: tour.price,
         packageImage: tour.img,
@@ -38,7 +38,7 @@ const SearchResultCard = ({ tour, searchFilters = {} }) => {
   };
 
   const handleViewTour = () => {
-    navigate(`/packages/${tour.id}`);
+    navigate(`/packages/${tour._id || tour.id}`);
   };
 
   // Extract price number
@@ -90,7 +90,7 @@ const SearchResultCard = ({ tour, searchFilters = {} }) => {
             <div className={styles.detailItem}>
               <FiWatch className={styles.detailIcon} />
               <span className={styles.detailLabel}>{t('packages:duration', 'Duration')}:</span>
-              <span className={styles.detailValue}>{tour.duration} and 45 minutes</span>
+              <span className={styles.detailValue}>{tour.duration}</span>
             </div>
             <div className={styles.detailItem}>
               <FiUser className={styles.detailIcon} />
@@ -105,7 +105,7 @@ const SearchResultCard = ({ tour, searchFilters = {} }) => {
             <div className={styles.detailItem}>
               <FiDollarSign className={styles.detailIcon} />
               <span className={styles.detailLabel}>{t('packages:fees', 'Entry Fees')}:</span>
-              <span className={styles.detailValue}>lorem ipsum</span>
+              <span className={styles.detailValue}>{t('packages:feesIncluded', 'Included')}</span>
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@ const SearchResultCard = ({ tour, searchFilters = {} }) => {
       {/* Price and Actions Section */}
       <div className={styles.priceSection}>
         <div className={styles.priceWrapper}>
-          <span className={styles.priceLabel}>from</span>
+          <span className={styles.priceLabel}>{t('search:from', 'from')}</span>
           <span className={styles.price}>{priceValue} <span className={styles.currency}>€</span></span>
         </div>
         <div className={styles.actions}>

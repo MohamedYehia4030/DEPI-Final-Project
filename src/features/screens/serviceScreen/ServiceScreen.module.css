@@ -171,6 +171,18 @@
   transform: translateX(4px);
 }
 
+[dir="rtl"] .highlightItem:hover {
+  transform: translateX(-4px);
+}
+
+[dir="rtl"] .highlightItem {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .backLink {
+  flex-direction: row-reverse;
+}
+
 .highlightNumber {
   display: flex;
   align-items: center;

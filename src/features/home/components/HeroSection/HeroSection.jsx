@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './HeroSection.module.css';
 import HeroSearchForm from '../HeroSearchForm/HeroSearchForm';
-import background1 from '../../../../assets/images/Home/Home-Background-1.png';
-import background2 from '../../../../assets/images/Home/Home-Background-2.png';
 
-const backgrounds = [background1, background2];
+const backgrounds = [
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522506/voyago/home/dkzz5la3dv4hzff2bmdc.jpg',
+  'https://res.cloudinary.com/dczhvcc0v/image/upload/v1764522509/voyago/home/un6btafshrlkgn8qshia.jpg'
+];
 
 const HeroSection = () => {
   const { t } = useTranslation('home');

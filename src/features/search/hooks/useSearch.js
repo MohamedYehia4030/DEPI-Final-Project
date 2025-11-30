@@ -3,13 +3,6 @@ import { useTranslation } from 'react-i18next';
 import useDebounce from '../../../hooks/useDebounce';
 import { searchTours, getSearchSuggestions } from '../api/searchAPI';
 
-/**
- * Custom hook for search functionality with debouncing
- * @param {Object} options - Hook options
- * @param {number} options.debounceDelay - Debounce delay in ms (default: 300)
- * @param {string} options.initialQuery - Initial query from URL params
- * @returns {Object} - Search state and handlers
- */
 const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
   const { t, ready } = useTranslation(['packages', 'search']);
 
@@ -37,31 +30,45 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
     // Wait for translations to be ready
     if (!ready) return;
 
-    setIsLoading(true);
-    
-    // Perform the search
-    const searchResults = searchTours(
-      { 
-        query: debouncedQuery, 
-        filters, 
-        sortBy 
-      }, 
-      t
-    );
-    
-    setResults(searchResults);
-    setIsLoading(false);
-    isInitialMount.current = false;
+    const performSearch = async () => {
+      setIsLoading(true);
+      
+      try {
+        // Perform the search (now async)
+        const searchResults = await searchTours(
+          { 
+            query: debouncedQuery, 
+            filters, 
+            sortBy 
+          }, 
+          t
+        );
+        
+        setResults(searchResults);
+      } catch (error) {
+        console.error('Search error:', error);
+        setResults([]);
+      } finally {
+        setIsLoading(false);
+        isInitialMount.current = false;
+      }
+    };
+
+    performSearch();
   }, [debouncedQuery, filters, sortBy, t, ready]);
 
   // Get suggestions for autocomplete
   useEffect(() => {
-    if (query.length >= 2) {
-      const newSuggestions = getSearchSuggestions(query, t);
-      setSuggestions(newSuggestions);
-    } else {
-      setSuggestions([]);
-    }
+    const fetchSuggestions = async () => {
+      if (query.length >= 2) {
+        const newSuggestions = await getSearchSuggestions(query, t);
+        setSuggestions(newSuggestions);
+      } else {
+        setSuggestions([]);
+      }
+    };
+    
+    fetchSuggestions();
   }, [query, t]);
 
   // Handlers
@@ -101,13 +108,21 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
     setShowSuggestions(false);
     // Immediately show all results without waiting for debounce
     if (ready) {
-      setIsLoading(true);
-      const searchResults = searchTours(
-        { query: '', filters, sortBy },
-        t
-      );
-      setResults(searchResults);
-      setIsLoading(false);
+      const performSearch = async () => {
+        setIsLoading(true);
+        try {
+          const searchResults = await searchTours(
+            { query: '', filters, sortBy },
+            t
+          );
+          setResults(searchResults);
+        } catch (error) {
+          console.error('Search error:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      performSearch();
     }
   }, [ready, filters, sortBy, t]);
 
@@ -116,13 +131,21 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
     setShowSuggestions(false);
     // Immediately perform search without waiting for debounce
     if (ready) {
-      setIsLoading(true);
-      const searchResults = searchTours(
-        { query: suggestion.title, filters, sortBy },
-        t
-      );
-      setResults(searchResults);
-      setIsLoading(false);
+      const performSearch = async () => {
+        setIsLoading(true);
+        try {
+          const searchResults = await searchTours(
+            { query: suggestion.title, filters, sortBy },
+            t
+          );
+          setResults(searchResults);
+        } catch (error) {
+          console.error('Search error:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      performSearch();
     }
   }, [ready, filters, sortBy, t]);
 

@@ -2,13 +2,8 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// ==================== VALIDATION HELPERS ====================
+// Validation helpers
 
-/**
- * Validate email format
- * @param {string} email 
- * @returns {{ isValid: boolean, error: string|null }}
- */
 const validateEmail = (email) => {
   if (!email || typeof email !== 'string') {
     return { isValid: false, error: 'Email is required' };
@@ -24,7 +19,6 @@ const validateEmail = (email) => {
     return { isValid: false, error: 'Email is too long' };
   }
   
-  // RFC 5322 compliant email regex
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   
   if (!emailRegex.test(trimmedEmail)) {
@@ -34,11 +28,6 @@ const validateEmail = (email) => {
   return { isValid: true, error: null };
 };
 
-/**
- * Validate password strength
- * @param {string} password 
- * @returns {{ isValid: boolean, error: string|null, errors: string[] }}
- */
 const validatePassword = (password) => {
   const errors = [];
   
@@ -70,7 +59,6 @@ const validatePassword = (password) => {
     errors.push('Password must contain at least one special character');
   }
   
-  // Check for common weak passwords
   const weakPasswords = [
     'password', 'password123', '12345678', 'qwerty123', 'letmein',
     'welcome', 'admin123', 'abc12345', 'password1', '123456789'
@@ -87,12 +75,6 @@ const validatePassword = (password) => {
   };
 };
 
-/**
- * Validate name
- * @param {string} name 
- * @param {string} fieldName 
- * @returns {{ isValid: boolean, error: string|null }}
- */
 const validateName = (name, fieldName = 'Name') => {
   if (!name || typeof name !== 'string') {
     return { isValid: false, error: `${fieldName} is required` };
@@ -112,13 +94,11 @@ const validateName = (name, fieldName = 'Name') => {
     return { isValid: false, error: `${fieldName} must be less than 50 characters` };
   }
   
-  // Only allow letters, spaces, hyphens, and apostrophes
   const nameRegex = /^[a-zA-ZÀ-ÿ\u0600-\u06FF\s'-]+$/;
   if (!nameRegex.test(trimmedName)) {
     return { isValid: false, error: `${fieldName} contains invalid characters` };
   }
   
-  // Check for suspicious patterns (repeated characters)
   if (/(.)\1{3,}/.test(trimmedName)) {
     return { isValid: false, error: `${fieldName} contains invalid repeated characters` };
   }
@@ -126,11 +106,6 @@ const validateName = (name, fieldName = 'Name') => {
   return { isValid: true, error: null };
 };
 
-/**
- * Sanitize input to prevent XSS
- * @param {string} input 
- * @returns {string}
- */
 const sanitizeInput = (input) => {
   if (typeof input !== 'string') return input;
   return input
@@ -141,20 +116,14 @@ const sanitizeInput = (input) => {
     .replace(/'/g, '&#039;');
 };
 
-// ==================== HELPER FUNCTIONS ====================
-
-// Helper function to generate a JWT (JSON Web Token)
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
 };
 
-// ==================== CONTROLLERS ====================
+// Route handlers
 
-// @desc    Register new user
-// @route   POST /api/auth/register
-// @access  Public
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -214,6 +183,8 @@ const registerUser = async (req, res) => {
         _id: user.id,
         name: user.name,
         email: user.email,
+        avatar: user.avatar,
+        isAdmin: user.isAdmin,
         token: generateToken(user._id),
       });
     } else {
@@ -234,9 +205,6 @@ const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Authenticate a user (Login)
-// @route   POST /api/auth/login
-// @access  Public
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -278,6 +246,8 @@ const loginUser = async (req, res) => {
         _id: user.id,
         name: user.name,
         email: user.email,
+        avatar: user.avatar,
+        isAdmin: user.isAdmin,
         token: generateToken(user._id),
       });
     } else if (user && user.googleId && !user.password) {
@@ -297,12 +267,8 @@ const loginUser = async (req, res) => {
   }
 };
 
-// @desc    Get user data (The user who is logged in)
-// @route   GET /api/auth/me
-// @access  Private
 const getMe = async (req, res) => {
   try {
-    // The 'protect' middleware ensures req.user is populated with the authenticated user's data
     if (!req.user) {
       return res.status(401).json({ message: "Not authorized." });
     }
@@ -319,9 +285,6 @@ const getMe = async (req, res) => {
   }
 };
 
-// @desc    Update user profile (name, avatar)
-// @route   PUT /api/auth/profile
-// @access  Private
 const updateProfile = async (req, res) => {
   try {
     if (!req.user) {
@@ -365,6 +328,7 @@ const updateProfile = async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       avatar: updatedUser.avatar,
+      isAdmin: updatedUser.isAdmin,
       token: generateToken(updatedUser._id),
     });
   } catch (error) {
@@ -373,7 +337,6 @@ const updateProfile = async (req, res) => {
   }
 };
 
-// Export the functions
 module.exports = {
   registerUser,
   loginUser,

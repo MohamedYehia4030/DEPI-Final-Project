@@ -55,6 +55,11 @@
   width: 100%;
 }
 
+[dir="rtl"] .input {
+  padding-right: 1rem;
+  padding-left: 2.5rem;
+}
+
 .input::placeholder {
   color: var(--color-placeholder);
 }
@@ -90,6 +95,11 @@
   right: 0.75rem;
   color: var(--color-success);
   pointer-events: none;
+}
+
+[dir="rtl"] .successIcon {
+  right: auto;
+  left: 0.75rem;
 }
 
 .errorMessage {
