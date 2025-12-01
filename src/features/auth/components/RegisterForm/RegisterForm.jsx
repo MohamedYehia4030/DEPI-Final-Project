@@ -301,7 +301,7 @@ const RegisterForm = () => {
         type="button"
         className={sharedStyles.googleBtn}
         onClick={() => {
-          const API_BASE = import.meta.env.VITE_API_BASE || "https://voyago-backend.vercel.app";
+          const API_BASE = import.meta.env.VITE_API_BASE || "https://depi-final-project-production.up.railway.app";
           window.location.href = `${API_BASE}/api/auth/google`;
         }}
         disabled={isLoading}
