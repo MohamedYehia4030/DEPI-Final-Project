@@ -73,6 +73,21 @@
   box-shadow: 0 0 0 3px rgba(11, 61, 94, 0.1);
 }
 
+/* Error styles */
+.inputError {
+  border-color: #ef4444 !important;
+}
+
+.inputError:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
 .selectWrapper {
   position: relative;
 }

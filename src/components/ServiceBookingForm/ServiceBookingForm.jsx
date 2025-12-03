@@ -8,6 +8,7 @@ import { FiChevronDown } from 'react-icons/fi';
 import useServiceBookingStore from '../../store/booking/useServiceBookingStore';
 import { getServices } from '../../features/packages/api/packagesAPI';
 import { getImageUrl, handleImageError, PLACEHOLDER_SERVICE } from '../../lib/imageUtils';
+import { validateName, validateEmail, validatePhone } from '../../lib/validation';
 
 // Default placeholder for when no service is selected or image fails
 const defaultPlaceholder = PLACEHOLDER_SERVICE;
@@ -60,17 +61,6 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
     fetchServices();
   }, [initialServiceType]);
 
-  // Validation functions
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validatePhone = (phone) => {
-    const phoneRegex = /^[\d\s\-+()]{8,}$/;
-    return phoneRegex.test(phone);
-  };
-
   const validateForm = () => {
     const newErrors = {};
     
@@ -78,22 +68,19 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
       newErrors.serviceType = t('bikeBooking:validation.serviceRequired', 'Please select a service');
     }
     
-    if (!formData.name.trim()) {
-      newErrors.name = t('bikeBooking:validation.nameRequired', 'Name is required');
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = t('bikeBooking:validation.nameMin', 'Name must be at least 2 characters');
+    const nameError = validateName(formData.name, t('bikeBooking:form.name', 'Name'));
+    if (nameError) {
+      newErrors.name = nameError;
     }
     
-    if (!formData.email.trim()) {
-      newErrors.email = t('bikeBooking:validation.emailRequired', 'Email is required');
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = t('bikeBooking:validation.emailInvalid', 'Please enter a valid email');
+    const emailError = validateEmail(formData.email);
+    if (emailError) {
+      newErrors.email = emailError;
     }
     
-    if (!formData.phone.trim()) {
-      newErrors.phone = t('bikeBooking:validation.phoneRequired', 'Phone number is required');
-    } else if (!validatePhone(formData.phone)) {
-      newErrors.phone = t('bikeBooking:validation.phoneInvalid', 'Please enter a valid phone number');
+    const phoneError = validatePhone(formData.phone);
+    if (phoneError) {
+      newErrors.phone = phoneError;
     }
     
     if (!selectedDate) {
