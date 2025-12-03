@@ -15,7 +15,7 @@ function ServiceBookingSummary({
   onNext,
   showButton,
 }) {
-  const { t, i18n } = useTranslation(['booking', 'packages', 'bikeBooking']);
+  const { t, i18n } = useTranslation(['booking', 'packages', 'bikeBooking', 'home']);
   const isRTL = i18n.dir() === 'rtl';
   const [promoCode, setPromoCode] = useState('');
   const [showPromoInput, setShowPromoInput] = useState(false);
@@ -76,12 +76,12 @@ function ServiceBookingSummary({
         {serviceInfo?.img && (
           <img
             src={serviceInfo.img}
-            alt={t(serviceInfo.titleKey)}
+            alt={t(`home:${serviceInfo.titleKey}`, serviceInfo.titleKey)}
             className={styles.serviceImage}
           />
         )}
         <div className={styles.serviceDetails}>
-          <h3 className={styles.serviceName}>{t(serviceInfo?.titleKey || '')}</h3>
+          <h3 className={styles.serviceName}>{t(`home:${serviceInfo?.titleKey}`, serviceInfo?.titleKey || '')}</h3>
           {serviceType && (
             <div className={styles.detailRow}>
               <Package size={16} />

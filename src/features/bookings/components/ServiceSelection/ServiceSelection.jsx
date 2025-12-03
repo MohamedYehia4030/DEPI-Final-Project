@@ -19,11 +19,6 @@ const serviceTypeOptions = {
     { value: 'bus', labelKey: 'tourTypes.bus' },
     { value: 'private', labelKey: 'tourTypes.private' },
   ],
-  'tuscan-hills': [
-    { value: 'standard', labelKey: 'hillTypes.standard' },
-    { value: 'premium', labelKey: 'hillTypes.premium' },
-    { value: 'private', labelKey: 'hillTypes.private' },
-  ],
   'transportation': [
     { value: 'shuttle', labelKey: 'transportTypes.shuttle' },
     { value: 'minibus', labelKey: 'transportTypes.minibus' },
@@ -50,7 +45,7 @@ const durationOptions = [
 ];
 
 function ServiceSelection({ onNext }) {
-  const { t, i18n } = useTranslation(['booking', 'bikeBooking', 'packages']);
+  const { t, i18n } = useTranslation(['booking', 'bikeBooking', 'packages', 'home']);
   const isRTL = i18n.dir() === 'rtl';
   
   // Get store state and actions
@@ -147,11 +142,11 @@ function ServiceSelection({ onNext }) {
       {/* Service Info Card */}
       <div className={styles.serviceCard}>
         {serviceInfo.img && (
-          <img src={serviceInfo.img} alt={t(serviceInfo.titleKey)} className={styles.serviceImage} loading="lazy" />
+          <img src={serviceInfo.img} alt={t(`home:${serviceInfo.titleKey}`, serviceInfo.titleKey)} className={styles.serviceImage} loading="lazy" />
         )}
         <div className={styles.serviceDetails}>
-          <h3 className={styles.serviceName}>{t(serviceInfo.titleKey)}</h3>
-          <p className={styles.serviceDesc}>{t(serviceInfo.descKey)}</p>
+          <h3 className={styles.serviceName}>{t(`home:${serviceInfo.titleKey}`, serviceInfo.titleKey)}</h3>
+          <p className={styles.serviceDesc}>{t(`home:${serviceInfo.descKey}`, serviceInfo.descKey)}</p>
         </div>
       </div>
 
