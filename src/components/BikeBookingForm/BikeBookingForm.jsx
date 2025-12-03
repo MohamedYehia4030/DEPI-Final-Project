@@ -33,19 +33,19 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
   const validateForm = () => {
     const newErrors = {};
     
-    const nameError = validateName(formData.name, t('form.name', 'Name'));
-    if (nameError) {
-      newErrors.name = nameError;
+    const nameResult = validateName(formData.name, t('form.name', 'Name'));
+    if (!nameResult.isValid) {
+      newErrors.name = nameResult.error;
     }
     
-    const emailError = validateEmail(formData.email);
-    if (emailError) {
-      newErrors.email = emailError;
+    const emailResult = validateEmail(formData.email);
+    if (!emailResult.isValid) {
+      newErrors.email = emailResult.error;
     }
     
-    const phoneError = validatePhone(formData.phone);
-    if (phoneError) {
-      newErrors.phone = phoneError;
+    const phoneResult = validatePhone(formData.phone);
+    if (!phoneResult.isValid) {
+      newErrors.phone = phoneResult.error;
     }
     
     if (!formData.serviceType) {
@@ -100,14 +100,22 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
       img: serviceImg || bikeImage
     });
     
+    // Format date and time for storage
+    const formattedDate = selectedDate instanceof Date 
+      ? selectedDate.toISOString().split('T')[0] 
+      : selectedDate;
+    const formattedTime = selectedTime instanceof Date 
+      ? selectedTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+      : selectedTime;
+    
     // Pre-fill the form data
     prefillFromForm({
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
       serviceType: formData.serviceType,
-      date: selectedDate,
-      time: selectedTime
+      date: formattedDate,
+      time: formattedTime
     });
     
     // Navigate to service booking
