@@ -11,7 +11,6 @@ const Slider = ({ children, perSlide = 2, maxWidth, breakpoints }) => {
   const { i18n } = useTranslation();
   const isRTL = i18n && typeof i18n.dir === 'function' ? i18n.dir() === 'rtl' : false;
 
-  // Handle responsive breakpoints
   const updatePerSlide = useCallback(() => {
     if (!breakpoints) {
       setCurrentPerSlide(perSlide);
@@ -19,7 +18,6 @@ const Slider = ({ children, perSlide = 2, maxWidth, breakpoints }) => {
     }
 
     const width = window.innerWidth;
-    // Sort breakpoints in descending order
     const sortedBreakpoints = Object.keys(breakpoints)
       .map(Number)
       .sort((a, b) => b - a);
@@ -45,7 +43,6 @@ const Slider = ({ children, perSlide = 2, maxWidth, breakpoints }) => {
     grouped.push(items.slice(i, i + currentPerSlide));
   }
 
-  // Reset index if it exceeds new grouped length
   useEffect(() => {
     if (index >= grouped.length && grouped.length > 0) {
       setIndex(grouped.length - 1);
@@ -59,17 +56,14 @@ const Slider = ({ children, perSlide = 2, maxWidth, breakpoints }) => {
   const prevDisabled = grouped.length === 0 || index === 0;
   const nextDisabled = grouped.length === 0 || index === grouped.length - 1;
 
-  // Icons stay the same direction (< for prev, > for next), only button order is swapped in RTL
   const PrevIcon = FiChevronLeft;
   const NextIcon = FiChevronRight;
 
-  // allow callers to override the container max width via `maxWidth` prop
   const containerStyle = {};
   if (maxWidth) {
     containerStyle.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
   }
 
-  // Calculate responsive column classes based on currentPerSlide
   const getColumnClasses = () => {
     switch (currentPerSlide) {
       case 1:

@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://voyago-backend.vercel.app/api';
 
-// Get all stats for about page
 export async function getStats() {
   try {
     const res = await axios.get(`${API_BASE_URL}/stats`);
@@ -13,7 +12,6 @@ export async function getStats() {
   }
 }
 
-// Update a stat (admin)
 export async function updateStat(key, statData) {
   try {
     const res = await axios.put(`${API_BASE_URL}/stats/${key}`, statData);

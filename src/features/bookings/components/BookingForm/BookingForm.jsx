@@ -4,25 +4,21 @@ import { AlertCircle, CheckCircle } from 'lucide-react';
 import { validateTravelerForm, validateName, validatePhone, validateEmail } from '../../../../lib/validation';
 import styles from './BookingForm.module.css';
 
-// Map validation error keys to translation keys
 const getTranslatedError = (error, t, fieldName) => {
   if (!error) return null;
   
   const errorMap = {
-    // Name errors
     'is required': 'validation.nameRequired',
     'must be at least 2 characters': 'validation.nameTooShort',
     'must be less than 50 characters': 'validation.nameTooLong',
     'contains invalid characters': 'validation.nameInvalidChars',
     'contains invalid repeated characters': 'validation.nameRepeatedChars',
-    // Phone errors
     'Phone number is required': 'validation.phoneRequired',
     'Phone number must contain digits': 'validation.phoneMustContainDigits',
     'Phone number must be at least 7 digits': 'validation.phoneTooShort',
     'Phone number cannot exceed 15 digits': 'validation.phoneTooLong',
     'Please enter a valid phone number': 'validation.phoneInvalid',
     'Phone number contains invalid characters': 'validation.phoneInvalidChars',
-    // Email errors  
     'Email is required': 'validation.emailRequired',
     'Email is too short': 'validation.emailTooShort',
     'Email is too long': 'validation.emailTooLong',
@@ -43,19 +39,16 @@ const getTranslatedError = (error, t, fieldName) => {
     'Please use a permanent email address': 'validation.emailDisposable',
   };
 
-  // Check for exact match first
   if (errorMap[error]) {
     return t(errorMap[error], { field: fieldName });
   }
 
-  // Check for name field errors (which include field name)
   for (const [key, value] of Object.entries(errorMap)) {
     if (error.includes(key)) {
       return t(value, { field: fieldName });
     }
   }
 
-  // Check for email typo suggestion
   if (error.startsWith('Did you mean')) {
     const suggestion = error.match(/Did you mean (.+)\?/)?.[1];
     return t('validation.emailTypo', { suggestion });
@@ -79,7 +72,6 @@ function BookingForm({ data, onNext, onBack }) {
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Real-time validation on blur
   const handleBlur = useCallback((field) => {
     setTouched(prev => ({ ...prev, [field]: true }));
     
@@ -118,7 +110,6 @@ function BookingForm({ data, onNext, onBack }) {
       [field]: value,
     }));
 
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: null }));
     }
@@ -127,14 +118,11 @@ function BookingForm({ data, onNext, onBack }) {
   const handleNext = async () => {
     setIsSubmitting(true);
     
-    // Mark all fields as touched
     setTouched({ name: true, surname: true, phone: true, email: true });
     
-    // Validate entire form
     const validation = validateTravelerForm(formData);
     
     if (!validation.isValid) {
-      // Translate all errors
       const translatedErrors = {};
       const fieldNames = {
         name: t('firstName', 'First name'),
@@ -148,14 +136,12 @@ function BookingForm({ data, onNext, onBack }) {
       setErrors(translatedErrors);
       setIsSubmitting(false);
       
-      // Focus first error field
       const firstErrorField = Object.keys(validation.errors)[0];
       const element = document.querySelector(`[name="${firstErrorField}"]`);
       if (element) element.focus();
       return;
     }
 
-    // Simulate processing delay for UX
     await new Promise(resolve => setTimeout(resolve, 300));
     
     onNext({ traveler: formData });

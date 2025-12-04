@@ -17,7 +17,6 @@ const SearchResultCard = ({ tour, searchFilters = {} }) => {
   const { t } = useTranslation(['packages', 'search', 'common']);
   const navigate = useNavigate();
 
-  // Use search filters if provided, otherwise use defaults
   const displayDate = searchFilters.date || t('search:flexible', 'Flexible');
   const displayTime = searchFilters.time || '15:00';
   const displayPeople = searchFilters.people ? `${searchFilters.people}` : '15-30';
@@ -41,7 +40,6 @@ const SearchResultCard = ({ tour, searchFilters = {} }) => {
     navigate(`/packages/${tour._id || tour.id}`);
   };
 
-  // Extract price number
   const priceValue = tour.price.replace(/[^0-9]/g, '');
 
   return (

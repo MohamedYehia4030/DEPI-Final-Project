@@ -27,7 +27,6 @@ const UserProfile = () => {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Create a preview URL
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewAvatar(reader.result);
@@ -45,7 +44,6 @@ const UserProfile = () => {
     setFormData((prev) => ({ ...prev, avatar: '' }));
     setIsEditing(true);
     setSaveError(null);
-    // Reset file input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -60,7 +58,6 @@ const UserProfile = () => {
   const handleSave = async () => {
     setSaveError(null);
     try {
-      // Update user in store and database
       if (updateUser) {
         await updateUser({
           name: formData.name,

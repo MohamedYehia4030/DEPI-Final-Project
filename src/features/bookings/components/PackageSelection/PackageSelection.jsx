@@ -30,7 +30,6 @@ function PackageSelection({ onNext }) {
     async function fetchTours() {
       try {
         const data = await getTourPackages();
-        // Fix image paths using imageUtils
         const toursWithFixedImages = data.map(tour => ({
           ...tour,
           img: getImageUrl(tour.img, 'package')
@@ -70,7 +69,6 @@ function PackageSelection({ onNext }) {
       return;
     }
 
-    // Format date and time for storage
     const formattedDate = localDate.toISOString().split('T')[0];
     const formattedTime = localTime.toLocaleTimeString('en-US', { 
       hour: '2-digit', 

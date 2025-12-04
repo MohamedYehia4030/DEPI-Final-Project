@@ -18,7 +18,6 @@ const UserBookings = () => {
   const [tours, setTours] = useState([]);
   const [services, setServices] = useState([]);
   
-  // Fetch tours and services
   useEffect(() => {
     async function fetchData() {
       try {
@@ -35,10 +34,8 @@ const UserBookings = () => {
     fetchData();
   }, []);
   
-  // Get tickets for current user (this also auto-updates past tickets to 'ended')
   const userTickets = user?.email ? getUserTickets(user.email) : [];
 
-  // Get tour image from tours data
   const getTourImage = (tourId) => {
     const tour = tours.find((t) => t._id === tourId || t.id === tourId);
     if (tour?.img) {
@@ -47,32 +44,25 @@ const UserBookings = () => {
     return getImageUrl(null, 'package');
   };
 
-  // Get booking name (handles both tours and services)
   const getBookingName = (ticket) => {
-    // If tourName is a translation key with namespace (e.g., 'packages:tours.luccaBike.title' or 'home:package1_title')
     if (ticket.tourName && ticket.tourName.includes(':')) {
       const translated = t(ticket.tourName);
-      // If translation found (not same as key), return it
       if (translated !== ticket.tourName) {
         return translated;
       }
     }
     
-    // Try with different namespaces if no namespace specified
     if (ticket.tourName && !ticket.tourName.includes(':')) {
-      // Try home namespace first
       const homeTranslation = t(`home:${ticket.tourName}`);
       if (homeTranslation !== `home:${ticket.tourName}`) {
         return homeTranslation;
       }
-      // Try packages namespace
       const packagesTranslation = t(`packages:${ticket.tourName}`);
       if (packagesTranslation !== `packages:${ticket.tourName}`) {
         return packagesTranslation;
       }
     }
     
-    // Try to find the tour in database and get its translated title
     if (ticket.tourId) {
       const tour = tours.find(t => t._id === ticket.tourId || t.id === ticket.tourId);
       if (tour?.titleKey) {
@@ -80,14 +70,11 @@ const UserBookings = () => {
       }
     }
     
-    // Fallback to the raw name
     return ticket.tourName || t('dashboard:tickets.unknownTour', 'Unknown Tour');
   };
 
-  // Get service type label
   const getServiceTypeLabel = (ticket) => {
     if (!ticket.serviceType) return null;
-    // Try various translation namespaces
     const translationKeys = [
       `bikeBooking:bikeTypes.${ticket.serviceType}`,
       `bikeBooking:tourTypes.${ticket.serviceType}`,
@@ -165,7 +152,6 @@ const UserBookings = () => {
   };
 
   const handleDownloadTicket = (ticket) => {
-    // Create a simple text-based ticket
     const ticketContent = `
 ========================================
         VOYAGO BOOKING CONFIRMATION
@@ -206,7 +192,6 @@ Booked on: ${new Date(ticket.bookedAt).toLocaleDateString()}
     URL.revokeObjectURL(url);
   };
 
-  // Check if tour date is in the past
   const isTourPast = (dateString) => {
     if (!dateString) return false;
     const tourDate = new Date(dateString);
@@ -215,12 +200,10 @@ Booked on: ${new Date(ticket.bookedAt).toLocaleDateString()}
     return tourDate < today;
   };
 
-  // Check if cancellation is allowed (tour must be upcoming, not cancelled/ended)
   const canCancel = (ticket) => {
     if (!ticket) return false;
     if (ticket.status === 'cancelled' || ticket.status === 'ended') return false;
     
-    // If no date, allow cancel
     if (!ticket.date) return true;
     
     const tourDate = new Date(ticket.date);
@@ -228,15 +211,12 @@ Booked on: ${new Date(ticket.bookedAt).toLocaleDateString()}
     
     const now = new Date();
     
-    // Get tour date at start of day
     const tourDateStart = new Date(tourDate);
     tourDateStart.setHours(0, 0, 0, 0);
     
-    // Get today at start of day
     const todayStart = new Date(now);
     todayStart.setHours(0, 0, 0, 0);
     
-    // Can cancel if tour is today or in the future
     return tourDateStart.getTime() >= todayStart.getTime();
   };
 

@@ -28,7 +28,6 @@ export default function PackageDetails() {
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
-  // Get the tour key from titleKey (e.g., "packages:tours.luccaBike.title" -> "tours.luccaBike")
   const getTourKey = (titleKey) => {
     if (titleKey) {
       const match = titleKey.match(/packages:(tours\.[^.]+)/);
@@ -42,7 +41,6 @@ export default function PackageDetails() {
       try {
         const pkg = await getTourPackageById(id);
 
-        // Fix image paths using imageUtils
         if (pkg.img) pkg.img = getImageUrl(pkg.img, 'package');
         if (pkg.subimages) pkg.subimages = pkg.subimages.map(img => getImageUrl(img, 'package'));
         if (pkg.gallery) pkg.gallery = pkg.gallery.map(img => getImageUrl(img, 'package'));
@@ -155,13 +153,10 @@ export default function PackageDetails() {
             { icon: FiBookOpen, label: 'languageLabel', value: 'languagesList' },
             { icon: FiDollarSign, label: 'feesLabel', value: 'feesIncluded' }
           ].map(({ icon: Icon, label, value }, idx) => {
-            // Handle translation: if value already has namespace prefix, use it directly; otherwise add packages: prefix
             let displayValue;
             if (value && value.startsWith('packages:')) {
-              // Already has namespace, translate directly
               displayValue = t(value);
             } else if (label === 'duration') {
-              // Duration is a raw value with unit, translate the unit (handles decimals like 2.5)
               const durationMatch = value?.match(/^([\d.]+)\s*(.+)$/);
               if (durationMatch) {
                 const [, num, unit] = durationMatch;
@@ -171,7 +166,6 @@ export default function PackageDetails() {
                 displayValue = value;
               }
             } else {
-              // Try to translate with packages namespace
               displayValue = t(`packages:${value}`, value);
             }
             

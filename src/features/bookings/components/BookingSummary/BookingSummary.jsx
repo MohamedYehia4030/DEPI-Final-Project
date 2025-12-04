@@ -30,7 +30,6 @@ function BookingSummary({
     clearError,
   } = useDiscountStore();
 
-  // Check for automatic discounts when booking data changes
   useEffect(() => {
     const bookingData = {
       tickets,

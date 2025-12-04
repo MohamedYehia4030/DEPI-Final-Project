@@ -42,11 +42,13 @@ export const useAuthStore = create((set, get) => ({
     set({ user: null, isLoading: false, error: null });
   },
 
-  register: async (name, email, password) => {
+  register: async (name, email, password, role = 'user') => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/register`, { name, email, password });
+      console.log('Registering with role:', role);
+      const response = await axios.post(`${API_URL}/register`, { name, email, password, role });
       const userData = response.data;
+      console.log('Registration response:', userData);
 
       localStorage.setItem("user", JSON.stringify(userData));
       set({ user: userData, isLoading: false });

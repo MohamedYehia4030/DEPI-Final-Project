@@ -7,13 +7,11 @@ import { useTranslation } from 'react-i18next';
 export default function ContactInfo() {
   const { t, i18n } = useTranslation('contact');
   
-  // Copy phone number to clipboard and show toast
   const handlePhoneClick = () => {
     toast.success(t('phoneCopied') || 'Phone number copied to clipboard!');
     navigator.clipboard.writeText('+20 111 893 6100');
   };
 
-  // Open default mail client
   const handleEmailClick = () => {
     window.location.href = 'mailto:voyagodepi@gmail.com';
   };

@@ -1,5 +1,3 @@
-// Seed data with Cloudinary URLs for database seeding
-
 export const tours = [
   {
     titleKey: "packages:tours.luccaBike.title",
@@ -196,7 +194,6 @@ export const services = [
   },
 ];
 
-// Reviews seed data
 export const reviews = [
   { 
     name: "Ali", 
@@ -230,7 +227,6 @@ export const reviews = [
   },
 ];
 
-// Stats seed data
 export const stats = [
   { key: "years", value: "20+", labelKey: "about:stats.years", order: 1 },
   { key: "customers", value: "100+", labelKey: "about:stats.customers", order: 2 },

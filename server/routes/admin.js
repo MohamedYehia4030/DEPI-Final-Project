@@ -7,8 +7,6 @@ const Stat = require("../models/Stat");
 const User = require("../models/User");
 const Service = require("../models/Service");
 
-// Dashboard
-
 router.get("/dashboard", protect, admin, async (req, res) => {
   try {
     const [
@@ -39,8 +37,6 @@ router.get("/dashboard", protect, admin, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// Tour Packages
 
 router.get("/packages", protect, admin, async (req, res) => {
   try {
@@ -87,8 +83,6 @@ router.delete("/packages/:id", protect, admin, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// Reviews
 
 router.get("/reviews", protect, admin, async (req, res) => {
   try {
@@ -143,8 +137,6 @@ router.delete("/reviews/:id", protect, admin, async (req, res) => {
   }
 });
 
-// Contacts
-
 router.get("/contacts", protect, admin, async (req, res) => {
   try {
     const contacts = await Contact.find().sort({ createdAt: -1 });
@@ -198,8 +190,6 @@ router.delete("/contacts/:id", protect, admin, async (req, res) => {
   }
 });
 
-// Stats
-
 router.get("/stats", protect, admin, async (req, res) => {
   try {
     const stats = await Stat.find().sort({ order: 1 });
@@ -225,8 +215,6 @@ router.put("/stats/:id", protect, admin, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// Users
 
 router.get("/users", protect, admin, async (req, res) => {
   try {
@@ -261,8 +249,6 @@ router.patch("/users/:id/toggle-admin", protect, admin, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// Services
 
 router.get("/services", protect, admin, async (req, res) => {
   try {

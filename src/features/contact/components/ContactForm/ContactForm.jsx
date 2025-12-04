@@ -16,29 +16,24 @@ export default function ContactForm() {
     message: ''
   });
 
-  // Update form state when input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
-  // Validate email format
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Check that all fields are filled
     if (!formData.name || !formData.email || !formData.message) {
       toast.error(t('pleaseFillAllFields') || 'Please fill in all fields');
       return;
     }
     
-    // Validate email
     if (!isValidEmail(formData.email)) {
       toast.error(t('pleaseEnterValidEmail') || 'Please enter a valid email address');
       return;

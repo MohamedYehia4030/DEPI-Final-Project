@@ -3,7 +3,6 @@ const { upload } = require('../config/cloudinary');
 
 const router = express.Router();
 
-// Single image upload
 router.post('/single', upload.single('image'), (req, res) => {
   try {
     if (!req.file) {
@@ -18,7 +17,6 @@ router.post('/single', upload.single('image'), (req, res) => {
   }
 });
 
-// Multiple images upload (up to 10)
 router.post('/multiple', upload.array('images', 10), (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {

@@ -10,10 +10,8 @@ const {
 } = require("../controllers/authController");
 const passport = require("passport"); 
 
-// Frontend URL for redirects
 const FRONTEND_URL = process.env.FRONTEND_URL || "https://voyago-black.vercel.app";
 
-// Google OAuth Routes
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -35,7 +33,6 @@ router.get(
         return res.redirect(`${FRONTEND_URL}/auth/callback?error=true&message=authentication_failed`);
       }
       
-      // Generate JWT to send back to client
       const token = generateToken(user._id);
       const avatar = user.avatar ? encodeURIComponent(user.avatar) : '';
       const isAdmin = user.isAdmin ? 'true' : 'false';
@@ -47,8 +44,6 @@ router.get(
   }
 );
 
-// Define the routes for registration and login
-// These endpoints will be accessed at /api/auth/register and /api/auth/login
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/me", protect, getMe);

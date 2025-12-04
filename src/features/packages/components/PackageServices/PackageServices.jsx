@@ -17,7 +17,6 @@ const cardVariants = {
   })
 };
 
-// Service slugs mapping
 const serviceSlugs = [
   'bike-rickshaw',
   'guided-tours',
@@ -30,7 +29,6 @@ const serviceSlugs = [
 const PackageServices = ({ services }) => {
   const { t, i18n } = useTranslation(['packages', 'common']);
   
-  // Arrow direction adapts to language direction
   const arrow = i18n.dir() === 'rtl' ? '←' : '→';
 
   return (

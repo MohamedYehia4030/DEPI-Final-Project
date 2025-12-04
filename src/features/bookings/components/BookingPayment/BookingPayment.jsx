@@ -11,7 +11,6 @@ import {
 import Loader from '../../../../components/Loader/Loader';
 import styles from './BookingPayment.module.css';
 
-// Map validation error keys to translation keys
 const getTranslatedError = (error, t, cardType) => {
   if (!error) return null;
   
@@ -35,7 +34,6 @@ const getTranslatedError = (error, t, cardType) => {
     'CVV is too long': 'validation.cvvTooLong',
   };
 
-  // Handle dynamic CVV length error
   if (error.includes('CVV should be')) {
     const length = cardType === 'amex' ? 4 : 3;
     return t('validation.cvvWrongLength', { length });
@@ -45,7 +43,7 @@ const getTranslatedError = (error, t, cardType) => {
   return translationKey ? t(translationKey) : error;
 };
 
-function BookingPayment({ data, onNext, onBack }) {
+function BookingPayment({ onNext, onBack }) {
   const { t, i18n } = useTranslation('booking');
   const isRTL = i18n.dir() === 'rtl';
   
@@ -61,14 +59,12 @@ function BookingPayment({ data, onNext, onBack }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardType, setCardType] = useState(null);
 
-  // Format card number with spaces as user types
   const formatCardInput = (value) => {
     const cleaned = value.replace(/\D/g, '');
     const groups = cleaned.match(/.{1,4}/g);
     return groups ? groups.join(' ') : cleaned;
   };
 
-  // Format expiry as MM/YY
   const formatExpiryInput = (value) => {
     const cleaned = value.replace(/\D/g, '');
     if (cleaned.length >= 2) {
@@ -108,10 +104,8 @@ function BookingPayment({ data, onNext, onBack }) {
   const handleChange = (field, value) => {
     let formattedValue = value;
     
-    // Apply formatting based on field
     if (field === 'cardNumber') {
       formattedValue = formatCardInput(value);
-      // Detect card type while typing
       const result = validateCardNumber(value);
       setCardType(result.cardType);
     } else if (field === 'expiryDate') {
@@ -127,7 +121,6 @@ function BookingPayment({ data, onNext, onBack }) {
       [field]: formattedValue,
     }));
 
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: null }));
     }
@@ -137,14 +130,11 @@ function BookingPayment({ data, onNext, onBack }) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Mark all fields as touched
     setTouched({ cardNumber: true, cardHolder: true, expiryDate: true, cvv: true });
 
-    // Validate entire form
     const validation = validatePaymentForm(paymentData);
     
     if (!validation.isValid) {
-      // Translate all errors
       const translatedErrors = {};
       for (const [field, error] of Object.entries(validation.errors)) {
         translatedErrors[field] = getTranslatedError(error, t, validation.cardType);
@@ -152,15 +142,13 @@ function BookingPayment({ data, onNext, onBack }) {
       setErrors(translatedErrors);
       setIsSubmitting(false);
       
-      // Focus first error field
       const firstErrorField = Object.keys(validation.errors)[0];
       const element = document.querySelector(`[name="${firstErrorField}"]`);
       if (element) element.focus();
       return;
     }
 
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     
     onNext();
     setIsSubmitting(false);

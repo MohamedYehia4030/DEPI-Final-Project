@@ -1,5 +1,3 @@
-// src/components/Auth/LoginForm.jsx
-
 import React, { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { FcGoogle } from "react-icons/fc";
@@ -27,12 +25,10 @@ const LoginForm = () => {
   const login = useAuthStore(state => state.login);
   const isLoading = useAuthStore(state => state.isLoading);
 
-  // Clear auth error when component unmounts or user starts typing
   React.useEffect(() => {
     return () => clearAuthError();
   }, [clearAuthError]);
 
-  // Real-time validation on blur
   const handleBlur = useCallback((field) => {
     setTouched(prev => ({ ...prev, [field]: true }));
     
@@ -63,15 +59,12 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Mark all fields as touched
     setTouched({ email: true, password: true });
 
-    // Validate entire form
     const validation = validateLoginForm(email, password);
     
     if (!validation.isValid) {
       setErrors(validation.errors);
-      // Focus first error field
       const firstErrorField = Object.keys(validation.errors)[0];
       const element = document.querySelector(`[name="${firstErrorField}"]`);
       if (element) element.focus();

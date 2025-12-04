@@ -31,7 +31,6 @@ configurePassport();
 
 app.use(cors());
 
-// Increase body size limit for base64 image uploads
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
@@ -47,7 +46,6 @@ saveUninitialized: false,
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Handle Chrome DevTools request (suppress CSP warning)
 app.get('/.well-known/appspecific/com.chrome.devtools.json', (req, res) => {
   res.status(204).end();
 });
@@ -69,7 +67,6 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-// Only listen when not in Vercel (serverless) environment
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(
@@ -83,5 +80,4 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-// Export for Vercel serverless
 module.exports = app;

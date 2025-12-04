@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://voyago-backend.vercel.app/api';
 
-// Get all approved reviews
 export async function getReviews() {
   try {
     const res = await axios.get(`${API_BASE_URL}/reviews`);
@@ -13,7 +12,6 @@ export async function getReviews() {
   }
 }
 
-// Get reviews for a specific tour
 export async function getReviewsByTour(tourId) {
   try {
     const res = await axios.get(`${API_BASE_URL}/reviews/tour/${tourId}`);
@@ -24,7 +22,6 @@ export async function getReviewsByTour(tourId) {
   }
 }
 
-// Submit a new review
 export async function submitReview(reviewData) {
   try {
     const res = await axios.post(`${API_BASE_URL}/reviews`, reviewData);

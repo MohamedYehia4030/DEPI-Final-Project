@@ -6,7 +6,6 @@ import Slider from "../../../../components/Slider/Slider";
 export default function PackageGallery({ galleryImages = [] }) {
   const { t } = useTranslation('booking');
 
-  // Preserve previous behaviour where three identical slides were shown
   const carouselItems = [galleryImages, galleryImages, galleryImages];
 
   const slideNodes = carouselItems.map((item, idx) => (

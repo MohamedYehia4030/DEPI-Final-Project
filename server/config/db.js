@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    // Await is only inside this async function
     const conn = await mongoose.connect(process.env.MONGO_URI , {
  
     });
@@ -10,7 +9,6 @@ const connectDB = async () => {
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error: ${error.message}`);
-    // Exit process with failure
     process.exit(1);
   }
 };

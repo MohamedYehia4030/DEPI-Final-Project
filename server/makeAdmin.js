@@ -1,6 +1,3 @@
-// Script to make a user admin
-// Run with: node makeAdmin.js <email> (from server directory)
-
 const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });

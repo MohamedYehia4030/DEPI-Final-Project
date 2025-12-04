@@ -5,7 +5,6 @@ import styles from './ServiceSelection.module.css';
 import DateTimePicker from '../../../../components/DateTimePicker/DateTimePicker';
 import { FiChevronDown, FiMinus, FiPlus } from 'react-icons/fi';
 
-// Service type options based on service slug
 const serviceTypeOptions = {
   'bike-rickshaw': [
     { value: 'city', labelKey: 'bikeTypes.city' },
@@ -48,7 +47,6 @@ function ServiceSelection({ onNext }) {
   const { t, i18n } = useTranslation(['booking', 'bikeBooking', 'packages', 'home']);
   const isRTL = i18n.dir() === 'rtl';
   
-  // Get store state and actions
   const serviceInfo = useServiceBookingStore((state) => state.serviceInfo);
   const serviceType = useServiceBookingStore((state) => state.serviceType);
   const quantity = useServiceBookingStore((state) => state.quantity);
@@ -62,7 +60,6 @@ function ServiceSelection({ onNext }) {
   const setDateTime = useServiceBookingStore((state) => state.setDateTime);
   const calculateTotal = useServiceBookingStore((state) => state.calculateTotal);
 
-  // Local state
   const [localDate, setLocalDate] = useState(selectedDate ? new Date(selectedDate) : null);
   const [localTime, setLocalTime] = useState(selectedTime ? new Date(`1970-01-01T${selectedTime}`) : null);
   const [typeDropdownOpen, setTypeDropdownOpen] = useState(false);
@@ -70,7 +67,6 @@ function ServiceSelection({ onNext }) {
   const typeDropdownRef = useRef(null);
   const durationDropdownRef = useRef(null);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (typeDropdownRef.current && !typeDropdownRef.current.contains(event.target)) {
@@ -84,7 +80,6 @@ function ServiceSelection({ onNext }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Get available service types for current service
   const availableTypes = serviceInfo?.slug ? (serviceTypeOptions[serviceInfo.slug] || []) : [];
   const selectedTypeOption = availableTypes.find(opt => opt.value === serviceType);
   const selectedDurationOption = durationOptions.find(opt => opt.value === duration);
@@ -110,7 +105,6 @@ function ServiceSelection({ onNext }) {
       return;
     }
 
-    // Format date and time for storage
     const formattedDate = localDate.toISOString().split('T')[0];
     const formattedTime = localTime.toLocaleTimeString('en-US', { 
       hour: '2-digit', 

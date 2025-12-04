@@ -18,6 +18,7 @@ const RegisterForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -27,7 +28,6 @@ const RegisterForm = () => {
   const register = useAuthStore((state) => state.register);
   const isLoading = useAuthStore((state) => state.isLoading);
 
-  // Calculate password strength in real-time
   const passwordStrength = useMemo(() => {
     if (!password) return { strength: 0, label: '', color: '' };
     const result = validatePassword(password);
@@ -41,7 +41,6 @@ const RegisterForm = () => {
     };
   }, [password]);
 
-  // Real-time validation on blur
   const handleBlur = useCallback((field) => {
     setTouched(prev => ({ ...prev, [field]: true }));
     
@@ -84,15 +83,12 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Mark all fields as touched
     setTouched({ name: true, email: true, password: true });
 
-    // Validate entire form
     const validation = validateRegisterForm(name, email, password);
     
     if (!validation.isValid) {
       setErrors(validation.errors);
-      // Focus first error field
       const firstErrorField = Object.keys(validation.errors)[0];
       const element = document.querySelector(`[name="${firstErrorField}"]`);
       if (element) element.focus();
@@ -105,7 +101,7 @@ const RegisterForm = () => {
     }
 
     try {
-      await register(name.trim(), email.trim().toLowerCase(), password);
+      await register(name.trim(), email.trim().toLowerCase(), password, role);
     } catch (error) {
       setErrors({ form: error.message || t("register.errorGeneric", "Registration failed.") });
     }
@@ -248,6 +244,43 @@ const RegisterForm = () => {
             <small>{t('register.passwordRequirements', 'Use 8+ characters with uppercase, lowercase, numbers & symbols')}</small>
           </div>
         )}
+      </div>
+
+      {/* Role Selection */}
+      <div className={sharedStyles.inputGroup}>
+        <label>{t("register.roleLabel", "Account Type")} <span className={sharedStyles.required}>*</span></label>
+        <div className={styles.roleSelector}>
+          <label className={`${styles.roleOption} ${role === 'user' ? styles.roleSelected : ''}`}>
+            <input
+              type="radio"
+              name="role"
+              value="user"
+              checked={role === 'user'}
+              onChange={(e) => setRole(e.target.value)}
+              disabled={isLoading}
+            />
+            <span className={styles.roleIcon}>👤</span>
+            <span className={styles.roleText}>
+              <strong>{t("register.roleUser", "User")}</strong>
+              <small>{t("register.roleUserDesc", "Browse and book tours")}</small>
+            </span>
+          </label>
+          <label className={`${styles.roleOption} ${role === 'admin' ? styles.roleSelected : ''}`}>
+            <input
+              type="radio"
+              name="role"
+              value="admin"
+              checked={role === 'admin'}
+              onChange={(e) => setRole(e.target.value)}
+              disabled={isLoading}
+            />
+            <span className={styles.roleIcon}>🛡️</span>
+            <span className={styles.roleText}>
+              <strong>{t("register.roleAdmin", "Admin")}</strong>
+              <small>{t("register.roleAdminDesc", "Manage tours and users")}</small>
+            </span>
+          </label>
+        </div>
       </div>
 
       {/* Terms Checkbox */}

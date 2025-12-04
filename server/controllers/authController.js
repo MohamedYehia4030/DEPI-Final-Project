@@ -2,8 +2,6 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Validation helpers
-
 const validateEmail = (email) => {
   if (!email || typeof email !== 'string') {
     return { isValid: false, error: 'Email is required' };
@@ -55,7 +53,7 @@ const validatePassword = (password) => {
     errors.push('Password must contain at least one number');
   }
   
-  if (!/[!@#$%^&*(),.?":{}|<>_\-+=\[\]\\;'/`~]/.test(password)) {
+  if (!/[!@#$%^&*(),.?":{}|<>_+=;'`~\-[\]\\]/.test(password)) {
     errors.push('Password must contain at least one special character');
   }
   
@@ -122,13 +120,10 @@ const generateToken = (id) => {
   });
 };
 
-// Route handlers
-
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
-    // Validate all fields
     const nameValidation = validateName(name);
     if (!nameValidation.isValid) {
       return res.status(400).json({ 
@@ -154,11 +149,10 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // Sanitize and normalize inputs
     const sanitizedName = sanitizeInput(name.trim());
     const normalizedEmail = email.trim().toLowerCase();
+    const isAdmin = role === 'admin';
 
-    // Check if user already exists
     const userExists = await User.findOne({ email: normalizedEmail });
     if (userExists) {
       return res.status(400).json({ 
@@ -167,15 +161,14 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(12); // Increased from 10 for better security
+    const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user
     const user = await User.create({
       name: sanitizedName,
       email: normalizedEmail,
       password: hashedPassword,
+      isAdmin: isAdmin,
     });
 
     if (user) {
@@ -193,7 +186,6 @@ const registerUser = async (req, res) => {
   } catch (error) {
     console.error("Registration error:", error);
     
-    // Handle MongoDB duplicate key error
     if (error.code === 11000) {
       return res.status(400).json({ 
         message: "An account with this email already exists.",
@@ -209,7 +201,6 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validate email
     const emailValidation = validateEmail(email);
     if (!emailValidation.isValid) {
       return res.status(400).json({ 
@@ -218,7 +209,6 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // Basic password validation (not full strength check for login)
     if (!password || typeof password !== 'string') {
       return res.status(400).json({ 
         message: "Password is required.",
@@ -233,15 +223,10 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // Normalize email
     const normalizedEmail = email.trim().toLowerCase();
-
-    // Find user by email
     const user = await User.findOne({ email: normalizedEmail });
 
-    // Check if the user exists AND if the password is correct
     if (user && user.password && (await bcrypt.compare(password, user.password))) {
-      // Success: Send back user data and a new token
       res.json({
         _id: user.id,
         name: user.name,
@@ -251,14 +236,11 @@ const loginUser = async (req, res) => {
         token: generateToken(user._id),
       });
     } else if (user && user.googleId && !user.password) {
-      // User exists but registered with Google
       res.status(401).json({ 
         message: "This account was created with Google. Please sign in with Google.",
         field: 'email'
       });
     } else {
-      // Failure: User not found or password incorrect
-      // Use generic message to prevent user enumeration
       res.status(401).json({ message: "Invalid email or password." });
     }
   } catch (error) {
@@ -294,7 +276,6 @@ const updateProfile = async (req, res) => {
     const { name, avatar } = req.body;
     const updates = {};
 
-    // Validate and add name if provided
     if (name !== undefined) {
       const nameValidation = validateName(name);
       if (!nameValidation.isValid) {
@@ -306,13 +287,10 @@ const updateProfile = async (req, res) => {
       updates.name = sanitizeInput(name.trim());
     }
 
-    // Add avatar if provided (can be empty string to remove)
     if (avatar !== undefined) {
-      // Avatar can be a base64 string or empty to remove
       updates.avatar = avatar || null;
     }
 
-    // Update user in database
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
       updates,

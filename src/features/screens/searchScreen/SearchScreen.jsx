@@ -5,22 +5,17 @@ import { Container } from 'react-bootstrap';
 import { FiCalendar, FiClock, FiUsers, FiTruck, FiX } from 'react-icons/fi';
 import styles from './SearchScreen.module.css';
 
-// Components
 import SearchForm from '../../search/components/SearchForm/SearchForm';
 import SearchResultCard from '../../search/components/SearchResultCard/SearchResultCard';
 import Loader from '../../../components/Loader/Loader';
 
-// Hooks
 import useSearch from '../../search/hooks/useSearch';
 
 const SearchScreen = () => {
   const { t } = useTranslation(['search', 'common', 'home']);
   const [searchParams, setSearchParams] = useSearchParams();
-  
-  // Get initial query from URL params
   const initialQuery = useMemo(() => searchParams.get('q') || '', []);
   
-  // Store URL params for display
   const [urlFilters, setUrlFilters] = useState(() => ({
     people: searchParams.get('people'),
     date: searchParams.get('date'),
@@ -47,7 +42,6 @@ const SearchScreen = () => {
     activeFilterCount,
   } = useSearch({ debounceDelay: 300, initialQuery });
 
-  // Update URL filters when search params change (for back/forward navigation)
   useEffect(() => {
     const urlQuery = searchParams.get('q');
     const people = searchParams.get('people');
@@ -56,12 +50,10 @@ const SearchScreen = () => {
     const transport = searchParams.get('transport');
     const tourType = searchParams.get('tourType');
     
-    // Only update query if it's different from current
     if (urlQuery && urlQuery !== query) {
       setQuery(urlQuery);
     }
     
-    // Store URL filters for display
     setUrlFilters({
       people: people,
       date: date,
@@ -71,7 +63,6 @@ const SearchScreen = () => {
     });
   }, [searchParams]);
 
-  // Remove a URL filter
   const removeUrlFilter = (filterKey) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.delete(filterKey);
@@ -79,7 +70,6 @@ const SearchScreen = () => {
     setUrlFilters(prev => ({ ...prev, [filterKey]: null }));
   };
 
-  // Clear all URL filters
   const clearAllUrlFilters = () => {
     setSearchParams({});
     setUrlFilters({
@@ -93,7 +83,6 @@ const SearchScreen = () => {
     clearFilters();
   };
 
-  // Check if any URL filters are active
   const hasUrlFilters = Object.values(urlFilters).some(v => v !== null);
 
   return (

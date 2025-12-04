@@ -56,7 +56,6 @@ export const searchTours = async ({ query = '', filters = {}, sortBy = 'recommen
   const tours = await fetchTours();
   let results = [...tours];
 
-  // Text search - search in title (only filter if query is not empty)
   if (query && query.trim()) {
     const searchLower = query.toLowerCase().trim();
     results = results.filter(tour => {
@@ -66,11 +65,8 @@ export const searchTours = async ({ query = '', filters = {}, sortBy = 'recommen
     });
   }
 
-  // Filter by category
   if (filters.category && filters.category !== 'all') {
-    // For now, all items are tours. Can be extended for other categories
     if (filters.category === 'tours') {
-      // Keep all tours
     } else if (filters.category === 'activities') {
       results = results.filter(tour => {
         const title = t ? t(tour.titleKey).toLowerCase() : '';
@@ -84,7 +80,6 @@ export const searchTours = async ({ query = '', filters = {}, sortBy = 'recommen
     }
   }
 
-  // Filter by price range
   if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
     results = results.filter(tour => {
       const price = parsePrice(tour.price);
@@ -94,7 +89,6 @@ export const searchTours = async ({ query = '', filters = {}, sortBy = 'recommen
     });
   }
 
-  // Filter by duration
   if (filters.duration && filters.duration !== 'any') {
     results = results.filter(tour => {
       const hours = parseDuration(tour.duration);
@@ -103,7 +97,6 @@ export const searchTours = async ({ query = '', filters = {}, sortBy = 'recommen
     });
   }
 
-  // Filter by rating
   if (filters.minRating) {
     results = results.filter(tour => {
       const rating = parseFloat(tour.rating);
@@ -111,7 +104,6 @@ export const searchTours = async ({ query = '', filters = {}, sortBy = 'recommen
     });
   }
 
-  // Sorting
   switch (sortBy) {
     case 'priceLow':
       results.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
@@ -127,7 +119,6 @@ export const searchTours = async ({ query = '', filters = {}, sortBy = 'recommen
       break;
     case 'recommended':
     default:
-      // Keep original order for recommended
       break;
   }
 

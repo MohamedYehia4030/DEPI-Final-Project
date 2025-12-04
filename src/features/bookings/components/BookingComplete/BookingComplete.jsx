@@ -15,10 +15,8 @@ function BookingComplete({ bookingDetails, onGoHome }) {
   const { packageInfo, tickets, selectedDate, selectedTime, traveler, appliedDiscount, calculateTotal, calculateSubtotal, getDiscountAmount, resetBooking } = useBookingStore();
   const clearDiscounts = useDiscountStore((state) => state.clearDiscounts);
   
-  // Ref to prevent double execution in Strict Mode
   const hasAddedTicket = useRef(false);
 
-  // Save ticket when component mounts
   useEffect(() => {
     if (hasAddedTicket.current) return;
     

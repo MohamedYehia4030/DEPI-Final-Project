@@ -2,17 +2,14 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// Step Components from features/bookings
 import BookingForm from '../../bookings/components/BookingForm/BookingForm';
 import BookingSummary from '../../bookings/components/BookingSummary/BookingSummary';
 import BookingPayment from '../../bookings/components/BookingPayment/BookingPayment';
 import BookingComplete from '../../bookings/components/BookingComplete/BookingComplete';
 import PackageSelection from '../../bookings/components/PackageSelection/PackageSelection';
 
-// Store
 import useBookingStore from '../../../store/booking/useBookingStore';
 
-// Styles
 import styles from './BookingScreen.module.css';
 
 export default function BookingScreen() {
@@ -20,7 +17,6 @@ export default function BookingScreen() {
   const navigate = useNavigate();
   const isRTL = i18n.dir() === 'rtl';
   
-  // Get state and actions from store
   const currentStep = useBookingStore((state) => state.currentStep);
   const packageInfo = useBookingStore((state) => state.packageInfo);
   const tickets = useBookingStore((state) => state.tickets);
@@ -37,7 +33,6 @@ export default function BookingScreen() {
   const calculateTotal = useBookingStore((state) => state.calculateTotal);
   const resetBooking = useBookingStore((state) => state.resetBooking);
 
-  // Redirect if no package selected and not on step 1
   useEffect(() => {
     if (!packageInfo && currentStep > 1) {
       navigate('/packages');
@@ -65,7 +60,6 @@ export default function BookingScreen() {
 
   const total = calculateTotal();
 
-  // Build booking data object for components
   const bookingData = {
     packageInfo: packageInfo || {
       name: t('selectPackage', 'Select a Package'),

@@ -2,19 +2,16 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// Step Components
 import ServiceSelection from '../../bookings/components/ServiceSelection/ServiceSelection';
 import ServiceBookingSummary from '../../bookings/components/ServiceBookingSummary/ServiceBookingSummary';
 import BookingForm from '../../bookings/components/BookingForm/BookingForm';
 import BookingPayment from '../../bookings/components/BookingPayment/BookingPayment';
 import BookingComplete from '../../bookings/components/BookingComplete/BookingComplete';
 
-// Store
 import useServiceBookingStore from '../../../store/booking/useServiceBookingStore';
 import useUserTicketsStore from '../../../store/tickets/useUserTicketsStore';
 import { useAuthStore } from '../../../store/auth/useAuthStore';
 
-// Styles
 import styles from './ServiceBookingScreen.module.css';
 
 export default function ServiceBookingScreen() {
@@ -22,13 +19,10 @@ export default function ServiceBookingScreen() {
   const navigate = useNavigate();
   const isRTL = i18n.dir() === 'rtl';
   
-  // Auth store for user email
   const user = useAuthStore((state) => state.user);
   
-  // Tickets store
   const addTicket = useUserTicketsStore((state) => state.addTicket);
   
-  // Get state and actions from store
   const currentStep = useServiceBookingStore((state) => state.currentStep);
   const serviceInfo = useServiceBookingStore((state) => state.serviceInfo);
   const serviceType = useServiceBookingStore((state) => state.serviceType);
@@ -47,7 +41,6 @@ export default function ServiceBookingScreen() {
   const calculateTotal = useServiceBookingStore((state) => state.calculateTotal);
   const resetBooking = useServiceBookingStore((state) => state.resetBooking);
 
-  // Redirect if no service selected and not on step 1
   useEffect(() => {
     if (!serviceInfo && currentStep > 1) {
       navigate('/services/bike-rickshaw');
@@ -55,7 +48,6 @@ export default function ServiceBookingScreen() {
   }, [serviceInfo, currentStep, navigate]);
 
   const handleNextStep = (data = {}) => {
-    // Handle traveler data from BookingForm
     if (data.traveler) {
       setCustomer({
         name: `${data.traveler.name} ${data.traveler.surname}`,
@@ -75,12 +67,10 @@ export default function ServiceBookingScreen() {
     const newRefNumber = completeBooking();
     const total = calculateTotal();
     
-    // Add ticket to user's tickets
     if (user?.email || customer.email) {
       addTicket({
         refNumber: newRefNumber,
         userEmail: user?.email || customer.email,
-        // Service bookings use service name instead of tour name
         tourName: serviceInfo?.titleKey || 'Service Booking',
         tourId: null, // Services don't have tour IDs
         tourImage: serviceInfo?.img,
@@ -99,7 +89,6 @@ export default function ServiceBookingScreen() {
         },
         total: total,
         paymentMethod: paymentData.paymentMethod || 'card',
-        // Additional service-specific data
         bookingType: 'service',
         serviceType: serviceType,
         serviceDuration: duration,
@@ -115,7 +104,6 @@ export default function ServiceBookingScreen() {
 
   const total = calculateTotal();
 
-  // Build booking data object for components
   const bookingData = {
     serviceInfo: serviceInfo || {
       titleKey: t('noServiceSelected', 'Select a Service'),

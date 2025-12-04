@@ -1,5 +1,3 @@
-// src/components/Navbar/UserAccountButton.jsx
-
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiUser } from 'react-icons/fi';
@@ -29,7 +27,6 @@ const UserAccountButton = () => {
 
   const handleToggle = (e) => {
     e.stopPropagation();
-    // if not logged in, open auth modal instead
     if (!user) {
       openAuthModal && openAuthModal();
       return;
@@ -47,7 +44,6 @@ const UserAccountButton = () => {
     if (user?.avatar) {
       return <img src={user.avatar} alt={user.name || 'avatar'} className={styles.avatarImg} loading="eager" />;
     }
-    // Show user initial or default icon
     if (user?.name) {
       return <span className={styles.avatarInitial}>{user.name.charAt(0).toUpperCase()}</span>;
     }

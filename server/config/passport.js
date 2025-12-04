@@ -5,7 +5,7 @@ const User = require('../models/User'); // Reuse your existing User model
 
 // 1. Serialize User (Required by Passport for session management, even if we use JWT later)
 passport.serializeUser((user, done) => {
-    // Only save the user ID (Mongoose ID) to the session
+
     done(null, user.id);
 });
 
@@ -41,18 +41,16 @@ module.exports = () => {
                 };
 
                 try {
-                    // Check if user already exists
+
                     let user = await User.findOne({ email: newUser.email });
 
                     if (user) {
-                        // User found - update googleId if not set
                         if (!user.googleId) {
                             user.googleId = profile.id;
                             await user.save();
                         }
                         done(null, user); 
                     } else {
-                        // User not found, create new user
                         user = await User.create(newUser);
                         done(null, user);
                     }

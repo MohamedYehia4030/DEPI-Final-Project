@@ -57,10 +57,8 @@ function ServiceBookingSummary({
   const discountAmount = calculateDiscountAmount(totalPrice);
   const finalPrice = calculateFinalPrice(totalPrice);
 
-  // Format service type for display
   const getServiceTypeLabel = () => {
     if (!serviceType) return '';
-    // Try to get translation, fallback to capitalized value
     const translationKey = `bikeBooking:bikeTypes.${serviceType}`;
     const translated = t(translationKey, { defaultValue: '' });
     if (translated && translated !== translationKey) return translated;

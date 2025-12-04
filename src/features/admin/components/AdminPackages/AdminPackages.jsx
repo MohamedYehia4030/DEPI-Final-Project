@@ -57,7 +57,6 @@ const AdminPackages = () => {
     }));
   };
 
-  // Main image file handlers
   const handleFileSelect = (e) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -100,7 +99,6 @@ const AdminPackages = () => {
     setDragOver((prev) => ({ ...prev, main: false }));
   };
 
-  // Sub images handlers
   const handleSubImagesSelect = async (e) => {
     const files = Array.from(e.target.files || []);
     await addMultipleImages(files, 'subimages');
@@ -123,7 +121,6 @@ const AdminPackages = () => {
     setDragOver((prev) => ({ ...prev, sub: false }));
   };
 
-  // Gallery handlers
   const handleGallerySelect = async (e) => {
     const files = Array.from(e.target.files || []);
     await addMultipleImages(files, 'gallery');
@@ -146,7 +143,6 @@ const AdminPackages = () => {
     setDragOver((prev) => ({ ...prev, gallery: false }));
   };
 
-  // Add multiple images to subimages or gallery
   const addMultipleImages = async (files, field) => {
     const imageFiles = files.filter((f) => f.type.startsWith('image/'));
     if (imageFiles.length === 0) {
@@ -167,7 +163,6 @@ const AdminPackages = () => {
     }
   };
 
-  // Remove image from array
   const removeArrayImage = (field, index) => {
     setFormData((prev) => ({
       ...prev,

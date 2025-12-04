@@ -46,7 +46,6 @@ export const useBooking = () => {
   }, [store]);
 
   return {
-    // State
     currentStep: store.currentStep,
     packageInfo: store.packageInfo,
     tickets: store.tickets,
@@ -55,20 +54,14 @@ export const useBooking = () => {
     traveler: store.traveler,
     bookingComplete: store.bookingComplete,
     refNumber: store.refNumber,
-    
-    // Computed
     total: store.calculateTotal(),
     canProceed: store.canProceedFromStep(store.currentStep),
-    
-    // Actions
     startBooking,
     handleNextStep,
     handleBackStep,
     completeBooking,
     cancelBooking,
     getBookingSummary,
-    
-    // Direct store actions
     setPackage: store.setPackage,
     setTickets: store.setTickets,
     updateTicketCount: store.updateTicketCount,

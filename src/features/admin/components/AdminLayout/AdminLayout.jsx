@@ -11,7 +11,6 @@ const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { t } = useTranslation('dashboard');
 
-  // Redirect if not authenticated or not admin
   if (!user || !user.isAdmin) {
     return <Navigate to="/" replace />;
   }

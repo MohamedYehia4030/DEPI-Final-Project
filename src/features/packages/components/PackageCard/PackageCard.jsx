@@ -30,10 +30,8 @@ const PackageCard = ({ tour, index }) => {
   
   const tourUrl = `/packages/${tour._id}`;
 
-  // Arrow direction changes based on language (RTL for Arabic)
   const arrow = i18n.dir() === 'rtl' ? '←' : '→';
 
-  // Get the tour key from titleKey (e.g., "packages:tours.luccaBike.title" -> "tours.luccaBike")
   const getTourKey = () => {
     if (tour.titleKey) {
       const match = tour.titleKey.match(/packages:(tours\.[^.]+)/);
@@ -59,7 +57,6 @@ const PackageCard = ({ tour, index }) => {
     return tour.duration;
   };
 
-  // Translate group (handles both with and without namespace prefix)
   const getTranslatedGroup = () => {
     if (!tour.groupKey) return '';
     if (tour.groupKey.startsWith('packages:')) {

@@ -167,10 +167,8 @@ function HeroSearchForm() {
   const handleSearch = (e) => {
     e.preventDefault();
     
-    // Build search query from selected options
     const searchParams = new URLSearchParams();
     
-    // Get search term from selected tour
     if (formData.tour) {
       const selectedTour = tourOptions.find(opt => opt.value === formData.tour);
       if (selectedTour?.searchTerm) {
@@ -178,7 +176,6 @@ function HeroSearchForm() {
       }
     }
     
-    // Add other filters as URL params
     if (formData.numberOfPeople) {
       searchParams.set('people', formData.numberOfPeople);
     }
@@ -196,7 +193,6 @@ function HeroSearchForm() {
     }
     searchParams.set('tourType', tourType);
     
-    // Navigate to search page with params
     navigate(`/search?${searchParams.toString()}`);
   };
 

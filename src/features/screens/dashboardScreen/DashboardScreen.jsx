@@ -10,7 +10,6 @@ const DashboardScreen = () => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
 
-  // Redirect if not logged in
   if (!user) {
     navigate("/");
     return null;

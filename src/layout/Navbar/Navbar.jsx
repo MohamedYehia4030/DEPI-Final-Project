@@ -47,7 +47,6 @@ const Navbar = () => {
     closeMenu();
   };
 
-  // Close language dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (langRef.current && !langRef.current.contains(event.target)) {
@@ -62,7 +61,6 @@ const Navbar = () => {
     };
   }, [isLangOpen]);
 
-  // Extract nav content to avoid duplication between mobile/desktop
   const navContent = (
     <>
       <ul className={styles.navLinks}>
@@ -225,7 +223,6 @@ const Navbar = () => {
       </button>
 
       {isMobile ? (
-        // Animated mobile menu
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -240,7 +237,6 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       ) : (
-        // Static desktop menu
         <div className={styles.navCollapse}>{navContent}</div>
       )}
     </nav>

@@ -101,17 +101,13 @@ const PopularPackages = () => {
   const { t } = useTranslation('home');
   const navigate = useNavigate();
   
-  // Service booking store
   const setService = useServiceBookingStore(state => state.setService);
   const setServiceType = useServiceBookingStore(state => state.setServiceType);
   const resetBooking = useServiceBookingStore(state => state.resetBooking);
 
-  // Handle Book Now click - navigates to service booking form
   const handleBookNow = (pkg) => {
-    // Reset any previous booking
     resetBooking();
     
-    // Set the service info in the store
     setService({
       id: pkg.key,
       slug: pkg.slug,
@@ -120,10 +116,8 @@ const PopularPackages = () => {
       img: pkg.image,
     });
     
-    // Set the service type (e.g., 'city', 'bike', 'coach', 'sedan')
     setServiceType(pkg.serviceType);
     
-    // Navigate to service booking page
     navigate('/service-booking');
   };
 

@@ -57,7 +57,6 @@ const PopularDestinations = () => {
     navigate(`/packages/${tourId}`);
   };
 
-  // Get tour key for translations (e.g., "packages:tours.luccaBike.title" -> "tours.luccaBike")
   const getTourKey = (titleKey) => {
     if (titleKey) {
       const match = titleKey.match(/packages:(tours\.[^.]+)/);

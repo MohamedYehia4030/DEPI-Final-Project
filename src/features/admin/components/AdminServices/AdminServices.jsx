@@ -38,7 +38,6 @@ const AdminServices = () => {
     }
   };
 
-  // File upload handlers
   const handleFileSelect = (e) => {
     const file = e.target.files?.[0];
     if (file) {

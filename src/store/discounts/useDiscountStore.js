@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 
-// Define available discount types and their rules
 const DISCOUNT_RULES = {
-  // Group discount: 25% off for 10+ people
   GROUP_DISCOUNT: {
     id: 'GROUP_DISCOUNT',
     type: 'automatic',
@@ -12,7 +10,6 @@ const DISCOUNT_RULES = {
     minPeople: 10,
     isAutomatic: true,
   },
-  // Early bird: 15% off when booking 30+ days in advance
   EARLY_BIRD: {
     id: 'EARLY_BIRD',
     type: 'automatic',
@@ -22,7 +19,6 @@ const DISCOUNT_RULES = {
     minDaysInAdvance: 30,
     isAutomatic: true,
   },
-  // Package deal: 20% off when booking 3+ tours (requires promo code)
   PACKAGE_DEAL: {
     id: 'PACKAGE_DEAL',
     type: 'code',
@@ -32,7 +28,6 @@ const DISCOUNT_RULES = {
     code: 'BUNDLE20',
     isAutomatic: false,
   },
-  // Promo codes
   PROMO_CODES: {
     'WELCOME10': {
       id: 'WELCOME10',
@@ -81,12 +76,10 @@ const DISCOUNT_RULES = {
 };
 
 const useDiscountStore = create((set, get) => ({
-  // Current applied discount
   appliedDiscount: null,
   appliedPromoCode: null,
   promoCodeError: null,
   
-  // Available discounts for display
   availableOffers: [
     {
       id: 'group',
@@ -115,12 +108,10 @@ const useDiscountStore = create((set, get) => ({
     },
   ],
 
-  // Check and apply automatic discounts based on booking data
   checkAutomaticDiscounts: (bookingData) => {
     const { tickets, selectedDate } = bookingData;
     const totalPeople = (tickets?.adult || 0) + (tickets?.child || 0);
     
-    // Check group discount (highest priority for automatic)
     if (totalPeople >= DISCOUNT_RULES.GROUP_DISCOUNT.minPeople) {
       return {
         ...DISCOUNT_RULES.GROUP_DISCOUNT,
@@ -128,7 +119,6 @@ const useDiscountStore = create((set, get) => ({
       };
     }
     
-    // Check early bird discount
     if (selectedDate) {
       const bookingDate = new Date(selectedDate);
       const today = new Date();
@@ -148,12 +138,8 @@ const useDiscountStore = create((set, get) => ({
     return null;
   },
 
-  // Apply automatic discounts
   applyAutomaticDiscount: (bookingData) => {
     const discount = get().checkAutomaticDiscounts(bookingData);
-    
-    // Only apply automatic discount if no promo code is applied
-    // or if automatic discount is better
     const currentPromo = get().appliedPromoCode;
     
     if (discount && (!currentPromo || discount.percentage > currentPromo.percentage)) {
@@ -161,7 +147,6 @@ const useDiscountStore = create((set, get) => ({
       return discount;
     }
     
-    // Keep promo code if it's better
     if (currentPromo) {
       set({ appliedDiscount: currentPromo });
       return currentPromo;
@@ -171,7 +156,6 @@ const useDiscountStore = create((set, get) => ({
     return null;
   },
 
-  // Apply promo code
   applyPromoCode: (code, bookingData = {}) => {
     const upperCode = code.toUpperCase().trim();
     const promoCode = DISCOUNT_RULES.PROMO_CODES[upperCode];
@@ -181,19 +165,16 @@ const useDiscountStore = create((set, get) => ({
       return { success: false, error: 'Invalid promo code' };
     }
     
-    // Check if code has expired
     if (promoCode.validUntil && new Date() > promoCode.validUntil) {
       set({ promoCodeError: 'This promo code has expired' });
       return { success: false, error: 'This promo code has expired' };
     }
     
-    // Check if family discount requires children
     if (promoCode.requiresChild && (!bookingData.tickets?.child || bookingData.tickets.child === 0)) {
       set({ promoCodeError: 'This code requires at least one child ticket' });
       return { success: false, error: 'This code requires at least one child ticket' };
     }
     
-    // Check if automatic discount is better
     const autoDiscount = get().checkAutomaticDiscounts(bookingData);
     
     if (autoDiscount && autoDiscount.percentage > promoCode.percentage) {
@@ -208,7 +189,6 @@ const useDiscountStore = create((set, get) => ({
       };
     }
     
-    // Apply the promo code
     set({ 
       appliedPromoCode: promoCode,
       appliedDiscount: promoCode,
@@ -218,18 +198,15 @@ const useDiscountStore = create((set, get) => ({
     return { success: true, discount: promoCode };
   },
 
-  // Remove promo code
   removePromoCode: (bookingData = {}) => {
     set({ appliedPromoCode: null, promoCodeError: null });
     
-    // Check if there's an automatic discount to apply instead
     const autoDiscount = get().checkAutomaticDiscounts(bookingData);
     set({ appliedDiscount: autoDiscount });
     
     return autoDiscount;
   },
 
-  // Calculate discount amount
   calculateDiscountAmount: (subtotal) => {
     const { appliedDiscount } = get();
     
@@ -238,13 +215,11 @@ const useDiscountStore = create((set, get) => ({
     return (subtotal * appliedDiscount.percentage) / 100;
   },
 
-  // Calculate final price after discount
   calculateFinalPrice: (subtotal) => {
     const discountAmount = get().calculateDiscountAmount(subtotal);
     return Math.max(0, subtotal - discountAmount);
   },
 
-  // Get discount summary for display
   getDiscountSummary: (subtotal) => {
     const { appliedDiscount } = get();
     
@@ -265,7 +240,6 @@ const useDiscountStore = create((set, get) => ({
     };
   },
 
-  // Clear all discounts
   clearDiscounts: () => {
     set({ 
       appliedDiscount: null, 
@@ -274,7 +248,6 @@ const useDiscountStore = create((set, get) => ({
     });
   },
 
-  // Clear error
   clearError: () => {
     set({ promoCodeError: null });
   },

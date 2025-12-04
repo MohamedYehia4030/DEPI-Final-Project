@@ -51,12 +51,12 @@ const validatePromoCode = async (req, res) => {
       return res.status(404).json({ valid: false, message: "Invalid promo code" });
     }
 
-    // Check expiration
+
     if (promoCode.expiresAt && new Date() > promoCode.expiresAt) {
       return res.status(400).json({ valid: false, message: "Promo code has expired" });
     }
 
-    // Check usage limit
+
     if (promoCode.usageLimit && promoCode.usedCount >= promoCode.usageLimit) {
       return res.status(400).json({ valid: false, message: "Promo code usage limit reached" });
     }

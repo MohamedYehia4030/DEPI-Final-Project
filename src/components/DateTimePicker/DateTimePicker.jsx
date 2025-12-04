@@ -4,7 +4,6 @@ import { FiCalendar, FiClock } from 'react-icons/fi';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './DateTimePicker.module.css';
 
-// Custom input component for date picker
 const CustomDateInput = forwardRef(function CustomDateInputComponent(
   { value, onClick, placeholder, icon },
   ref
@@ -28,7 +27,6 @@ const CustomDateInput = forwardRef(function CustomDateInputComponent(
 
 CustomDateInput.displayName = 'CustomDateInput';
 
-// Date Picker Component
 export const CustomDatePicker = ({ 
   selected, 
   onChange, 
@@ -57,7 +55,6 @@ export const CustomDatePicker = ({
   );
 };
 
-// Time Picker Component
 export const CustomTimePicker = ({ 
   selected, 
   onChange, 
@@ -87,7 +84,6 @@ export const CustomTimePicker = ({
   );
 };
 
-// Combined DateTime Picker Component
 export const CustomDateTimePicker = ({ 
   selected, 
   onChange, 
@@ -120,7 +116,6 @@ export const CustomDateTimePicker = ({
   );
 };
 
-// Flexible DateTimePicker with mode support
 const DateTimePicker = ({
   mode = 'date', // 'date', 'time', 'datetime'
   selected,
@@ -132,7 +127,6 @@ const DateTimePicker = ({
   dateFormat,
   ...props
 }) => {
-  // Set defaults based on mode
   const getDefaultPlaceholder = () => {
     switch (mode) {
       case 'time': return 'Select time';
@@ -165,7 +159,6 @@ const DateTimePicker = ({
     ...props
   };
 
-  // Add mode-specific props
   if (mode === 'date') {
     pickerProps.minDate = minDate;
     pickerProps.maxDate = maxDate;

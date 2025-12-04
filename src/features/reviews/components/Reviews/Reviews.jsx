@@ -7,7 +7,6 @@ import { getReviews, submitReview } from '../../api/reviewsAPI';
 import { useAuthStore } from '../../../../store/auth/useAuthStore';
 import useMediaQuery from '../../../../hooks/useMediaQuery';
 
-// Default avatars from assets
 import Person1 from '../../../../assets/reviews/Person 1.png';
 import Person2 from '../../../../assets/reviews/Person 2.jpg';
 import Person3 from '../../../../assets/reviews/person 3.jpg';
@@ -26,11 +25,9 @@ export default function Reviews() {
   const [error, setError] = useState(null);
   const user = useAuthStore((state) => state.user);
   
-  // Responsive breakpoints for slider
   const isMobile = useMediaQuery('(max-width: 576px)');
   const isTablet = useMediaQuery('(max-width: 992px)');
   
-  // Determine how many slides to show based on screen size
   const getPerSlide = () => {
     if (isMobile) return 1;
     if (isTablet) return 2;
@@ -57,7 +54,6 @@ export default function Reviews() {
     fetchReviews();
   }, []);
 
-  // Pre-fill name if user is logged in
   useEffect(() => {
     if (user?.name) {
       setFormData((prev) => ({ ...prev, name: user.name }));
@@ -94,7 +90,6 @@ export default function Reviews() {
       setSubmitSuccess(true);
       setFormData({ name: user?.name || '', comment: '', rating: 5 });
       
-      // Add the new review to the list so user sees it immediately
       if (newReview) {
         setReviews(prev => [newReview, ...prev]);
       }
@@ -120,7 +115,6 @@ export default function Reviews() {
     return <div className={styles.loading}>{t('loadingReviews') || t('common:loading', 'Loading...')}</div>;
   }
 
-  // Build review nodes from API data
   const reviewNodes = reviews.map((review, idx) => {
     const avatar = review.avatar || defaultAvatars[idx % defaultAvatars.length];
     const fallbackAvatar = defaultAvatars[idx % defaultAvatars.length];

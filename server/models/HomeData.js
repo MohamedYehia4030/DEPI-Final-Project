@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Schema for Special Offers (automatic discounts)
 const offerSchema = mongoose.Schema({
   key: { type: String, required: true, unique: true },
   icon: { type: String, required: true },
@@ -14,7 +13,6 @@ const offerSchema = mongoose.Schema({
   isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 
-// Schema for Promo Codes
 const promoCodeSchema = mongoose.Schema({
   code: { type: String, required: true, unique: true },
   discount: { type: String, required: true },
@@ -25,7 +23,6 @@ const promoCodeSchema = mongoose.Schema({
   usedCount: { type: Number, default: 0 },
 }, { timestamps: true });
 
-// Schema for Popular Packages (service packages on home page)
 const popularPackageSchema = mongoose.Schema({
   key: { type: String, required: true, unique: true },
   slug: { type: String, required: true },
@@ -43,7 +40,6 @@ const popularPackageSchema = mongoose.Schema({
   isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 
-// Schema for Transport Services (home page services grid)
 const transportServiceSchema = mongoose.Schema({
   key: { type: String, required: true, unique: true },
   slug: { type: String, required: true },
@@ -54,7 +50,6 @@ const transportServiceSchema = mongoose.Schema({
   isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 
-// Schema for Hero Section
 const heroSchema = mongoose.Schema({
   titleKey: { type: String, required: true },
   subtitleKey: { type: String, required: true },
@@ -62,7 +57,6 @@ const heroSchema = mongoose.Schema({
   isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 
-// Schema for Stats (displayed on home page)
 const homeStatSchema = mongoose.Schema({
   key: { type: String, required: true, unique: true },
   value: { type: String, required: true },

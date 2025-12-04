@@ -13,7 +13,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
   const { t } = useTranslation('bikeBooking');
   const navigate = useNavigate();
   
-  // Service booking store
   const setService = useServiceBookingStore(state => state.setService);
   const prefillFromForm = useServiceBookingStore(state => state.prefillFromForm);
   const resetBooking = useServiceBookingStore(state => state.resetBooking);
@@ -67,7 +66,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -84,15 +82,12 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
   const handleBooking = (e) => {
     e.preventDefault();
     
-    // Validate form before proceeding
     if (!validateForm()) {
       return;
     }
     
-    // Reset any previous booking
     resetBooking();
     
-    // Set the service info
     setService({
       slug: serviceSlug,
       titleKey: serviceTitleKey,
@@ -100,7 +95,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
       img: serviceImg || bikeImage
     });
     
-    // Format date and time for storage
     const formattedDate = selectedDate instanceof Date 
       ? selectedDate.toISOString().split('T')[0] 
       : selectedDate;
@@ -108,7 +102,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
       ? selectedTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
       : selectedTime;
     
-    // Pre-fill the form data
     prefillFromForm({
       name: formData.name,
       email: formData.email,
@@ -118,11 +111,9 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
       time: formattedTime
     });
     
-    // Navigate to service booking
     navigate("/service-booking");
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -157,7 +148,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
           <div className={styles.formBox}>
             <form onSubmit={handleBooking}>
               <div className={styles.formGrid}>
-                {/* Name Field */}
                 <div className={styles.formGroup}>
                   <label className={styles.label}>{t('form.name')}</label>
                   <input
@@ -171,7 +161,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
                   {errors.name && <span className={styles.errorText}>{errors.name}</span>}
                 </div>
 
-                {/* Email Field */}
                 <div className={styles.formGroup}>
                   <label className={styles.label}>{t('form.email')}</label>
                   <input
@@ -185,7 +174,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
                   {errors.email && <span className={styles.errorText}>{errors.email}</span>}
                 </div>
 
-                {/* Phone Field */}
                 <div className={styles.formGroup}>
                   <label className={styles.label}>{t('form.phone')}</label>
                   <input
@@ -199,7 +187,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
                   {errors.phone && <span className={styles.errorText}>{errors.phone}</span>}
                 </div>
 
-                {/* Service Type Dropdown */}
                 <div className={styles.formGroup}>
                   <label className={styles.label}>{t('form.service')}</label>
                   <div className={styles.customDropdown} ref={dropdownRef}>
@@ -230,7 +217,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
                   {errors.serviceType && <span className={styles.errorText}>{errors.serviceType}</span>}
                 </div>
 
-                {/* Date Field */}
                 <div className={styles.formGroup}>
                   <label className={styles.label}>{t('form.date', 'Date')}</label>
                   <DateTimePicker
@@ -247,7 +233,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
                   {errors.date && <span className={styles.errorText}>{errors.date}</span>}
                 </div>
 
-                {/* Time Field */}
                 <div className={styles.formGroup}>
                   <label className={styles.label}>{t('form.time', 'Time')}</label>
                   <DateTimePicker
@@ -265,7 +250,6 @@ const BikeBookingForm = ({ serviceSlug = 'bike-rickshaw', serviceTitleKey = 'pac
                 </div>
               </div>
 
-              {/* Submit Button */}
               <div className={styles.buttonWrapper}>
                 <button type="submit" className={styles.submitButton}>
                   {t('form.button')}

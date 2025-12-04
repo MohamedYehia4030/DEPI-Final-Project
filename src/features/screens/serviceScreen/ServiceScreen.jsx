@@ -8,17 +8,13 @@ import { motion } from 'framer-motion';
 import ServiceBookingForm from '../../../components/ServiceBookingForm/ServiceBookingForm';
 import { getImageUrl, handleImageError } from '../../../lib/imageUtils';
 
-// Components
 import PackageCard from '../../packages/components/PackageCard/PackageCard';
 
-// API
 import { getServices } from '../../packages/api/packagesAPI';
 import { getToursByService } from '../../search/api/searchAPI';
 
-// Store
 import useServiceBookingStore from '../../../store/booking/useServiceBookingStore';
 
-// Service details mapping
 const serviceDetails = {
   'bike-rickshaw': {
     serviceIndex: 0,
@@ -71,23 +67,19 @@ const ServiceScreen = () => {
   const [relatedTours, setRelatedTours] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // Service booking store
   const setService = useServiceBookingStore(state => state.setService);
   const resetBooking = useServiceBookingStore(state => state.resetBooking);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        // Fetch services
         const servicesData = await getServices();
-        // Fix image paths using imageUtils
         const servicesWithFixedImages = servicesData.map(s => ({
           ...s,
           img: getImageUrl(s.img, 'service')
         }));
         setServices(servicesWithFixedImages);
         
-        // Fetch related tours
         const tours = await getToursByService(serviceType, t);
         setRelatedTours(tours);
       } catch (err) {
@@ -99,11 +91,9 @@ const ServiceScreen = () => {
     fetchData();
   }, [serviceType, t]);
 
-  // Get service details
   const serviceConfig = serviceDetails[serviceType] || serviceDetails['guided-tours'];
   const service = services[serviceConfig.serviceIndex];
 
-  // Service name mapping for footer translations
   const serviceNameMap = {
     'bike-rickshaw': 'bikeRickshaw',
     'guided-tours': 'guidedTours',
@@ -117,7 +107,6 @@ const ServiceScreen = () => {
 
   const serviceName = t(`footer:${serviceNameMap[serviceType]}`, t(service?.titleKey));
 
-  // Handle Book Now click
   const handleBookNow = () => {
     resetBooking();
     setService({

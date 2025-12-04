@@ -10,14 +10,12 @@ import { getServices } from '../../features/packages/api/packagesAPI';
 import { getImageUrl, handleImageError, PLACEHOLDER_SERVICE } from '../../lib/imageUtils';
 import { validateName, validateEmail, validatePhone } from '../../lib/validation';
 
-// Default placeholder for when no service is selected or image fails
 const defaultPlaceholder = PLACEHOLDER_SERVICE;
 
 const ServiceBookingForm = ({ initialServiceType = '' }) => {
   const { t } = useTranslation(['bikeBooking', 'packages', 'common']);
   const navigate = useNavigate();
   
-  // Service booking store
   const setService = useServiceBookingStore(state => state.setService);
   const prefillFromForm = useServiceBookingStore(state => state.prefillFromForm);
   const resetBooking = useServiceBookingStore(state => state.resetBooking);
@@ -38,14 +36,12 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
   const [touched, setTouched] = useState({});
   const dropdownRef = useRef(null);
 
-  // Fetch services from API
   useEffect(() => {
     async function fetchServices() {
       try {
         const data = await getServices();
         setServices(data);
         
-        // If initial service type is set, find and set its image
         if (initialServiceType) {
           const initialService = data.find(s => s._id === initialServiceType || s.titleKey === initialServiceType);
           if (initialService?.img) {
@@ -98,7 +94,6 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -113,7 +108,6 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
     setDropdownOpen(false);
     setErrors(prev => ({ ...prev, serviceType: '' }));
     
-    // Find the selected service and update image
     const selectedSvc = services.find(s => s._id === serviceId);
     if (selectedSvc?.img) {
       setCurrentImage(getImageUrl(selectedSvc.img, 'service'));
@@ -139,7 +133,6 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
   const handleBooking = (e) => {
     e.preventDefault();
     
-    // Mark all fields as touched
     setTouched({
       serviceType: true,
       name: true,
@@ -153,13 +146,10 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
       return;
     }
     
-    // Reset any previous booking
     resetBooking();
     
-    // Find the selected service from API data
     const selectedServiceData = services.find(s => s._id === formData.serviceType);
     
-    // Set the service info
     setService({
       id: selectedServiceData?._id,
       slug: formData.serviceType,
@@ -168,7 +158,6 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
       img: getImageUrl(selectedServiceData?.img, 'service') || defaultPlaceholder
     });
     
-    // Format date and time for storage
     const formattedDate = selectedDate instanceof Date 
       ? selectedDate.toISOString().split('T')[0] 
       : selectedDate;
@@ -176,7 +165,6 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
       ? selectedTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
       : selectedTime;
     
-    // Pre-fill the form data
     prefillFromForm({
       name: formData.name,
       email: formData.email,
@@ -186,11 +174,9 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
       time: formattedTime
     });
     
-    // Navigate to service booking
     navigate("/service-booking");
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -201,13 +187,10 @@ const ServiceBookingForm = ({ initialServiceType = '' }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Get selected service from API data
   const selectedService = services.find(s => s._id === formData.serviceType);
   
-  // Get translated label for a service
   const getServiceLabel = (service) => {
     if (!service) return '';
-    // Try to translate the titleKey, fallback to titleKey itself
     const translated = t(service.titleKey);
     return translated !== service.titleKey ? translated : service.titleKey;
   };

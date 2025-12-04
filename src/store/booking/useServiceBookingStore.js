@@ -4,13 +4,11 @@ import { persist } from 'zustand/middleware';
 const initialState = {
   currentStep: 1,
   serviceInfo: null,
-  // Service-specific fields
-  serviceType: null, // e.g., 'city', 'mountain', 'electric', 'road' for bikes
+  serviceType: null,
   quantity: 1,
-  duration: '1 hour', // rental duration
+  duration: '1 hour',
   selectedDate: null,
   selectedTime: null,
-  // Customer info (pre-filled from BikeBookingForm)
   customer: {
     name: '',
     email: '',
@@ -27,7 +25,6 @@ const initialState = {
   refNumber: null
 };
 
-// Service pricing (can be moved to a config file later)
 const servicePricing = {
   'bike-rickshaw': {
     base: 15,
@@ -87,7 +84,6 @@ const servicePricing = {
   }
 };
 
-// Duration options
 const durationOptions = [
   { value: '1 hour', hours: 1 },
   { value: '2 hours', hours: 2 },
@@ -101,7 +97,6 @@ const useServiceBookingStore = create(
     (set, get) => ({
       ...initialState,
 
-      // Set service info (from ServiceScreen or BikeBookingForm)
       setService: (service) => set({
         serviceInfo: {
           slug: service.slug,
@@ -111,31 +106,23 @@ const useServiceBookingStore = create(
         }
       }),
 
-      // Set service type (e.g., 'city' for bikes)
       setServiceType: (type) => set({ serviceType: type }),
 
-      // Set quantity
       setQuantity: (quantity) => set({ quantity: Math.max(1, quantity) }),
 
-      // Set rental duration
       setDuration: (duration) => set({ duration }),
 
-      // Set date and time
       setDateTime: (date, time) => set({ 
         selectedDate: date, 
         selectedTime: time 
       }),
 
-      // Set customer info
       setCustomer: (customer) => set({ customer }),
 
-      // Set payment info
       setPaymentInfo: (paymentInfo) => set({ paymentInfo }),
 
-      // Set applied discount
       setAppliedDiscount: (discount) => set({ appliedDiscount: discount }),
 
-      // Navigation
       nextStep: () => set((state) => ({ 
         currentStep: Math.min(state.currentStep + 1, 4) 
       })),
@@ -146,7 +133,6 @@ const useServiceBookingStore = create(
       
       goToStep: (step) => set({ currentStep: step }),
 
-      // Calculate price based on service, type, duration, and quantity
       calculateSubtotal: () => {
         const { serviceInfo, serviceType, quantity, duration } = get();
         if (!serviceInfo) return 0;
@@ -154,20 +140,17 @@ const useServiceBookingStore = create(
         const pricing = servicePricing[serviceInfo.slug] || { base: 25, perHour: 10 };
         const durationInfo = durationOptions.find(d => d.value === duration) || { hours: 1 };
         
-        // Get type-specific price or base price
         let typePrice = pricing.base;
         if (serviceType && pricing.types && pricing.types[serviceType]) {
           typePrice = pricing.types[serviceType];
         }
 
-        // Calculate total: (base type price + hourly rate * additional hours) * quantity
         const additionalHours = Math.max(0, durationInfo.hours - 1);
         const pricePerUnit = typePrice + (pricing.perHour * additionalHours);
         
         return pricePerUnit * quantity;
       },
 
-      // Calculate total price (after discount)
       calculateTotal: () => {
         const { appliedDiscount } = get();
         const subtotal = get().calculateSubtotal();
@@ -178,7 +161,6 @@ const useServiceBookingStore = create(
         return Math.max(0, subtotal - discountAmount);
       },
 
-      // Get discount amount
       getDiscountAmount: () => {
         const { appliedDiscount } = get();
         const subtotal = get().calculateSubtotal();
@@ -188,7 +170,6 @@ const useServiceBookingStore = create(
         return (subtotal * appliedDiscount.percentage) / 100;
       },
 
-      // Complete booking
       completeBooking: () => {
         const refNumber = `SV-${Date.now()}`;
         set({ 
@@ -199,10 +180,8 @@ const useServiceBookingStore = create(
         return refNumber;
       },
 
-      // Reset booking state
       resetBooking: () => set(initialState),
 
-      // Check if can proceed to next step
       canProceedFromStep: (step) => {
         const state = get();
         switch (step) {
@@ -225,7 +204,6 @@ const useServiceBookingStore = create(
         }
       },
 
-      // Pre-fill from BikeBookingForm data
       prefillFromForm: (formData) => set((state) => ({
         customer: {
           name: formData.name || state.customer.name,

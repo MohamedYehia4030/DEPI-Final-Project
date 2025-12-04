@@ -6,7 +6,6 @@ import { searchTours, getSearchSuggestions } from '../api/searchAPI';
 const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
   const { t, ready } = useTranslation(['packages', 'search']);
 
-  // Search state
   const [query, setQuery] = useState(initialQuery);
   const [filters, setFilters] = useState({
     category: 'all',
@@ -22,19 +21,15 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const isInitialMount = useRef(true);
 
-  // Debounce the search query
   const debouncedQuery = useDebounce(query, debounceDelay);
 
-  // Perform search when debounced query or filters change
   useEffect(() => {
-    // Wait for translations to be ready
     if (!ready) return;
 
     const performSearch = async () => {
       setIsLoading(true);
       
       try {
-        // Perform the search (now async)
         const searchResults = await searchTours(
           { 
             query: debouncedQuery, 
@@ -57,7 +52,6 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
     performSearch();
   }, [debouncedQuery, filters, sortBy, t, ready]);
 
-  // Get suggestions for autocomplete
   useEffect(() => {
     const fetchSuggestions = async () => {
       if (query.length >= 2) {
@@ -71,10 +65,8 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
     fetchSuggestions();
   }, [query, t]);
 
-  // Handlers
   const handleQueryChange = useCallback((newQuery) => {
     setQuery(newQuery);
-    // Show suggestions only when typing (2+ chars), hide when clearing
     if (newQuery.length >= 2) {
       setShowSuggestions(true);
     } else {
@@ -106,7 +98,6 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
   const clearSearch = useCallback(() => {
     setQuery('');
     setShowSuggestions(false);
-    // Immediately show all results without waiting for debounce
     if (ready) {
       const performSearch = async () => {
         setIsLoading(true);
@@ -129,7 +120,6 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
   const handleSuggestionClick = useCallback((suggestion) => {
     setQuery(suggestion.title);
     setShowSuggestions(false);
-    // Immediately perform search without waiting for debounce
     if (ready) {
       const performSearch = async () => {
         setIsLoading(true);
@@ -149,7 +139,6 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
     }
   }, [ready, filters, sortBy, t]);
 
-  // Calculate active filter count
   const activeFilterCount = useMemo(() => {
     let count = 0;
     if (filters.category !== 'all') count++;
@@ -161,7 +150,6 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
   }, [filters]);
 
   return {
-    // State
     query,
     debouncedQuery,
     filters,
@@ -171,8 +159,6 @@ const useSearch = ({ debounceDelay = 300, initialQuery = '' } = {}) => {
     suggestions,
     showSuggestions,
     activeFilterCount,
-    
-    // Handlers
     setQuery: handleQueryChange,
     setFilters,
     setFilter: handleFilterChange,
