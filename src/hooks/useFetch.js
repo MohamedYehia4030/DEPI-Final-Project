@@ -21,7 +21,7 @@ const useFetch = (url) => {
     };
 
     fetchData();
-  }, [url]); // Re-run when the URL changes
+  }, [url]);
 
   return { data, isLoading, error };
 };

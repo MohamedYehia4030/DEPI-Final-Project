@@ -19,7 +19,7 @@ export default function ContactInfo() {
   return (
     <div 
       className={styles.contactInfoContainer}
-      dir={i18n.dir()} // Adjust layout for RTL languages
+      dir={i18n.dir()}
     >
       {/* Title and Description */}
       <div>

@@ -41,7 +41,7 @@ function BookingComplete({ bookingDetails, onGoHome }) {
           percentage: appliedDiscount.percentage,
           amount: getDiscountAmount()
         } : null,
-        paymentMethod: 'card', // or get from payment step
+        paymentMethod: 'card',
       });
     }
   }, []);

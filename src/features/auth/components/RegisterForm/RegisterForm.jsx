@@ -14,7 +14,6 @@ const RegisterForm = () => {
   const { t } = useTranslation("auth");
   const { openAuthModal } = useAppStore();
 
-  // --- Form State ---
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +22,6 @@ const RegisterForm = () => {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [agreed, setAgreed] = useState(false);
-  // ------------------
 
   const register = useAuthStore((state) => state.register);
   const isLoading = useAuthStore((state) => state.isLoading);

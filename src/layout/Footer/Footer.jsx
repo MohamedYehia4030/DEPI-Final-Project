@@ -12,7 +12,6 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.grid}>
-          {/* --- Services Column --- */}
           <div className={styles.col}>
             <h5>{t("services")}</h5>
             <ul>
@@ -37,7 +36,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* --- Home Column --- */}
           <div className={styles.col}>
             <h5>{t("navigation")}</h5>
             <ul>
@@ -59,7 +57,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* --- Help Column --- */}
           <div className={styles.col}>
             <h5>{t("help")}</h5>
             <ul>
@@ -78,7 +75,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* --- Contacts Column --- */}
           <div className={`${styles.col} ${styles.colContact}`}>
             <h5>{t("contacts")}</h5>
             <ul className={styles.contactList}>
@@ -103,7 +99,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* --- Social Media Column --- */}
           <div className={styles.col}>
             <h5>{t("socialMedia")}</h5>
             <div className={styles.socials}>

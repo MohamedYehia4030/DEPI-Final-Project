@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const AboutStats = () => {
-  const { t, i18n } = useTranslation('about'); // Translation hook
+  const { t, i18n } = useTranslation('about');
   
   const stats = [
     { number: t('statsNumbers.yearsCount'), label: t('stats.years') },

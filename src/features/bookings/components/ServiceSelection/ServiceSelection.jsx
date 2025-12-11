@@ -136,11 +136,11 @@ function ServiceSelection({ onNext }) {
       {/* Service Info Card */}
       <div className={styles.serviceCard}>
         {serviceInfo.img && (
-          <img src={serviceInfo.img} alt={t(`home:${serviceInfo.titleKey}`, serviceInfo.titleKey)} className={styles.serviceImage} loading="lazy" />
+          <img src={serviceInfo.img} alt={t(serviceInfo.titleKey, serviceInfo.titleKey)} className={styles.serviceImage} loading="lazy" />
         )}
         <div className={styles.serviceDetails}>
-          <h3 className={styles.serviceName}>{t(`home:${serviceInfo.titleKey}`, serviceInfo.titleKey)}</h3>
-          <p className={styles.serviceDesc}>{t(`home:${serviceInfo.descKey}`, serviceInfo.descKey)}</p>
+          <h3 className={styles.serviceName}>{t(serviceInfo.titleKey, serviceInfo.titleKey)}</h3>
+          <p className={styles.serviceDesc}>{t(serviceInfo.descKey, serviceInfo.descKey)}</p>
         </div>
       </div>
 

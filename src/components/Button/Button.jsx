@@ -5,9 +5,9 @@ import clsx from 'clsx';
 
 const Button = ({ 
   children, 
-  variant = 'primary', // Options: 'primary', 'outline'
-  size = 'large',      // Options: 'large', 'small'
-  className,           // For custom overrides
+  variant = 'primary',
+  size = 'large',
+  className,
   ...props 
 }) => {
   

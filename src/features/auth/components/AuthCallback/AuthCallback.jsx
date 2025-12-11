@@ -24,7 +24,7 @@ const AuthCallback = () => {
 
     if (error) {
       console.error("Google sign-in failed.");
-      navigate('/login', { replace: true }); // Redirect to login page on failure
+      navigate('/login', { replace: true });
       return;
     }
 

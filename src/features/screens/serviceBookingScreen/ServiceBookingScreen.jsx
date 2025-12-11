@@ -72,7 +72,7 @@ export default function ServiceBookingScreen() {
         refNumber: newRefNumber,
         userEmail: user?.email || customer.email,
         tourName: serviceInfo?.titleKey || 'Service Booking',
-        tourId: null, // Services don't have tour IDs
+        tourId: null,
         tourImage: serviceInfo?.img,
         date: selectedDate,
         time: selectedTime,

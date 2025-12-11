@@ -74,12 +74,12 @@ function ServiceBookingSummary({
         {serviceInfo?.img && (
           <img
             src={serviceInfo.img}
-            alt={t(`home:${serviceInfo.titleKey}`, serviceInfo.titleKey)}
+            alt={t(serviceInfo.titleKey, serviceInfo.titleKey)}
             className={styles.serviceImage}
           />
         )}
         <div className={styles.serviceDetails}>
-          <h3 className={styles.serviceName}>{t(`home:${serviceInfo?.titleKey}`, serviceInfo?.titleKey || '')}</h3>
+          <h3 className={styles.serviceName}>{t(serviceInfo?.titleKey, serviceInfo?.titleKey || '')}</h3>
           {serviceType && (
             <div className={styles.detailRow}>
               <Package size={16} />

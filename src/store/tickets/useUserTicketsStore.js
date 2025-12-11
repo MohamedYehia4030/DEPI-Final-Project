@@ -50,7 +50,7 @@ const useUserTicketsStore = create(
 
       getUserTickets: (userEmail) => {
         const { updatePastTickets } = get();
-        updatePastTickets(); // Auto-update past tickets
+        updatePastTickets();
         return get().tickets.filter((ticket) => ticket.userEmail === userEmail);
       },
 

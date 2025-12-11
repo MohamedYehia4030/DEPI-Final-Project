@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const AboutHero = () => {
-  const { t, i18n } = useTranslation('about'); // Translation hook
-  const navigate = useNavigate(); // Navigation hook
+  const { t, i18n } = useTranslation('about');
+  const navigate = useNavigate();
   
   return (
     <section className={styles.heroSection} dir={i18n.dir()}>

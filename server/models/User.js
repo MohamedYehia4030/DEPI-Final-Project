@@ -33,7 +33,7 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       required: function () {
-        return !this.googleId; // Password is required if no Google ID
+        return !this.googleId;
       },
       minlength: [8, "Password must be at least 8 characters"],
       maxlength: [128, "Password cannot exceed 128 characters"],
@@ -41,7 +41,7 @@ const userSchema = mongoose.Schema(
     googleId: {
       type: String,
       required: false,
-      sparse: true, // Allow multiple null values but unique non-null values
+      sparse: true,
     },
     avatar: {
       type: String,

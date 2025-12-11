@@ -14,13 +14,11 @@ const LoginForm = () => {
   const { t } = useTranslation("auth");
   const { openAuthModal, authError, clearAuthError } = useAppStore();
   
-  // --- Form State ---
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-  // ------------------
 
   const login = useAuthStore(state => state.login);
   const isLoading = useAuthStore(state => state.isLoading);

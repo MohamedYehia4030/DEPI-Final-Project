@@ -13,7 +13,7 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    ns: ['common', 'navbar', 'footer', 'home'],
+    ns: ['common', 'navbar', 'footer', 'home', 'bikeBooking', 'packages', 'booking', 'auth', 'about', 'contact', 'dashboard', 'search', 'services', 'Reviews', 'static'],
     defaultNS: 'common',
     partialBundledLanguages: true,
     backend: {
