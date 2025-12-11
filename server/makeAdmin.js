@@ -29,7 +29,7 @@ const makeAdmin = async () => {
     } else {
       user.isAdmin = true;
       await user.save();
-      console.log(`✅ Successfully made "${user.firstName} ${user.lastName}" (${email}) an admin!`);
+      console.log(`Successfully made "${user.firstName} ${user.lastName}" (${email}) an admin!`);
     }
 
     await mongoose.connection.close();
