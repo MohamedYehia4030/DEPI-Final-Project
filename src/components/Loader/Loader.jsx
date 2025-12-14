@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Loader.module.css';
+import PageWrapper from '../PageWrapper/PageWrapper';
 
 const Loader = ({ 
   size = 'medium', 
@@ -16,12 +17,18 @@ const Loader = ({
     inline ? styles.inline : ''
   ].filter(Boolean).join(' ');
 
-  return (
+  const loaderContent = (
     <div className={loaderClasses}>
       <div className={styles.spinner}></div>
       {message && <span className={styles.message}>{message}</span>}
     </div>
   );
+
+  if (fullScreen) {
+    return <PageWrapper>{loaderContent}</PageWrapper>;
+  }
+
+  return loaderContent;
 };
 
 export default Loader;
