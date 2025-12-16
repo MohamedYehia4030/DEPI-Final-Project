@@ -17,7 +17,6 @@ const RegisterForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -99,7 +98,7 @@ const RegisterForm = () => {
     }
 
     try {
-      await register(name.trim(), email.trim().toLowerCase(), password, role);
+      await register(name.trim(), email.trim().toLowerCase(), password, 'user');
     } catch (error) {
       setErrors({ form: error.message || t("register.errorGeneric", "Registration failed.") });
     }
@@ -244,42 +243,7 @@ const RegisterForm = () => {
         )}
       </div>
 
-      {/* Role Selection */}
-      <div className={sharedStyles.inputGroup}>
-        <label>{t("register.roleLabel", "Account Type")} <span className={sharedStyles.required}>*</span></label>
-        <div className={styles.roleSelector}>
-          <label className={`${styles.roleOption} ${role === 'user' ? styles.roleSelected : ''}`}>
-            <input
-              type="radio"
-              name="role"
-              value="user"
-              checked={role === 'user'}
-              onChange={(e) => setRole(e.target.value)}
-              disabled={isLoading}
-            />
-            <span className={styles.roleIcon}>👤</span>
-            <span className={styles.roleText}>
-              <strong>{t("register.roleUser", "User")}</strong>
-              <small>{t("register.roleUserDesc", "Browse and book tours")}</small>
-            </span>
-          </label>
-          <label className={`${styles.roleOption} ${role === 'admin' ? styles.roleSelected : ''}`}>
-            <input
-              type="radio"
-              name="role"
-              value="admin"
-              checked={role === 'admin'}
-              onChange={(e) => setRole(e.target.value)}
-              disabled={isLoading}
-            />
-            <span className={styles.roleIcon}>🛡️</span>
-            <span className={styles.roleText}>
-              <strong>{t("register.roleAdmin", "Admin")}</strong>
-              <small>{t("register.roleAdminDesc", "Manage tours and users")}</small>
-            </span>
-          </label>
-        </div>
-      </div>
+
 
       {/* Terms Checkbox */}
       <div className={styles.termsWrapper}>
